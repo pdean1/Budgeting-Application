@@ -24,8 +24,8 @@ public class Bill {
     // true if bill comes every month, false if one time or infrequent bill
     private Boolean isRecurring;
 
-    public Bill() {
-
+    public Bill(Integer id) {
+        this.id = id;
     }
 
     public Integer getId() {
