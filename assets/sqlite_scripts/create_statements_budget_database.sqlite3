@@ -40,23 +40,6 @@ CREATE TABLE MonthlyBudget
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
-CREATE TABLE Transfers
-(
-    id               INTEGER PRIMARY KEY AUTOINCREMENT,
-    title            TEXT    NOT NULL,
-    amount           NUMERIC NOT NULL,
-    date_of_transfer NUMERIC NOT NULL,
-    is_recurring     INTEGER NOT NULL,
-    account_from_id  INTEGER NOT NULL,
-    account_to_id    INTEGER NOT NULL,
-    budget_id        INTEGER NOT NULL,
-    user_id          INTEGER NOT NULL
-    FOREIGN KEY (account_from_id) REFERENCES Accounts(id),
-    FOREIGN KEY (account_to_id)   REFERENCES Accounts(id),
-    FOREIGN KEY (budget_id)       REFERENCES MonthlyBudget(id),
-    FOREIGN KEY (user_id)         REFERENCES Users(id)
-);
-
 CREATE TABLE Bills
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
