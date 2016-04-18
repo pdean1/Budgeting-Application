@@ -36,7 +36,7 @@ CREATE TABLE MonthlyBudget
     description  TEXT,
     date_created NUMERIC NOT NULL,
     date_updated NUMERIC,
-    user_id      INTEGER,
+    user_id      INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
