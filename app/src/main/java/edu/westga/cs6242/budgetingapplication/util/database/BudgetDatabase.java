@@ -1,5 +1,7 @@
 package edu.westga.cs6242.budgetingapplication.util.database;
 
+import android.database.sqlite.SQLiteDatabase;
+
 /**
  * This class provides constant strings used to reference the
  * budget data base and it's tables
@@ -11,6 +13,19 @@ public class BudgetDatabase {
 
     public static final String DATABASE_NAME    = "Budget.db";
     public static final int    DATABASE_VERSION = 1;
+
+    /**
+     * Uses the passed database to create tables in it
+     * @param db DATABASE to add tables too
+     */
+    public static void createDatabase(SQLiteDatabase db) {
+        db.execSQL(Users.CREATE_USERS_TABLE);
+        db.execSQL(AccountTypes.CREATE_ACOUNT_TYPES_TABLE);
+        db.execSQL(Accounts.CREATE_ACCOUNTS_TABLE);
+        db.execSQL(MonthlyBudget.CREATE_MONTHLY_BUDGET_TABLE);
+        db.execSQL(Bills.CREATE_BILLS_TABLE);
+        db.execSQL(Earnings.CREATE_EARNINGS_TABLE);
+    }
 
     /**
      * Public inner class Users defines strings for the user table
@@ -67,6 +82,7 @@ public class BudgetDatabase {
                         + Users.TABLE_NAME+" ( " + Users.C1_PK_ID + " ) "
                 + "FOREIGN KEY (" + C6_FK2_ACCOUNT_TYPE_ID + ") REFERENCES "
                         + AccountTypes.TABLE_NAME+" ( " + AccountTypes.C1_PK_ID + " ) ";
+        public static final String DROP_ACCOUNTS_TABLE = "";
     }
 
     /**
