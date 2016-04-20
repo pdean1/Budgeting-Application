@@ -1,9 +1,12 @@
 package edu.westga.cs6242.budgetingapplication.dal;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
 
 /**
@@ -54,4 +57,56 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         BudgetDatabase.deleteDatabase(db);
         this.onCreate(db);
     }
+
+    /***********************************************************************************************
+     * USERS TABLE QUERY FUNCTIONS
+     **********************************************************************************************/
+    public User findUser(String userName) {
+        String strQuery = "SELECT * FROM " + BudgetDatabase.Users.TABLE_NAME +
+                " WHERE " + BudgetDatabase.Users.C2_USER_NAME + " = \"" + userName + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(strQuery, null);
+        User user = new User();
+        if (cursor.moveToFirst()) {
+            user.setId(Integer.parseInt(cursor.getString(0)));
+            user.setUserName(cursor.getString(1));
+            user.setPassword(cursor.getString(2));
+        }
+        else {
+            user = null;
+        }
+        cursor.close();
+        db.close();
+        return user;
+    }
+
+    public void addUser(User user) {
+        ContentValues values = new ContentValues();
+        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
+        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public void updateUser(User user) {
+        ContentValues values = new ContentValues();
+        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
+        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public void deleteUser(User user) {
+        ContentValues values = new ContentValues();
+        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
+        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        db.close();
+    }
+    /***********************************************************************************************
+     * USERS TABLE QUERY FUNCTIONS
+     **********************************************************************************************/
 }
