@@ -81,11 +81,11 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void addUser(User user) {
+        String query = "INSERT INTO " + BudgetDatabase.Users.TABLE_NAME + " (" + BudgetDatabase.Users.C2_USER_NAME + ", " + 
+            BudgetDatabase.Users.C3_PASSWORD + ") VALUES (\"" + user.getUserName() + "\", " + user.getPassword() + ")";
         ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
-        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        db.execSQL(query);
         db.close();
     }
 
