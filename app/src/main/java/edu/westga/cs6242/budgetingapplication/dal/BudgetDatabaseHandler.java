@@ -83,7 +83,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     public void addUser(User user) {
         String query = "INSERT INTO " + BudgetDatabase.Users.TABLE_NAME + " (" + BudgetDatabase.Users.C2_USER_NAME + ", " + 
             BudgetDatabase.Users.C3_PASSWORD + ") VALUES (\"" + user.getUserName() + "\", " + user.getPassword() + ")";
-        ContentValues values = new ContentValues();
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(query);
         db.close();
