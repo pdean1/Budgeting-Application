@@ -97,13 +97,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteUser(User user) {
-        ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
-        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+    public boolean deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        boolean result = db.delete(BudgetDatabase.Users.TABLE_NAME, 
+            BudgetDatabase.Users.C1_PK_ID + " = " + user.getID(), null);
         db.close();
+        return result;
     }
     /***********************************************************************************************
      * USERS TABLE QUERY FUNCTIONS
