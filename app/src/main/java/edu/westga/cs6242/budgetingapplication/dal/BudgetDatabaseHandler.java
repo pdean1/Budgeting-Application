@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.Date;
+
+import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
 
@@ -131,4 +134,72 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     /***********************************************************************************************
      * USERS TABLE QUERY FUNCTIONS
      **********************************************************************************************/
+    public MonthlyBudget getMonthlyBudget(int id) {
+        try {
+            String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME +
+                    " WHERE " + BudgetDatabase.MonthlyBudget.C1_PK_ID + " = " + id;
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(strQuery, null);
+            MonthlyBudget monthlyBudget = new MonthlyBudget();
+            if (cursor.moveToFirst()) {
+                monthlyBudget.setId(cursor.getInt(0));
+                monthlyBudget.setTitle(cursor.getString(1));
+                monthlyBudget.setDescription(cursor.getString(2));
+                monthlyBudget.setDateCreated(new Date(cursor.getLong(3)));
+                monthlyBudget.setDateUpdated(new Date(cursor.getLong(4)));
+                monthlyBudget.setUserId(cursor.getInt(5));
+            }
+            else {
+                monthlyBudget = null;
+            }
+            cursor.close();
+            db.close();
+            return monthlyBudget;
+        } catch (Exception e) {
+            Log.d("ERROR", e.getMessage());
+            return null;
+        }
+
+    }
+
+    public long addMonthlyBudget(MonthlyBudget budget) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(BudgetDatabase.MonthlyBudget.C2_TITLE,
+                budget.getTitle());
+        values.put(BudgetDatabase.MonthlyBudget.C3_DESCRIPTION,
+                budget.getDescription());
+        values.put(BudgetDatabase.MonthlyBudget.C4_DATE_CREATED,
+                budget.getDateCreated().toString());
+        values.put(BudgetDatabase.MonthlyBudget.C5_DATE_UPDATED,
+                budget.getDateUpdated().toString());
+        values.put(BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID,
+                budget.getUserId());
+        long id = db.insert(BudgetDatabase.MonthlyBudget.TABLE_NAME,
+                null, values);
+        db.close();
+        return id;
+    }
+/*
+    public void updateUser(User user) {
+        ContentValues values = new ContentValues();
+        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
+        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        db.close();
+    }
+*/
+    /**
+     * Attempts to delete a user where user id == user.getId
+     * @param user The user to delete from the database
+     * @return true for successful detlete false otherwise
+     *
+    public boolean deleteUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(BudgetDatabase.Users.TABLE_NAME,
+                BudgetDatabase.Users.C1_PK_ID + " = " + user.getId(), null);
+        db.close();
+        return result != 0;
+    } */
 }
