@@ -97,12 +97,17 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Attempts to delete a user where user id == user.getId
+     * @param user The user to delete from the database
+     * @return true for successful detlete false otherwise
+     */
     public boolean deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
-        boolean result = db.delete(BudgetDatabase.Users.TABLE_NAME, 
-            BudgetDatabase.Users.C1_PK_ID + " = " + user.getID(), null);
+        int result = db.delete(BudgetDatabase.Users.TABLE_NAME,
+            BudgetDatabase.Users.C1_PK_ID + " = " + user.getId(), null);
         db.close();
-        return result;
+        return result != 0;
     }
     /***********************************************************************************************
      * USERS TABLE QUERY FUNCTIONS
