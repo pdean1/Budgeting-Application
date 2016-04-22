@@ -84,6 +84,16 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return user;
     }
 
+    public User attemptLogIn(User user) {
+        User foundUser = findUser(user.getUserName());
+        if (foundUser == null)
+            return null;
+        if (foundUser.getPassword() == user.getPassword()) {
+            return foundUser;
+        }
+        return null;
+    }
+
     public void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

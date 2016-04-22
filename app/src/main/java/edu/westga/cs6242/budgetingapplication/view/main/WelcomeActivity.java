@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
@@ -31,8 +32,13 @@ public class WelcomeActivity extends AppCompatActivity {
     public void attemptSignIn(View v) {
         this.user.setUserName(this.inUserName.getText().toString());
         this.user.setPassword(this.inUserName.getText().toString());
-        this.dbh.insertUser(this.user);
-        this.dbh.attemptLogIn(this.user);
+        this.user = this.dbh.attemptLogIn(this.user);
+        if (this.user == null) {
+            return;
+        }
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), this.user.getUserName() + " signed in", duration);
+        toast.show();
     }
 
 }
