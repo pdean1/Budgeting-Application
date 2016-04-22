@@ -1,7 +1,9 @@
 package edu.westga.cs6242.budgetingapplication.model;
 
 /**
- * Created by Patrick on 4/19/2016.
+ * Represents a User Stored in the Database
+ * @author Patrick Dean
+ * @version 1
  */
 public class User {
     private int id;
