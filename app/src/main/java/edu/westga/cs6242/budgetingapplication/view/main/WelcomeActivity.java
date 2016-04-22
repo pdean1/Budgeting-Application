@@ -1,5 +1,6 @@
 package edu.westga.cs6242.budgetingapplication.view.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -41,8 +42,37 @@ public class WelcomeActivity extends AppCompatActivity {
             return;
         }
         int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(getApplicationContext(), this.user.getUserName() + " signed in", duration);
+        Toast toast = Toast.makeText(getApplicationContext(),
+                this.user.getUserName() + " signed in", duration);
         toast.show();
+        Intent intent = new Intent(v.getContext(), MainMenuActivity.class);
+        startActivity(intent);
+    }
+
+    public void btnAddUser_Click(View v) {
+        this.user = new User();
+        this.user.setUserName(this.inUserName.getText().toString());
+        this.user.setPassword(this.inPassword.getText().toString());
+        try {
+            long a = this.dbh.addUser(this.user);
+            if (a == -1)
+            {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(getApplicationContext(), "Add Failed: User " +
+                        this.user.getUserName() + " already exists!" , duration);
+                toast.show();
+                return;
+            }
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getApplicationContext(), this.user.getUserName() +
+                    " Added: " + Long.toString(a), duration);
+            toast.show();
+        }
+        catch (Exception e) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getApplicationContext(), "Add Failed", duration);
+            toast.show();
+        }
     }
 
 }

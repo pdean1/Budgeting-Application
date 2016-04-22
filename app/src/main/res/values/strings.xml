@@ -4,4 +4,11 @@
     <string name="txt_user_name">User Name</string>
     <string name="txt_login">Please Login</string>
     <string name="txt_sign_in">Sign In</string>
+    <string name="title_activity_create_update_user">Create User</string>
+    <string name="txt_main_menu">Main Menu</string>
+    <string name="txt_manage_budget">Manage Budgets</string>
+    <string name="txt_add_new_budget">Add New Budget</string>
+    <string name="txt_budget_title">Title of the Budget:</string>
+    <string name="txt_add_a_budget">Add a Budget</string>
+    <string name="txt_description">Description</string>
 </resources>

@@ -97,13 +97,14 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return null;
     }
 
-    public void addUser(User user) {
+    public long addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
         values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
-        long result = db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        long id = db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
         db.close();
+        return id;
     }
 
     public void updateUser(User user) {
