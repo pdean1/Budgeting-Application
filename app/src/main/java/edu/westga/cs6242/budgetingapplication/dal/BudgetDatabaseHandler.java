@@ -6,9 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-
-import edu.westga.cs6242.budgetingapplication.model.AccountType;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
 
@@ -62,9 +59,9 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /***********************************************************************************************
-     * USERS TABLE QUERY FUNCTIONS ONLY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * USERS TABLE QUERY FUNCTIONS
      **********************************************************************************************/
-    public User getUser(String userName) {
+    public User findUser(String userName) {
         String strQuery = "SELECT * FROM " + BudgetDatabase.Users.TABLE_NAME +
                 " WHERE " + BudgetDatabase.Users.C2_USER_NAME + " = \"" + userName + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -83,11 +80,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return user;
     }
 
-    public void insertUser(User user) {
-        ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
-        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
-        insertRecord(BudgetDatabase.Users.TABLE_NAME, values);
+    public void addUser(User user) {
+        String query = "INSERT INTO " + BudgetDatabase.Users.TABLE_NAME + " (" + BudgetDatabase.Users.C2_USER_NAME + ", " + 
+            BudgetDatabase.Users.C3_PASSWORD + ") VALUES (\"" + user.getUserName() + "\", " + user.getPassword() + ")";
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(query);
+        db.close();
     }
 
     public void updateUser(User user) {
@@ -99,76 +97,14 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteUser(User user) {
-        ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
-        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+    public boolean deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
+        boolean result = db.delete(BudgetDatabase.Users.TABLE_NAME, 
+            BudgetDatabase.Users.C1_PK_ID + " = " + user.getID(), null);
         db.close();
+        return result;
     }
     /***********************************************************************************************
-     * ACCOUNT TYPE TABLE QUERY FUNCTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * USERS TABLE QUERY FUNCTIONS
      **********************************************************************************************/
-    public ArrayList<AccountType> getAllAccountTypes(String userName) {
-        ArrayList<AccountType> accountTypes = new ArrayList<>();
-        String strQuery = "SELECT * FROM " + BudgetDatabase.AccountTypes.TABLE_NAME;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(strQuery, null);
-        for (cursor.moveToFirst(); cursor.getPosition() < cursor.getCount(); cursor.moveToNext()) {
-            AccountType accountType = new AccountType();
-            accountType.setId(Integer.parseInt(cursor.getString(0)));
-            accountType.setTitle(cursor.getString(1));
-            accountType.setDescription(cursor.getString(2));
-            accountTypes.add(accountType);
-        }
-        cursor.close();
-        db.close();
-        return accountTypes;
-    }
-
-    public void insertAccountType(AccountType accountType) {
-        ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.AccountTypes.C2_TITLE, accountType.getTitle());
-        values.put(BudgetDatabase.AccountTypes.C3_DESCRIPTION, accountType.getDescription());
-        insertRecord(BudgetDatabase.AccountTypes.TABLE_NAME, values);
-    }
-
-    public void updateAccountType(User user) {
-        ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
-        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
-        db.close();
-    }
-
-    public void deleteAccountType(User user) {
-        ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
-        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
-        insertRecord(BudgetDatabase.Users.TABLE_NAME, values);
-    }
-
-
-    /**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * HELPER METHODS ONLY  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-    private void insertRecord(String tableName, ContentValues values) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(tableName, null, values);
-        db.close();
-    }
-
-    private void deleteRecord(String query) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(query);
-        db.close();
-    }
-
-    private void updateRecord(String query) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(query);
-        db.close();
-    }
 }
