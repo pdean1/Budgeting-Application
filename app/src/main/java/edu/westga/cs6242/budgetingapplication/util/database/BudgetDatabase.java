@@ -21,8 +21,6 @@ public class BudgetDatabase {
      */
     public static void createDatabase(SQLiteDatabase db) {
         db.execSQL(Users.CREATE_TABLE);
-        db.execSQL(AccountTypes.CREATE_TABLE);
-        db.execSQL(Accounts.CREATE_TABLE);
         db.execSQL(MonthlyBudget.CREATE_TABLE);
         db.execSQL(Bills.CREATE_TABLE);
         db.execSQL(Earnings.CREATE_TABLE);
@@ -32,9 +30,7 @@ public class BudgetDatabase {
         db.execSQL(Earnings.DROP_TABLE);
         db.execSQL(Bills.DROP_TABLE);
         db.execSQL(MonthlyBudget.DROP_TABLE);
-        db.execSQL(Accounts.DROP_TABLE);
         db.execSQL(Users.DROP_TABLE);
-        db.execSQL(AccountTypes.DROP_TABLE);
     }
 
     /**
@@ -50,48 +46,6 @@ public class BudgetDatabase {
                 + C1_PK_ID + " INTEGER PRIMARY KEY, "
                 + C2_USER_NAME + " TEXT NOT NULL, "
                 + C3_PASSWORD + " TEXT NOT NULL); ";
-        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-    }
-
-    /**
-     * Public inner class AccountType defines strings for the AccountType table
-     */
-    public class AccountTypes {
-        public static final String TABLE_NAME     = "AccountTypes";
-        public static final String C1_PK_ID       = "id";
-        public static final String C2_TITLE       = "title";
-        public static final String C3_DESCRIPTION = "description";
-        public static final String CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + " ( "
-                + C1_PK_ID + " INTEGER PRIMARY KEY, "
-                + C2_TITLE  + " TEXT NOT NULL, "
-                + C3_DESCRIPTION + "TEXT);";
-        public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-    }
-
-    /**
-     * Public inner class Accounts defines strings for the Accounts table
-     */
-    public class Accounts {
-        public static final String TABLE_NAME             = "Accounts";
-        public static final String C1_PK_ID               = "id";
-        public static final String C2_DESCRIPTION         = "description";
-        public static final String C3_DATE_CREATED        = "date_created";
-        public static final String C4_DATE_UPDATED        = "date_updated";
-        public static final String C5_FK1_USER_ID         = "user_id";
-        public static final String C6_FK2_ACCOUNT_TYPE_ID = "account_type_id";
-        public static final String CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + " ( "
-                        + C1_PK_ID + " INTEGER PRIMARY KEY,"
-                        + C2_DESCRIPTION + " TEXT NOT NULL "
-                        + C3_DATE_CREATED + " NUMERIC NOT NULL, "
-                        + C4_DATE_UPDATED + " NUMERIC, "
-                        + C5_FK1_USER_ID + " INTEGER NOT NULL ,"
-                        + C6_FK2_ACCOUNT_TYPE_ID + " INTEGER NOT NULL "
-                + "FOREIGN KEY (" + C5_FK1_USER_ID + ") REFERENCES "
-                        + Users.TABLE_NAME+" ( " + Users.C1_PK_ID + " ) "
-                + "FOREIGN KEY (" + C6_FK2_ACCOUNT_TYPE_ID + ") REFERENCES "
-                        + AccountTypes.TABLE_NAME+" ( " + AccountTypes.C1_PK_ID + " ) ";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
