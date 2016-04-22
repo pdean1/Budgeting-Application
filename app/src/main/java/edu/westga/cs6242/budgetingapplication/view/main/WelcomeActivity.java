@@ -30,10 +30,14 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void attemptSignIn(View v) {
+        this.user = new User();
         this.user.setUserName(this.inUserName.getText().toString());
-        this.user.setPassword(this.inUserName.getText().toString());
+        this.user.setPassword(this.inPassword.getText().toString());
         this.user = this.dbh.attemptLogIn(this.user);
         if (this.user == null) {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getApplicationContext(), "Sign In Failed", duration);
+            toast.show();
             return;
         }
         int duration = Toast.LENGTH_SHORT;

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
@@ -30,10 +31,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         BudgetDatabase.createDatabase(db);
-        User user = new User();
-        user.setUserName("pdean1");
-        user.setPassword("password");
-        this.addUser(user);
     }
 
     /**
@@ -66,29 +63,39 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      * USERS TABLE QUERY FUNCTIONS
      **********************************************************************************************/
     public User findUser(String userName) {
-        String strQuery = "SELECT * FROM " + BudgetDatabase.Users.TABLE_NAME +
-                " WHERE " + BudgetDatabase.Users.C2_USER_NAME + " = \"" + userName + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(strQuery, null);
-        User user = new User();
-        if (cursor.moveToFirst()) {
-            user.setId(Integer.parseInt(cursor.getString(0)));
-            user.setUserName(cursor.getString(1));
-            user.setPassword(cursor.getString(2));
+        User userA = new User();
+        userA.setUserName("pdean1");
+        userA.setPassword("password");
+        this.addUser(userA);
+        try {
+            String strQuery = "SELECT * FROM " + BudgetDatabase.Users.TABLE_NAME +
+                    " WHERE " + BudgetDatabase.Users.C2_USER_NAME + " = \"" + userName + "\"";
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(strQuery, null);
+            User user = new User();
+            if (cursor.moveToFirst()) {
+                user.setId(Integer.parseInt(cursor.getString(0)));
+                user.setUserName(cursor.getString(1));
+                user.setPassword(cursor.getString(2));
+            }
+            else {
+                user = null;
+            }
+            cursor.close();
+            db.close();
+            return user;
+        } catch (Exception e) {
+            Log.d("ERROR", e.getMessage());
+            return null;
         }
-        else {
-            user = null;
-        }
-        cursor.close();
-        db.close();
-        return user;
+
     }
 
     public User attemptLogIn(User user) {
         User foundUser = findUser(user.getUserName());
         if (foundUser == null)
             return null;
-        if (foundUser.getPassword() == user.getPassword()) {
+        if (foundUser.getPassword().equals(user.getPassword())) {
             return foundUser;
         }
         return null;

@@ -23,16 +23,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/txt_user_name"
         android:id="@+id/tvUserNameLabel"
-        android:layout_above="@+id/etUserName"
+        android:layout_below="@+id/tvLoginLabel"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="51dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/etUserName"
         android:inputType="text"
-        android:layout_above="@+id/tvPasswordLabel"
+        android:layout_below="@+id/tvUserNameLabel"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/etPassword"
@@ -44,7 +45,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/txt_password"
         android:id="@+id/tvPasswordLabel"
-        android:layout_above="@+id/etPassword"
+        android:layout_below="@+id/etUserName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <EditText
@@ -53,11 +54,11 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/etPassword"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvPasswordLabel"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -65,8 +66,9 @@
         android:text="@string/txt_sign_in"
         android:id="@+id/btnSignIn"
         android:onClick="attemptSignIn"
-        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/etPassword"
+        android:layout_alignEnd="@+id/etPassword"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="168dp" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -13,7 +13,6 @@ public class BudgetDatabase {
 
     public static final String DATABASE_NAME    = "Budget.db";
     public static final int    DATABASE_VERSION = 1;
-    public static final String INSERT_INTO = "INSERT INTO ";
 
     /**
      * Uses the passed database to create tables in it
@@ -63,13 +62,13 @@ public class BudgetDatabase {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
                         + C1_PK_ID + " INTEGER PRIMARY KEY,"
-                        + C2_TITLE + " TEXT NOT NULL "
+                        + C2_TITLE + " TEXT NOT NULL, "
                         + C3_DESCRIPTION + " TEXT, "
                         + C4_DATE_CREATED + " NUMERIC NOT NULL, "
                         + C5_DATE_UPDATED + " NUMERIC,"
-                        + C6_FK1_USER_ID + " INTEGER NOT NULL "
+                        + C6_FK1_USER_ID + " INTEGER NOT NULL, "
                         + "FOREIGN KEY (" + C6_FK1_USER_ID + ") REFERENCES "
-                        + Users.TABLE_NAME+" ( " + Users.C1_PK_ID + " ) ";
+                        + Users.TABLE_NAME+" ( " + Users.C1_PK_ID + " ));";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
@@ -77,27 +76,27 @@ public class BudgetDatabase {
      * Public inner class Bills defines strings for the Bills table
      */
     public class Bills {
-        public static final String TABLE_NAME             = "Transfers";
+        public static final String TABLE_NAME             = "Bills";
         public static final String C1_PK_ID               = "id";
         public static final String C2_TITLE               = "title";
         public static final String C3_AMOUNT              = "amount";
-        public static final String C4_DATE_DUE            = "date_of_transfer";
-        public static final String C5_DATE_PAID           = "is_recurring";
+        public static final String C4_DATE_DUE            = "date_due";
+        public static final String C5_DATE_PAID           = "date_paid";
         public static final String C6_IS_PAID             = "is_paid";
         public static final String C7_IS_RECURRING        = "is_recurring";
         public static final String C8_FK1_BUDGET_ID       = "budget_id";
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
                         + C1_PK_ID + " INTEGER PRIMARY KEY,"
-                        + C2_TITLE + " TEXT NOT NULL "
+                        + C2_TITLE + " TEXT NOT NULL, "
                         + C3_AMOUNT + " NUMERIC NOT NULL, "
                         + C4_DATE_DUE + " NUMERIC NOT NULL, "
-                        + C5_DATE_PAID + " NUMERIC,"
-                        + C6_IS_PAID + " INTEGER NOT NULL,"
+                        + C5_DATE_PAID + " NUMERIC, "
+                        + C6_IS_PAID + " INTEGER NOT NULL, "
                         + C7_IS_RECURRING + " INTEGER NOT NULL,"
-                        + C8_FK1_BUDGET_ID + " INTEGER NOT NULL,"
+                        + C8_FK1_BUDGET_ID + " INTEGER NOT NULL, "
                         + "FOREIGN KEY (" + C8_FK1_BUDGET_ID + ") REFERENCES "
-                        + MonthlyBudget.TABLE_NAME + " ( " + MonthlyBudget.C1_PK_ID + " ) ";
+                        + MonthlyBudget.TABLE_NAME + " ( " + MonthlyBudget.C1_PK_ID + " ));";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
@@ -115,13 +114,13 @@ public class BudgetDatabase {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
                         + C1_PK_ID + " INTEGER PRIMARY KEY,"
-                        + C2_TITLE + " TEXT NOT NULL "
+                        + C2_TITLE + " TEXT NOT NULL, "
                         + C3_AMOUNT + " NUMERIC NOT NULL, "
                         + C4_DATE_EARNED + " NUMERIC NOT NULL, "
-                        + C5_IS_RECURRING + " INTEGER NOT NULL,"
-                        + C6_FK1_BUDGET_ID + " INTEGER NOT NULL,"
+                        + C5_IS_RECURRING + " INTEGER NOT NULL, "
+                        + C6_FK1_BUDGET_ID + " INTEGER NOT NULL, "
                         + "FOREIGN KEY (" + C6_FK1_BUDGET_ID + ") REFERENCES "
-                        + MonthlyBudget.TABLE_NAME + " ( " + MonthlyBudget.C1_PK_ID + " ) ";
+                        + MonthlyBudget.TABLE_NAME + " ( " + MonthlyBudget.C1_PK_ID + " ));";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
    }
 }
