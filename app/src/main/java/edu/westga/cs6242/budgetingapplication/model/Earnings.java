@@ -3,7 +3,9 @@ package edu.westga.cs6242.budgetingapplication.model;
 import java.util.Date;
 
 /**
- * Created by Patrick on 4/19/2016.
+ * Represents earnings
+ * @author Patrick Dean
+ * @version 1
  */
 public class Earnings {
     private int id;
