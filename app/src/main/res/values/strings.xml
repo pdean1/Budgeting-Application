@@ -11,4 +11,6 @@
     <string name="txt_budget_title">Title of the Budget:</string>
     <string name="txt_add_a_budget">Add a Budget</string>
     <string name="txt_description">Description</string>
+    <string name="txt_view_budgets">View Budgets</string>
+    <string name="txt_username">userinfo</string>
 </resources>
