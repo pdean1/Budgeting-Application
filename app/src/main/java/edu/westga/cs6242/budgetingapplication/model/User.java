@@ -1,11 +1,14 @@
 package edu.westga.cs6242.budgetingapplication.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Represents a User Stored in the Database
  * @author Patrick Dean
  * @version 1
  */
-public class User {
+public class User implements Parcelable {
     private int id;
     private String userName;
     private String password;
@@ -29,6 +32,24 @@ public class User {
         this.password = password;
     }
 
+    protected User(Parcel in) {
+        id = in.readInt();
+        userName = in.readString();
+        password = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public int getId() {
         return id;
     }
@@ -51,5 +72,31 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Describe the kinds of special objects contained in this Parcelable's
+     * marshalled representation.
+     *
+     * @return a bitmask indicating the set of special object types marshalled
+     * by the Parcelable.
+     */
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Flatten this object in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(userName);
+        dest.writeString(password);
     }
 }
