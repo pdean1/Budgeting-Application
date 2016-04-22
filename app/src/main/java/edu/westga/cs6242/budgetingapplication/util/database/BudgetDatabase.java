@@ -47,7 +47,7 @@ public class BudgetDatabase {
         public static final String C3_PASSWORD  = "password";
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
-                + C1_PK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + C1_PK_ID + " INTEGER PRIMARY KEY, "
                 + C2_USER_NAME + " TEXT NOT NULL, "
                 + C3_PASSWORD + " TEXT NOT NULL); ";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -63,7 +63,7 @@ public class BudgetDatabase {
         public static final String C3_DESCRIPTION = "description";
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
-                + C1_PK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + C1_PK_ID + " INTEGER PRIMARY KEY, "
                 + C2_TITLE  + " TEXT NOT NULL, "
                 + C3_DESCRIPTION + "TEXT);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -82,7 +82,7 @@ public class BudgetDatabase {
         public static final String C6_FK2_ACCOUNT_TYPE_ID = "account_type_id";
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
-                        + C1_PK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + C1_PK_ID + " INTEGER PRIMARY KEY,"
                         + C2_DESCRIPTION + " TEXT NOT NULL "
                         + C3_DATE_CREATED + " NUMERIC NOT NULL, "
                         + C4_DATE_UPDATED + " NUMERIC, "
@@ -108,7 +108,7 @@ public class BudgetDatabase {
         public static final String C6_FK1_USER_ID  = "user_id";
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
-                        + C1_PK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + C1_PK_ID + " INTEGER PRIMARY KEY,"
                         + C2_TITLE + " TEXT NOT NULL "
                         + C3_DESCRIPTION + " TEXT, "
                         + C4_DATE_CREATED + " NUMERIC NOT NULL, "
@@ -134,7 +134,7 @@ public class BudgetDatabase {
         public static final String C8_FK1_BUDGET_ID       = "budget_id";
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
-                        + C1_PK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + C1_PK_ID + " INTEGER PRIMARY KEY,"
                         + C2_TITLE + " TEXT NOT NULL "
                         + C3_AMOUNT + " NUMERIC NOT NULL, "
                         + C4_DATE_DUE + " NUMERIC NOT NULL, "
@@ -160,7 +160,7 @@ public class BudgetDatabase {
         public static final String C6_FK1_BUDGET_ID       = "budget_id";
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
-                        + C1_PK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + C1_PK_ID + " INTEGER PRIMARY KEY,"
                         + C2_TITLE + " TEXT NOT NULL "
                         + C3_AMOUNT + " NUMERIC NOT NULL, "
                         + C4_DATE_EARNED + " NUMERIC NOT NULL, "
