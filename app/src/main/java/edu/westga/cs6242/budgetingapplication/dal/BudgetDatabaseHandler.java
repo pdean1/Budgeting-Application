@@ -30,6 +30,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         BudgetDatabase.createDatabase(db);
+        User user = new User();
+        user.setUserName("pdean1");
+        user.setPassword("password");
+        this.addUser(user);
     }
 
     /**
@@ -81,10 +85,11 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void addUser(User user) {
-        String query = "INSERT INTO " + BudgetDatabase.Users.TABLE_NAME + " (" + BudgetDatabase.Users.C2_USER_NAME + ", " + 
-            BudgetDatabase.Users.C3_PASSWORD + ") VALUES (\"" + user.getUserName() + "\", " + user.getPassword() + ")";
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL(query);
+        ContentValues values = new ContentValues();
+        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
+        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+        long result = db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
         db.close();
     }
 
@@ -105,7 +110,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     public boolean deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(BudgetDatabase.Users.TABLE_NAME,
-            BudgetDatabase.Users.C1_PK_ID + " = " + user.getId(), null);
+                BudgetDatabase.Users.C1_PK_ID + " = " + user.getId(), null);
         db.close();
         return result != 0;
     }
