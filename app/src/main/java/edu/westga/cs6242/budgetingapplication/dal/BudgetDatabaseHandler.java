@@ -63,10 +63,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      * USERS TABLE QUERY FUNCTIONS
      **********************************************************************************************/
     public User findUser(String userName) {
-        User userA = new User();
-        userA.setUserName("pdean1");
-        userA.setPassword("password");
-        this.addUser(userA);
         try {
             String strQuery = "SELECT * FROM " + BudgetDatabase.Users.TABLE_NAME +
                     " WHERE " + BudgetDatabase.Users.C2_USER_NAME + " = \"" + userName + "\"";
