@@ -1,9 +1,9 @@
 package edu.westga.cs6242.budgetingapplication.model;
 
-import edu.westga.cs6242.budgetingapplication.model.base.BMonthlyBudget;
-
 /**
- * Created by Patrick on 4/19/2016.
+ * Represents a MonthlyBudget
+ * @author Patrick Dean
+ * @version 1
  */
-public class MonthlyBudget extends BMonthlyBudget {
+public class MonthlyBudget {
 }
