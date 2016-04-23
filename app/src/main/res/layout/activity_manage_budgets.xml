@@ -86,5 +86,6 @@
         android:id="@+id/btnDeleteBudget"
         android:layout_alignBottom="@+id/btnManageBudget"
         android:layout_alignRight="@+id/spinBudgets"
-        android:layout_alignEnd="@+id/spinBudgets" />
+        android:layout_alignEnd="@+id/spinBudgets"
+        android:onClick="btnDeleteBudget_Clicked" />
 </RelativeLayout>

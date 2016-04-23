@@ -79,7 +79,21 @@ public class ManageBudgetsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    public void btnDeleteBudget_Clicked(View v) {
+        if (this.monthlyBudgets.size() == 0) {
+            ToastMessage("Add a budget first!");
+            return;
+        }
+        MonthlyBudget budget =
+                this.monthlyBudgets.get(this.spinnerBudgets.getSelectedItemPosition());
+        if (this.dbh.deleteMonthlyBudget(budget)) {
+            ToastMessage("Budget Deleted");
+            finish();
+            startActivity(getIntent());
+            return;
+        }
+        ToastMessage("Record not found");
+    }
 
     private void updateSessiontText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvSessionLbl);

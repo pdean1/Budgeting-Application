@@ -212,26 +212,25 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return id;
     }
-/*
-    public void updateUser(User user) {
-        ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Users.C2_USER_NAME, user.getUserName());
-        values.put(BudgetDatabase.Users.C3_PASSWORD, user.getPassword());
+
+    public boolean deleteMonthlyBudget(MonthlyBudget monthlyBudget) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(BudgetDatabase.Users.TABLE_NAME, null, values);
-        db.close();
-    }
-*/
-    /**
-     * Attempts to delete a user where user id == user.getId
-     * @param user The user to delete from the database
-     * @return true for successful detlete false otherwise
-     *
-    public boolean deleteUser(User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(BudgetDatabase.Users.TABLE_NAME,
-                BudgetDatabase.Users.C1_PK_ID + " = " + user.getId(), null);
+        this.deleteBillsByMonthlyBudgetID(db, monthlyBudget.getId());
+        this.deleteEarningsByMonthlyBudgetID(db, monthlyBudget.getId());
+        int result = db.delete(BudgetDatabase.MonthlyBudget.TABLE_NAME,
+                BudgetDatabase.MonthlyBudget.C1_PK_ID + " = " + monthlyBudget.getId(), null);
         db.close();
         return result != 0;
-    } */
+    }
+
+    public boolean deleteBillsByMonthlyBudgetID(SQLiteDatabase db, int id) {
+        return db.delete(BudgetDatabase.Bills.TABLE_NAME, BudgetDatabase.Bills.C8_FK1_BUDGET_ID +
+                " = " + id, null) != 0;
+    }
+
+    public boolean deleteEarningsByMonthlyBudgetID(SQLiteDatabase db, int id) {
+        return db.delete(BudgetDatabase.Earnings.TABLE_NAME,
+                BudgetDatabase.Earnings.C6_FK1_BUDGET_ID +
+                " = " + id, null) != 0;
+    }
 }
