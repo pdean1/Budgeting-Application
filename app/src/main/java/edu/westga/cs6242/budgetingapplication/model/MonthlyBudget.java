@@ -100,7 +100,7 @@ public class MonthlyBudget implements Parcelable {
 
     @Override
     public String toString() {
-        return this.getTitle();
+        return Integer.toString(this.getId()) + " - " +  this.getTitle();
     }
 
     /**
