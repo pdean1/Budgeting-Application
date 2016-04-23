@@ -22,12 +22,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private User user;
 
-    private TextView txtSessionInfo;
-
     private EditText etBudgetTitle;
     private EditText etBudgetDescription;
-
-    private MonthlyBudget monthlyBudget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +33,14 @@ public class MainMenuActivity extends AppCompatActivity {
         this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
         this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
-        this.txtSessionInfo = (TextView) findViewById(R.id.tvUser);
-        assert this.txtSessionInfo != null;
+        updateSessiontText();
+    }
+
+    private void updateSessiontText() {
+        TextView txtSessionInfo = (TextView) findViewById(R.id.tvUser);
+        assert txtSessionInfo != null;
         String sessionString = "Signed in as: " + this.user.getUserName();
-        this.txtSessionInfo.setText(sessionString);
+        txtSessionInfo.setText(sessionString);
     }
 
     public void btnManageBudgets_Click(View v) {
@@ -52,13 +52,19 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void btnAddBudget_Click(View v) {
-        this.monthlyBudget = new MonthlyBudget();
-        this.monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
-        this.monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
-        this.monthlyBudget.setDateCreated(new Date(System.currentTimeMillis()));
-        this.monthlyBudget.setDateUpdated(this.monthlyBudget.getDateCreated());
-        this.monthlyBudget.setUserId(this.user.getId());
-        long result = this.dbh.addMonthlyBudget(this.monthlyBudget);
+        if (this.etBudgetTitle.getText().toString().equals("") ||
+                this.etBudgetDescription.getText().toString().equals(""))
+        {
+            ToastMessage("Please provide a proper title and description!");
+            return;
+        }
+        MonthlyBudget monthlyBudget = new MonthlyBudget();
+        monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
+        monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
+        monthlyBudget.setDateCreated(new Date(System.currentTimeMillis()));
+        monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());
+        monthlyBudget.setUserId(this.user.getId());
+        long result = this.dbh.addMonthlyBudget(monthlyBudget);
         if (result == -1) {
             ToastMessage("Unable to add Budget to Database");
             return;

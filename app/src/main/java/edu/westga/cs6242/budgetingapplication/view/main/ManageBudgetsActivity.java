@@ -60,8 +60,15 @@ public class ManageBudgetsActivity extends AppCompatActivity {
         } catch (Exception e) {
             ToastMessage("Fail");
         }
+        updateSessiontText();
     }
 
+    private void updateSessiontText() {
+        TextView txtSessionInfo = (TextView) findViewById(R.id.tvSessionLbl);
+        assert txtSessionInfo != null;
+        String sessionString = "Signed in as: " + this.user.getUserName();
+        txtSessionInfo.setText(sessionString);
+    }
 
     public void RefreshView(int spinnerIndex) {
         if (spinnerIndex == -1) {
