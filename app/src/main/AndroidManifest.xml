@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.main.MainMenuActivity" />
-        <activity android:name=".view.main.ManageBudgetsActivity"></activity>
+        <activity android:name=".view.main.ManageBudgetsActivity" />
+        <activity android:name=".view.main.ManageBudgetActivity"></activity>
     </application>
 
 </manifest>

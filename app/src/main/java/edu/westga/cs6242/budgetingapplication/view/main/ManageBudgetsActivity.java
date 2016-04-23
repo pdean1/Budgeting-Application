@@ -1,5 +1,6 @@
 package edu.westga.cs6242.budgetingapplication.view.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -63,6 +64,18 @@ public class ManageBudgetsActivity extends AppCompatActivity {
         updateSessiontText();
     }
 
+    public void btnManageBudget_Click(View v) {
+        MonthlyBudget budget = this.monthlyBudgets.get(spinnerBudgets.getSelectedItemPosition());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
+        bundle.putParcelable(ApplicationVariableStrings.MANAGE_BUDGET, budget);
+        Intent intent = new Intent(v.getContext(), ManageBudgetActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
+
     private void updateSessiontText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvSessionLbl);
         assert txtSessionInfo != null;
@@ -70,7 +83,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
         txtSessionInfo.setText(sessionString);
     }
 
-    public void RefreshView(int spinnerIndex) {
+    private void RefreshView(int spinnerIndex) {
         if (spinnerIndex == -1) {
             this.lblTitle.setText("");
             this.lblDescription.setText("");

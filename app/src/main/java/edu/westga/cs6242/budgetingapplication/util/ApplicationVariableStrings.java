@@ -5,4 +5,5 @@ package edu.westga.cs6242.budgetingapplication.util;
  */
 public class ApplicationVariableStrings {
     public static final String SESSION_USER = "SESSION.CURRENT_USER";
+    public static final String MANAGE_BUDGET = "BUDGET_TO_MANAGE";
 }
