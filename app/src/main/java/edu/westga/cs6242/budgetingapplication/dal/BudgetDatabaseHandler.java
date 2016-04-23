@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
@@ -155,6 +156,37 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
             cursor.close();
             db.close();
             return monthlyBudget;
+        } catch (Exception e) {
+            Log.d("ERROR", e.getMessage());
+            return null;
+        }
+
+    }
+
+    public ArrayList<MonthlyBudget> getMonthlyBudgetByUserId(int id) {
+        ArrayList<MonthlyBudget> budgets = new ArrayList<>();
+        try {
+            String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME +
+                    " WHERE " + BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID + " = " + id;
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(strQuery, null);
+            if (cursor.moveToFirst())
+            {
+                while (cursor.isAfterLast() == false) {
+                    MonthlyBudget monthlyBudget = new MonthlyBudget();
+                    monthlyBudget.setId(cursor.getInt(0));
+                    monthlyBudget.setTitle(cursor.getString(1));
+                    monthlyBudget.setDescription(cursor.getString(2));
+                    monthlyBudget.setDateCreated(new Date(cursor.getLong(3)));
+                    monthlyBudget.setDateUpdated(new Date(cursor.getLong(4)));
+                    monthlyBudget.setUserId(cursor.getInt(5));
+                    budgets.add(monthlyBudget);
+                    cursor.moveToNext();
+                }
+            }
+            cursor.close();
+            db.close();
+            return budgets;
         } catch (Exception e) {
             Log.d("ERROR", e.getMessage());
             return null;

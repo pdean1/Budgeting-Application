@@ -37,15 +37,10 @@ public class WelcomeActivity extends AppCompatActivity {
         this.user.setPassword(this.inPassword.getText().toString());
         this.user = this.dbh.attemptLogIn(this.user);
         if (this.user == null) {
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(getApplicationContext(), "Sign In Failed", duration);
-            toast.show();
+            ToastMessage("Sign In Failed");
             return;
         }
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(getApplicationContext(),
-                this.user.getUserName() + " signed in", duration);
-        toast.show();
+        ToastMessage(this.user.getUserName() + " signed in");
         Bundle bundleUser = new Bundle();
         bundleUser.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
         Intent intent = new Intent(v.getContext(), MainMenuActivity.class);
@@ -57,26 +52,30 @@ public class WelcomeActivity extends AppCompatActivity {
         this.user = new User();
         this.user.setUserName(this.inUserName.getText().toString());
         this.user.setPassword(this.inPassword.getText().toString());
+        if (this.user.getUserName().equals("") || this.user.getPassword().equals("")) {
+            ToastMessage("Please enter in information please");
+            return;
+        }
         try {
             long a = this.dbh.addUser(this.user);
             if (a == -1)
             {
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getApplicationContext(), "Add Failed: User " +
-                        this.user.getUserName() + " already exists!" , duration);
-                toast.show();
+                ToastMessage("Add Failed: User " +
+                        this.user.getUserName() + " already exists!");
                 return;
             }
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(getApplicationContext(), this.user.getUserName() +
-                    " Added: " + Long.toString(a), duration);
-            toast.show();
+            ToastMessage(this.user.getUserName() +
+                    " Added: " + Long.toString(a));
         }
         catch (Exception e) {
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(getApplicationContext(), "Add Failed", duration);
-            toast.show();
+            ToastMessage("Add Failed");
         }
+    }
+
+    private void ToastMessage(String text) {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+        toast.show();
     }
 
 }

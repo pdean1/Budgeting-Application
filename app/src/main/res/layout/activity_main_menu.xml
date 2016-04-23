@@ -25,7 +25,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="btnManageBudgets_Click" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,9 +34,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/txt_add_a_budget"
         android:id="@+id/textView"
-        android:layout_below="@+id/btnViewBudget"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnManageBudgets" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -94,17 +95,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="btnAddBudget_Click" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_view_budgets"
-        android:id="@+id/btnViewBudget"
-        android:layout_below="@+id/btnManageBudgets"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"

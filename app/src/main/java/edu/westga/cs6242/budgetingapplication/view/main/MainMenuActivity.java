@@ -1,9 +1,11 @@
 package edu.westga.cs6242.budgetingapplication.view.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -20,6 +22,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private User user;
 
+    private TextView txtSessionInfo;
+
     private EditText etBudgetTitle;
     private EditText etBudgetDescription;
 
@@ -33,6 +37,18 @@ public class MainMenuActivity extends AppCompatActivity {
         this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
         this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
+        this.txtSessionInfo = (TextView) findViewById(R.id.tvUser);
+        assert this.txtSessionInfo != null;
+        String sessionString = "Signed in as: " + this.user.getUserName();
+        this.txtSessionInfo.setText(sessionString);
+    }
+
+    public void btnManageBudgets_Click(View v) {
+        Bundle bundleUser = new Bundle();
+        bundleUser.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
+        Intent intent = new Intent(v.getContext(), ManageBudgetsActivity.class);
+        intent.putExtras(bundleUser);
+        startActivity(intent);
     }
 
     public void btnAddBudget_Click(View v) {
@@ -43,13 +59,16 @@ public class MainMenuActivity extends AppCompatActivity {
         this.monthlyBudget.setDateUpdated(this.monthlyBudget.getDateCreated());
         this.monthlyBudget.setUserId(this.user.getId());
         long result = this.dbh.addMonthlyBudget(this.monthlyBudget);
-        int duration = Toast.LENGTH_SHORT;
         if (result == -1) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Unable to add Budget to Database", duration);
-            toast.show();
+            ToastMessage("Unable to add Budget to Database");
             return;
         }
-        Toast toast = Toast.makeText(getApplicationContext(), "Budget Added!", duration);
+        ToastMessage("Budget Added!");
+    }
+
+    private void ToastMessage(String text) {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
     }
 }

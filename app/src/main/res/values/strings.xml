@@ -13,4 +13,14 @@
     <string name="txt_description">Description</string>
     <string name="txt_view_budgets">View Budgets</string>
     <string name="txt_username">userinfo</string>
+    <string name="title_activity_view_monthly_budgets">ViewMonthlyBudgetsActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="txt_title">Title</string>
+    <string name="txt_date_created">Date Created</string>
+    <string name="txt_manage_this_budget">Manage This Budget</string>
+    <string name="txt_user">UserSessionk</string>
+    <string name="tvManageBudgetsLbl">Manage Budgets</string>
+    <string name="txt_delete_budget">Delete Budget</string>
+    <string name="txt_manage_a_budget">Manage Budget</string>
 </resources>
