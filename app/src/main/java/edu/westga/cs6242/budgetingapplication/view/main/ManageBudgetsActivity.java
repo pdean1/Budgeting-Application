@@ -41,6 +41,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
             this.lblTitle = (TextView) findViewById(R.id.tvBudgetTitle);
             this.lblDescription = (TextView) findViewById(R.id.tvDescription);
             this.lblDateCreated = (TextView) findViewById(R.id.tvDateCreatedLbl);
+            this.showTextViews(false);
             this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
             this.monthlyBudgets = this.dbh.getMonthlyBudgetByUserId(this.user.getId());
             this.arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
@@ -65,6 +66,10 @@ public class ManageBudgetsActivity extends AppCompatActivity {
     }
 
     public void btnManageBudget_Click(View v) {
+        if (this.monthlyBudgets.size() == 0) {
+            ToastMessage("Add a budget first.");
+            return;
+        }
         MonthlyBudget budget = this.monthlyBudgets.get(spinnerBudgets.getSelectedItemPosition());
         Bundle bundle = new Bundle();
         bundle.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
@@ -84,16 +89,29 @@ public class ManageBudgetsActivity extends AppCompatActivity {
     }
 
     private void RefreshView(int spinnerIndex) {
-        if (spinnerIndex == -1) {
+        if (spinnerIndex == -1 || this.monthlyBudgets.size() == 0) {
             this.lblTitle.setText("");
             this.lblDescription.setText("");
             this.lblDateCreated.setText("");
             return;
         }
+        showTextViews(true);
         MonthlyBudget budget = this.monthlyBudgets.get(spinnerIndex);
         this.lblTitle.setText(budget.getTitle());
         this.lblDescription.setText(budget.getDescription());
         this.lblDateCreated.setText(budget.getDateCreated().toString());
+    }
+
+    private void showTextViews(Boolean show) {
+        if (show) {
+            this.lblTitle.setVisibility(View.VISIBLE);
+            this.lblDescription.setVisibility(View.VISIBLE);
+            this.lblDateCreated.setVisibility(View.VISIBLE);
+            return;
+        }
+        this.lblTitle.setVisibility(View.INVISIBLE);
+        this.lblDescription.setVisibility(View.INVISIBLE);
+        this.lblDateCreated.setVisibility(View.INVISIBLE);
     }
 
 
