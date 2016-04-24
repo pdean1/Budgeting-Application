@@ -6,4 +6,3 @@ How to get Started...
 1. Create a User
 2. Add a budget
 3. Add some bills and earnings to that budget
-
