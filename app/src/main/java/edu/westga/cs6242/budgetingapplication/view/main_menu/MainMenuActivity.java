@@ -14,15 +14,17 @@ import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.Session;
-import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.ViewBudgetsActivity;
 
+/**
+ * Main Menu Java Class. This class allows a user to add a budget
+ * to their user id and manage it.
+ * @author Patrick Dean
+ * @version 1
+ */
 public class MainMenuActivity extends AppCompatActivity {
 
     private BudgetDatabaseHandler dbh;
-
-    private User user;
-
     private EditText etBudgetTitle;
     private EditText etBudgetDescription;
 
@@ -30,7 +32,6 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        this.user = Session.getUser();
         this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
         this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
@@ -40,7 +41,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private void updateSessiontText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvUser);
         assert txtSessionInfo != null;
-        String sessionString = "Signed in as: " + this.user.getUserName();
+        String sessionString = "Signed in as: " + Session.getUser().getUserName();
         txtSessionInfo.setText(sessionString);
     }
 
@@ -50,8 +51,8 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void btnAddBudget_Click(View v) {
-        if (this.etBudgetTitle.getText().toString().equals("") ||
-                this.etBudgetDescription.getText().toString().equals(""))
+        if (this.etBudgetTitle.getText().toString().length() < 5 ||
+                this.etBudgetDescription.getText().toString().length() < 10)
         {
             ToastMessage("Please provide a proper title and description!");
             return;
@@ -61,10 +62,10 @@ public class MainMenuActivity extends AppCompatActivity {
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
         monthlyBudget.setDateCreated(new Date(System.currentTimeMillis()));
         monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());
-        monthlyBudget.setUserId(this.user.getId());
+        monthlyBudget.setUserId(Session.getUser().getId());
         long result = this.dbh.addMonthlyBudget(monthlyBudget);
         if (result == -1) {
-            ToastMessage("Unable to add Budget to Database");
+            ToastMessage("Unable to add Budget to Database, duplicates present.");
             return;
         }
         ToastMessage("Budget Added!");

@@ -62,7 +62,7 @@ public class BudgetDatabase {
         public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " ( "
                         + C1_PK_ID + " INTEGER PRIMARY KEY,"
-                        + C2_TITLE + " TEXT NOT NULL, "
+                        + C2_TITLE + " TEXT NOT NULL UNIQUE, "
                         + C3_DESCRIPTION + " TEXT, "
                         + C4_DATE_CREATED + " NUMERIC NOT NULL, "
                         + C5_DATE_UPDATED + " NUMERIC,"
