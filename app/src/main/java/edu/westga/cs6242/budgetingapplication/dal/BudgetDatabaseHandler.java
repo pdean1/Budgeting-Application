@@ -219,6 +219,33 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return result != 0;
     }
 
+    public ArrayList<Bill> getBillsByBudgetId(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String strQuery = "SELECT * FROM " + BudgetDatabase.Bills.TABLE_NAME +
+                " WHERE " + BudgetDatabase.Bills.C8_FK1_BUDGET_ID + " = " + id;
+        ArrayList<Bill> bills = new ArrayList<>();
+        Cursor cursor = db.rawQuery(strQuery, null);
+        if (cursor.moveToFirst())
+        {
+            while (!cursor.isAfterLast()) {
+                Bill bill = new Bill();
+                bill.setId(cursor.getInt(0));
+                bill.setTitle(cursor.getString(1));
+                bill.setAmount(cursor.getDouble(2));
+                bill.setDateDue(new Date(cursor.getLong(3)));
+                bill.setDatePaid(new Date(cursor.getLong(4)));
+                bill.setIsPaid(cursor.getInt(5) == 1);
+                bill.setIsRecurring(cursor.getInt(6) == 1);
+                bill.setBudgetId(cursor.getInt(7));
+                bills.add(bill);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+        return bills;
+    }
+
     public long addBill(Bill bill) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

@@ -18,7 +18,7 @@ import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
 
-public class ManageBudgetsActivity extends AppCompatActivity {
+public class ViewBudgetsActivity extends AppCompatActivity {
 
     private Spinner spinnerBudgets;
     private TextView lblTitle, lblDescription, lblDateCreated;
@@ -36,7 +36,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            setContentView(R.layout.activity_manage_budgets);
+            setContentView(R.layout.activity_view_budgets);
             this.user = Session.getUser();
             this.spinnerBudgets = (Spinner) findViewById(R.id.spinBudgets);
             this.lblTitle = (TextView) findViewById(R.id.tvBudgetTitle);

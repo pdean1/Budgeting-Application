@@ -44,7 +44,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void btnManageBudgets_Click(View v) {
-        Intent intent = new Intent(v.getContext(), ManageBudgetsActivity.class);
+        Intent intent = new Intent(v.getContext(), ViewBudgetsActivity.class);
         startActivity(intent);
     }
 

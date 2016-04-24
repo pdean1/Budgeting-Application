@@ -7,10 +7,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import edu.westga.cs6242.budgetingapplication.R;
+import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
+import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
@@ -19,17 +24,26 @@ public class ManageBudgetActivity extends AppCompatActivity {
 
     private User user;
 
+    private BudgetDatabaseHandler dbh;
+
     private MonthlyBudget budget;
+
+    private ArrayList<Bill> bills;
 
     private TabHost tabHost;
 
     TextView titleLabel, descriptionLabel;
     EditText dateLabel;
 
+    private ListView lvBills, lvEarnings;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_budget);
+        this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
         this.tabHost = (TabHost) findViewById(R.id.tabHost);
         this.user = Session.getUser();
         this.budget = Session.getMonthlyBudget1();
@@ -64,6 +78,9 @@ public class ManageBudgetActivity extends AppCompatActivity {
         this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
         this.descriptionLabel = (TextView) findViewById(R.id.etDescriptionLbl);
         this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
+        this.lvBills = (ListView) findViewById(R.id.lvBills);
+        this.lvEarnings = (ListView) findViewById(R.id.lvEarnings);
+        this.bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
         titleLabel.setText(this.budget.getTitle());
         descriptionLabel.setText(this.budget.getDescription());
         dateLabel.setEnabled(false);

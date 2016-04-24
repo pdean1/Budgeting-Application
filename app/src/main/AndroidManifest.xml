@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.main.MainMenuActivity" />
-        <activity android:name=".view.main.ManageBudgetsActivity" />
+        <activity android:name=".view.main.ViewBudgetsActivity" />
         <activity android:name=".view.main.ManageBudgetActivity" />
         <activity android:name=".view.main.CreateBillActivity" />
         <activity android:name=".view.main.CreateEarningActivity"></activity>
