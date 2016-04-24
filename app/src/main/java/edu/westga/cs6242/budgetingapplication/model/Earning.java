@@ -7,7 +7,7 @@ import java.util.Date;
  * @author Patrick Dean
  * @version 1
  */
-public class Earnings {
+public class Earning {
     private int id;
     private String title;
     // NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -17,13 +17,13 @@ public class Earnings {
     private boolean isRecurring;
     private int budgetId;
 
-    public Earnings() {
+    public Earning() {
         this(0, "", 0.0, new Date(), false, 0);
     }
 
-    public Earnings(int id, String title, double amount,
-                    Date dateEarned, boolean isRecurring,
-                    int budgetId) {
+    public Earning(int id, String title, double amount,
+                   Date dateEarned, boolean isRecurring,
+                   int budgetId) {
         this.id = id;
         this.title = title;
         this.amount = amount;

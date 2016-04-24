@@ -68,7 +68,12 @@ public class CreateBillActivity extends AppCompatActivity implements View.OnClic
     public void btnAddBill_Click(View v) {
         Bill bill = new Bill();
         bill.setTitle(this.etTitle.getText().toString());
-        bill.setAmount(Double.parseDouble(this.etAmount.getText().toString()));
+        try {
+            bill.setAmount(Double.parseDouble(this.etAmount.getText().toString()));
+        } catch (Exception e) {
+            ToastMessage("Provide an amount please");
+            return;
+        }
         bill.setDateDue(new Date());
         bill.setDatePaid(new Date());
         bill.setIsRecurring(this.cbIsRecurring.isChecked());
@@ -80,6 +85,7 @@ public class CreateBillActivity extends AppCompatActivity implements View.OnClic
             return;
         }
         ToastMessage("Bill Added");
+        this.finish();
     }
 
     private void updateSessiontText() {

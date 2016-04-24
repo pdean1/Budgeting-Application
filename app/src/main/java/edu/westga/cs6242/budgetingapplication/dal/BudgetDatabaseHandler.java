@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.model.Bill;
-import edu.westga.cs6242.budgetingapplication.model.Earnings;
+import edu.westga.cs6242.budgetingapplication.model.Earning;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
@@ -281,7 +281,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      * @param earnings Earning to add to the database
      * @return id of added record or -1
      */
-    public long addEarning(Earnings earnings) {
+    public long addEarning(Earning earnings) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(BudgetDatabase.Earnings.C2_TITLE, earnings.getTitle());

@@ -91,9 +91,9 @@ public class ManageBudgetActivity extends AppCompatActivity {
         spec.setIndicator("Bills Tab");
         tabHost.addTab(spec);
 
-        spec = this.tabHost.newTabSpec("Earnings Tab");
+        spec = this.tabHost.newTabSpec("Earning Tab");
         spec.setContent(R.id.tabEarnings);
-        spec.setIndicator("Earnings Tab");
+        spec.setIndicator("Earning Tab");
         tabHost.addTab(spec);
 
     }
@@ -104,7 +104,7 @@ public class ManageBudgetActivity extends AppCompatActivity {
     }
 
     private void createNewEarning() {
-        Intent intent = new Intent(getApplicationContext(), CreateBillActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CreateEarningActivity.class);
         startActivity(intent);
     }
 
