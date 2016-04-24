@@ -26,6 +26,7 @@ public class ManageBudgetActivity extends AppCompatActivity {
         this.user = getIntent().getParcelableExtra(ApplicationVariableStrings.SESSION_USER);
         this.budget = getIntent().getParcelableExtra(ApplicationVariableStrings.MANAGE_BUDGET);
         updateBudgetInformation();
+        updateSessiontText();
     }
 
     private void updateBudgetInformation() {
@@ -36,5 +37,12 @@ public class ManageBudgetActivity extends AppCompatActivity {
         descriptionLabel.setText(this.budget.getDescription());
         dateLabel.setEnabled(false);
         dateLabel.setText(this.budget.getDateCreated().toString());
+    }
+
+    private void updateSessiontText() {
+        TextView txtSessionInfo = (TextView) findViewById(R.id.tvUserInformation);
+        assert txtSessionInfo != null;
+        String sessionString = "Signed in as: " + this.user.getUserName();
+        txtSessionInfo.setText(sessionString);
     }
 }

@@ -17,7 +17,9 @@
         android:id="@+id/tvBudgetTitleLbl"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/tvUserInformation"
+        android:layout_toStartOf="@+id/tvUserInformation" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -105,6 +107,16 @@
             </FrameLayout>
         </LinearLayout>
     </TabHost>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/txt_username"
+        android:id="@+id/tvUserInformation"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/etDescriptionLbl"
+        android:layout_alignEnd="@+id/etDescriptionLbl" />
     <!--
         <TabHost
             android:layout_width="match_parent"
