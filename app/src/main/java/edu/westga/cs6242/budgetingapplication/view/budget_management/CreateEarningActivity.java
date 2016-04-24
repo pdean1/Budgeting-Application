@@ -43,6 +43,15 @@ public class CreateEarningActivity extends AppCompatActivity implements View.OnC
 
         this.setUpDatePicker();
 
+        this.updateSessionText();
+
+    }
+
+    private void updateSessionText() {
+        TextView txtSessionInfo = (TextView) findViewById(R.id.tvUserName);
+        assert txtSessionInfo != null;
+        String sessionString = "Signed in as: " + Session.getUser().getUserName();
+        txtSessionInfo.setText(sessionString);
     }
 
     public void btnAddEarning_Click(View v) {
@@ -57,7 +66,10 @@ public class CreateEarningActivity extends AppCompatActivity implements View.OnC
             }
             earning.setIsRecurring(this.cbIsRecurring.isChecked());
             earning.setBudgetId(Session.getMonthlyBudget1().getId());
-            this.dbh.addEarning(earning);
+            if (this.dbh.addEarning(earning) == -1) {
+                ToastMessage("Unable to add Earning");
+                return;
+            }
             ToastMessage("Earning Added");
             this.finish();
         }

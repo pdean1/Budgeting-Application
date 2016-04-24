@@ -41,7 +41,7 @@ public class CreateBillActivity extends AppCompatActivity implements View.OnClic
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
         this.findViewsById();
         this.setDateTimeField();
-        this.updateSessiontText();
+        this.updateSessionText();
     }
 
     private void findViewsById() {
@@ -66,6 +66,9 @@ public class CreateBillActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void btnAddBill_Click(View v) {
+        if (!validateFields()) {
+            return;
+        }
         Bill bill = new Bill();
         bill.setTitle(this.etTitle.getText().toString());
         try {
@@ -88,7 +91,26 @@ public class CreateBillActivity extends AppCompatActivity implements View.OnClic
         this.finish();
     }
 
-    private void updateSessiontText() {
+    private boolean validateFields() {
+        if (this.etTitle.getText().toString().length() < 5) {
+            ToastMessage("Add more to the title");
+            return false;
+        }
+        if (this.etAmount.getText().toString().equals("")) {
+            ToastMessage("Add an amount");
+            return false;
+        }
+        try {
+            dateFormat.parse(this.etDateDue.getText().toString());
+        }
+        catch (Exception e) {
+            ToastMessage("Invalid Date");
+            return false;
+        }
+        return true;
+    }
+
+    private void updateSessionText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvUserName);
         assert txtSessionInfo != null;
         String sessionString = "Signed in as: " + Session.getUser().getUserName();
