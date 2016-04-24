@@ -25,10 +25,6 @@ public class ManageBudgetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_budget);
         this.user = getIntent().getParcelableExtra(ApplicationVariableStrings.SESSION_USER);
         this.budget = getIntent().getParcelableExtra(ApplicationVariableStrings.MANAGE_BUDGET);
-        try { Thread.sleep(5000); }
-        catch (InterruptedException e) {
-
-        }
         updateBudgetInformation();
     }
 

@@ -13,6 +13,7 @@ import java.util.Date;
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
+import edu.westga.cs6242.budgetingapplication.model.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.ApplicationVariableStrings;
 
@@ -29,7 +30,8 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        this.user = getIntent().getParcelableExtra(ApplicationVariableStrings.SESSION_USER);
+        //this.user = getIntent().getParcelableExtra(ApplicationVariableStrings.SESSION_USER);
+        this.user = Session.getUser();
         this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
         this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
