@@ -35,34 +35,38 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/txt_date_created"
         android:id="@+id/tvDateCreated"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/etDescriptionLbl"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="none|textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/etDescriptionLbl"
         android:layout_below="@+id/tvDescriptionLbl"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:enabled="true"
+        android:editable="false" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/etDateCreatedLbl"
         android:layout_below="@+id/tvDateCreated"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
-
+        android:layout_alignRight="@+id/etDescriptionLbl"
+        android:layout_alignEnd="@+id/etDescriptionLbl"
+        android:focusable="false"
+        android:enabled="false" />
+<!--
     <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -90,15 +94,31 @@
                     android:id="@+id/bills_tab"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+
+                    <fragment
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:name="edu.westga.cs6242.budgetingapplication.view.fragments.ViewBillsFragment"
+                        android:id="@+id/billsFragment"
+                        tools:layout="@layout/fragment_view_bills" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/earnings_tab"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+
+                    <fragment
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:name="edu.westga.cs6242.budgetingapplication.view.fragments.ViewEarningsFragment"
+                        android:id="@+id/earningsFragment"
+                        tools:layout="@layout/fragment_view_earnings" />
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-
+-->
 </RelativeLayout>

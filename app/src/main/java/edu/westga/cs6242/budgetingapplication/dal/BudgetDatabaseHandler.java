@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
@@ -165,33 +166,27 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<MonthlyBudget> getMonthlyBudgetByUserId(int id) {
         ArrayList<MonthlyBudget> budgets = new ArrayList<>();
-        try {
-            String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME +
-                    " WHERE " + BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID + " = " + id;
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.rawQuery(strQuery, null);
-            if (cursor.moveToFirst())
-            {
-                while (cursor.isAfterLast() == false) {
-                    MonthlyBudget monthlyBudget = new MonthlyBudget();
-                    monthlyBudget.setId(cursor.getInt(0));
-                    monthlyBudget.setTitle(cursor.getString(1));
-                    monthlyBudget.setDescription(cursor.getString(2));
-                    monthlyBudget.setDateCreated(new Date(cursor.getLong(3)));
-                    monthlyBudget.setDateUpdated(new Date(cursor.getLong(4)));
-                    monthlyBudget.setUserId(cursor.getInt(5));
-                    budgets.add(monthlyBudget);
-                    cursor.moveToNext();
-                }
+        String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME +
+                " WHERE " + BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID + " = " + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(strQuery, null);
+        if (cursor.moveToFirst())
+        {
+            while (cursor.isAfterLast() == false) {
+                MonthlyBudget monthlyBudget = new MonthlyBudget();
+                monthlyBudget.setId(cursor.getInt(0));
+                monthlyBudget.setTitle(cursor.getString(1));
+                monthlyBudget.setDescription(cursor.getString(2));
+                monthlyBudget.setDateCreated(new Date(cursor.getLong(3)));
+                monthlyBudget.setDateUpdated(new Date(cursor.getLong(4)));
+                monthlyBudget.setUserId(cursor.getInt(5));
+                budgets.add(monthlyBudget);
+                cursor.moveToNext();
             }
-            cursor.close();
-            db.close();
-            return budgets;
-        } catch (Exception e) {
-            Log.d("ERROR", e.getMessage());
-            return null;
         }
-
+        cursor.close();
+        db.close();
+        return budgets;
     }
 
     public long addMonthlyBudget(MonthlyBudget budget) {
@@ -202,9 +197,9 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         values.put(BudgetDatabase.MonthlyBudget.C3_DESCRIPTION,
                 budget.getDescription());
         values.put(BudgetDatabase.MonthlyBudget.C4_DATE_CREATED,
-                budget.getDateCreated().toString());
+                new Date(Calendar.getInstance().getTimeInMillis()).toString());
         values.put(BudgetDatabase.MonthlyBudget.C5_DATE_UPDATED,
-                budget.getDateUpdated().toString());
+                new Date(Calendar.getInstance().getTimeInMillis()).toString());
         values.put(BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID,
                 budget.getUserId());
         long id = db.insert(BudgetDatabase.MonthlyBudget.TABLE_NAME,

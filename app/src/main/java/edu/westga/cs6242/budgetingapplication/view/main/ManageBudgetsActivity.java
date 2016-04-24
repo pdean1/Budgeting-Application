@@ -24,6 +24,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
     private TextView lblTitle, lblDescription, lblDateCreated;
 
     private ArrayList<MonthlyBudget> monthlyBudgets;
+    private MonthlyBudget currentBudget;
 
     private BudgetDatabaseHandler dbh;
 
@@ -47,6 +48,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
             this.arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                     this.monthlyBudgets);
             this.spinnerBudgets.setAdapter(this.arrayAdapter);
+            this.currentBudget = new MonthlyBudget();
             this.spinnerBudgets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
@@ -62,7 +64,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
         } catch (Exception e) {
             ToastMessage("Fail");
         }
-        updateSessiontText();
+        updateSessionText();
     }
 
     public void btnManageBudget_Click(View v) {
@@ -70,10 +72,10 @@ public class ManageBudgetsActivity extends AppCompatActivity {
             ToastMessage("Add a budget first.");
             return;
         }
-        MonthlyBudget budget = this.monthlyBudgets.get(spinnerBudgets.getSelectedItemPosition());
         Bundle bundle = new Bundle();
         bundle.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
-        bundle.putParcelable(ApplicationVariableStrings.MANAGE_BUDGET, budget);
+        this.currentBudget = this.monthlyBudgets.get(this.spinnerBudgets.getSelectedItemPosition());
+        bundle.putParcelable(ApplicationVariableStrings.MANAGE_BUDGET, this.currentBudget);
         Intent intent = new Intent(v.getContext(), ManageBudgetActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -95,7 +97,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
         ToastMessage("Record not found");
     }
 
-    private void updateSessiontText() {
+    private void updateSessionText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvSessionLbl);
         assert txtSessionInfo != null;
         String sessionString = "Signed in as: " + this.user.getUserName();
@@ -110,10 +112,10 @@ public class ManageBudgetsActivity extends AppCompatActivity {
             return;
         }
         showTextViews(true);
-        MonthlyBudget budget = this.monthlyBudgets.get(spinnerIndex);
-        this.lblTitle.setText(budget.getTitle());
-        this.lblDescription.setText(budget.getDescription());
-        this.lblDateCreated.setText(budget.getDateCreated().toString());
+        this.currentBudget = this.monthlyBudgets.get(spinnerIndex);
+        this.lblTitle.setText(this.currentBudget.getTitle());
+        this.lblDescription.setText(this.currentBudget.getDescription());
+        this.lblDateCreated.setText(this.currentBudget.getDateCreated().toString());
     }
 
     private void showTextViews(Boolean show) {
