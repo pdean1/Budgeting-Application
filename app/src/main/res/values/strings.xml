@@ -36,4 +36,8 @@
     <string name="txt_is_paid">Is Paid</string>
     <string name="txt_date_paid">Date Paid</string>
     <string name="txt_select_a_date">Select a Date</string>
+    <string name="txt_date_earned">Date Earned</string>
+    <string name="txt_set_date_earned">Set Date Earned</string>
+    <string name="txt_add_earnings">Add Earning</string>
+    <string name="txt_add_earning">Add Earning</string>
 </resources>

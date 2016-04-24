@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.model.Bill;
+import edu.westga.cs6242.budgetingapplication.model.Earnings;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
@@ -219,7 +220,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return result != 0;
     }
 
-    public Cursor getBillsByIdCursor(int id) {
+    public Cursor getCursorOfBillsById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String strQuery = "SELECT * FROM " + BudgetDatabase.Bills.TABLE_NAME +
                 " WHERE " + BudgetDatabase.Bills.C8_FK1_BUDGET_ID + " = " + id;
@@ -262,19 +263,33 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     public long addBill(Bill bill) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.Bills.C2_TITLE,
-                bill.getTitle());
-        values.put(BudgetDatabase.Bills.C3_AMOUNT,
-                bill.getAmount());
-        values.put(BudgetDatabase.Bills.C4_DATE_DUE,
-                bill.getDateDue().toString());
-        values.put(BudgetDatabase.Bills.C5_DATE_PAID,
-                bill.getDatePaid().toString());
-        values.put(BudgetDatabase.Bills.C6_IS_PAID, Integer.toString((bill.isPaid())? 1 : 0));
-        values.put(BudgetDatabase.Bills.C7_IS_RECURRING, Integer.toString((bill.isRecurring()) ? 1 : 0));
+        values.put(BudgetDatabase.Bills.C2_TITLE, bill.getTitle());
+        values.put(BudgetDatabase.Bills.C3_AMOUNT, bill.getAmount());
+        values.put(BudgetDatabase.Bills.C4_DATE_DUE, bill.getDateDue().toString());
+        values.put(BudgetDatabase.Bills.C5_DATE_PAID, bill.getDatePaid().toString());
+        values.put(BudgetDatabase.Bills.C6_IS_PAID, Integer.toString((bill.isPaid())?1:0));
+        values.put(BudgetDatabase.Bills.C7_IS_RECURRING,
+                Integer.toString((bill.isRecurring())?1:0));
         values.put(BudgetDatabase.Bills.C8_FK1_BUDGET_ID, bill.getBudgetId());
-        long id = db.insert(BudgetDatabase.Bills.TABLE_NAME,
-                null, values);
+        long id = db.insert(BudgetDatabase.Bills.TABLE_NAME, null, values);
+        db.close();
+        return id;
+    }
+
+    /**
+     * Adds an Earning to the database
+     * @param earnings Earning to add to the database
+     * @return id of added record or -1
+     */
+    public long addEarning(Earnings earnings) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(BudgetDatabase.Earnings.C2_TITLE, earnings.getTitle());
+        values.put(BudgetDatabase.Earnings.C3_AMOUNT, earnings.getAmount());
+        values.put(BudgetDatabase.Earnings.C4_DATE_EARNED, earnings.getDateEarned().toString());
+        values.put(BudgetDatabase.Earnings.C5_IS_RECURRING, (earnings.isRecurring()) ? 1 : 0);
+        values.put(BudgetDatabase.Earnings.C6_FK1_BUDGET_ID, earnings.getBudgetId());
+        long id = db.insert(BudgetDatabase.Earnings.TABLE_NAME, null, values);
         db.close();
         return id;
     }
