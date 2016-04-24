@@ -79,4 +79,13 @@ public class Earning {
     public void setBudgetId(int budgetId) {
         this.budgetId = budgetId;
     }
+
+    @Override
+    public String toString() {
+        String recurring = this.isRecurring() ? "Recurring" : "Not recurring";
+        return this.getTitle() + "\n" +
+                this.getAmount() + "\n" +
+                this.getDateEarned() + "\n" +
+                recurring;
+    }
 }

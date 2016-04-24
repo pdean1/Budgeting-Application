@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -23,9 +24,12 @@ import edu.westga.cs6242.budgetingapplication.model.Session;
 public class ManageBudgetActivity extends AppCompatActivity {
 
     private BudgetDatabaseHandler dbh;
+    private ArrayAdapter<Bill> billArrayAdapter;
+    private ArrayAdapter<Earning> earningArrayAdapter;
     private TabHost tabHost;
     TextView titleLabel, descriptionLabel;
     EditText dateLabel;
+    ListView lvBills, lvEarnings;
 
 
     @Override
@@ -63,20 +67,31 @@ public class ManageBudgetActivity extends AppCompatActivity {
     }
 
     private void updateBudgetInformation() {
-        ArrayList<Bill> bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
-        ArrayList<Earning> earnings = this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
+        updateList();
         titleLabel.setText(Session.getMonthlyBudget1().getTitle());
         descriptionLabel.setText(Session.getMonthlyBudget1().getDescription());
         dateLabel.setEnabled(false);
         dateLabel.setText(Session.getMonthlyBudget1().getDateCreated().toString());
     }
 
+    private void updateList() {
+        ArrayList<Bill> bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
+        ArrayList<Earning> earnings =
+                this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
+        this.billArrayAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bills);
+        this.earningArrayAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
+        this.lvBills.setAdapter(billArrayAdapter);
+        this.lvEarnings.setAdapter(earningArrayAdapter);
+    }
+
     private void getViewsById() {
         this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
         this.descriptionLabel = (TextView) findViewById(R.id.etDescriptionLbl);
         this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
-        ListView lvBills = (ListView) findViewById(R.id.lvBills);
-        ListView lvEarnings = (ListView) findViewById(R.id.lvEarnings);
+        this.lvBills = (ListView) findViewById(R.id.lvBills);
+        this.lvEarnings = (ListView) findViewById(R.id.lvEarnings);
     }
 
     private void updateSessiontText() {
@@ -104,11 +119,13 @@ public class ManageBudgetActivity extends AppCompatActivity {
     private void createNewBill() {
         Intent intent = new Intent(getApplicationContext(), CreateBillActivity.class);
         startActivity(intent);
+        updateList();
     }
 
     private void createNewEarning() {
         Intent intent = new Intent(getApplicationContext(), CreateEarningActivity.class);
         startActivity(intent);
+        updateList();
     }
 
     private void ToastMessage(String text) {

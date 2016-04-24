@@ -57,6 +57,7 @@ public class CreateEarningActivity extends AppCompatActivity implements View.OnC
             }
             earning.setIsRecurring(this.cbIsRecurring.isChecked());
             earning.setBudgetId(Session.getMonthlyBudget1().getId());
+            this.dbh.addEarning(earning);
             ToastMessage("Earning Added");
             this.finish();
         }

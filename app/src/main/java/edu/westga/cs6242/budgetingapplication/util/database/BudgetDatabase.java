@@ -104,7 +104,7 @@ public class BudgetDatabase {
      * Public inner class Earning defines strings for the Earning table
      */
     public class Earnings {
-        public static final String TABLE_NAME             = "Earning";
+        public static final String TABLE_NAME             = "Earnings";
         public static final String C1_PK_ID               = "id";
         public static final String C2_TITLE               = "title";
         public static final String C3_AMOUNT              = "amount";
