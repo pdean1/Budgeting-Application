@@ -3,6 +3,7 @@ package edu.westga.cs6242.budgetingapplication.view.main;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import edu.westga.cs6242.budgetingapplication.R;
@@ -16,6 +17,8 @@ public class ManageBudgetActivity extends AppCompatActivity {
 
     private MonthlyBudget budget;
 
+    private TabHost tabHost;
+
     TextView titleLabel, descriptionLabel;
     EditText dateLabel;
 
@@ -23,10 +26,12 @@ public class ManageBudgetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_budget);
+        this.tabHost = (TabHost) findViewById(R.id.tabHost);
         this.user = Session.getUser();
         this.budget = Session.getMonthlyBudget1();
         updateBudgetInformation();
         updateSessiontText();
+        setUpTabs();
     }
 
     private void updateBudgetInformation() {
@@ -44,5 +49,19 @@ public class ManageBudgetActivity extends AppCompatActivity {
         assert txtSessionInfo != null;
         String sessionString = "Signed in as: " + this.user.getUserName();
         txtSessionInfo.setText(sessionString);
+    }
+
+    private void setUpTabs() {
+        this.tabHost.setup();
+
+        TabHost.TabSpec spec = this.tabHost.newTabSpec("Bills Tab");
+        spec.setContent(R.id.tabBills);
+        spec.setIndicator("Tab One");
+        tabHost.addTab(spec);
+
+        spec = this.tabHost.newTabSpec("Earnings Tab");
+        spec.setContent(R.id.tabEarnings);
+        spec.setIndicator("Tab Two");
+        tabHost.addTab(spec);
     }
 }
