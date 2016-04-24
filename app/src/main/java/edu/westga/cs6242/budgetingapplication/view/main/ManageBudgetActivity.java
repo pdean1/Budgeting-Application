@@ -2,6 +2,9 @@ package edu.westga.cs6242.budgetingapplication.view.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -34,6 +37,28 @@ public class ManageBudgetActivity extends AppCompatActivity {
         setUpTabs();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.manage_budget_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.new_bill:
+                //newGame();
+                return true;
+            case R.id.new_earning:
+                //showHelp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void updateBudgetInformation() {
         this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
         this.descriptionLabel = (TextView) findViewById(R.id.etDescriptionLbl);
@@ -63,5 +88,13 @@ public class ManageBudgetActivity extends AppCompatActivity {
         spec.setContent(R.id.tabEarnings);
         spec.setIndicator("Earnings Tab");
         tabHost.addTab(spec);
+    }
+
+    private void createNewBill() {
+        
+    }
+
+    private void createNewEarning() {
+
     }
 }
