@@ -7,9 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
@@ -23,6 +25,9 @@ import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
  * @version 1
  */
 public class BudgetDatabaseHandler extends SQLiteOpenHelper {
+
+
+
 
     public BudgetDatabaseHandler(Context context, SQLiteDatabase.CursorFactory cursorFactory) {
         super(context, BudgetDatabase.DATABASE_NAME, cursorFactory,
@@ -258,6 +263,36 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return bills;
+    }
+
+    public ArrayList<Earning> getEarningsByBudgetId(int id) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyy", Locale.US);
+        SQLiteDatabase db = this.getReadableDatabase();
+        String strQuery = "SELECT * FROM " + BudgetDatabase.Earnings.TABLE_NAME +
+                " WHERE " + BudgetDatabase.Earnings.C6_FK1_BUDGET_ID + " = " + id;
+        ArrayList<Earning> earnings = new ArrayList<>();
+        Cursor cursor = db.rawQuery(strQuery, null);
+        if (cursor.moveToFirst())
+        {
+            while (!cursor.isAfterLast()) {
+                Earning earning = new Earning();
+                earning.setId(cursor.getInt(0));
+                earning.setTitle(cursor.getString(1));
+                earning.setAmount(cursor.getDouble(2));
+                try {
+                    earning.setDateEarned(dateFormat.parse(new Date(cursor.getLong(3)).toString()));
+                } catch (Exception e) {
+
+                }
+                earning.setIsRecurring(cursor.getInt(4) == 1);
+                earning.setBudgetId(cursor.getInt(5));
+                earnings.add(earning);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+        return earnings;
     }
 
     public long addBill(Bill bill) {

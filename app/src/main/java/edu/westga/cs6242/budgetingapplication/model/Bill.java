@@ -97,4 +97,13 @@ public class Bill {
     public void setBudgetId(int budgetId) {
         this.budgetId = budgetId;
     }
+
+    @Override
+    public String toString() {
+        String paid = this.isPaid() ? "Paid" : "Not paid";
+        return this.getTitle() + "\n" +
+                this.getAmount() + "\n" +
+                this.getDateDue() + "\n" +
+                paid;
+    }
 }

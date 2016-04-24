@@ -16,18 +16,16 @@ import java.util.ArrayList;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
-import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
+import edu.westga.cs6242.budgetingapplication.model.Bill;
+import edu.westga.cs6242.budgetingapplication.model.Earning;
 import edu.westga.cs6242.budgetingapplication.model.Session;
 
 public class ManageBudgetActivity extends AppCompatActivity {
 
     private BudgetDatabaseHandler dbh;
-    private ArrayList<MonthlyBudget> budgets;
     private TabHost tabHost;
     TextView titleLabel, descriptionLabel;
     EditText dateLabel;
-    private ListView lvBills, lvEarnings;
-
 
 
     @Override
@@ -35,8 +33,8 @@ public class ManageBudgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_budget);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
-        this.budgets = this.dbh.getMonthlyBudgetByUserId(Session.getMonthlyBudget1().getId());
         this.tabHost = (TabHost) findViewById(R.id.tabHost);
+        getViewsById();
         updateBudgetInformation();
         updateSessiontText();
         setUpTabs();
@@ -65,15 +63,20 @@ public class ManageBudgetActivity extends AppCompatActivity {
     }
 
     private void updateBudgetInformation() {
-        this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
-        this.descriptionLabel = (TextView) findViewById(R.id.etDescriptionLbl);
-        this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
-        this.lvBills = (ListView) findViewById(R.id.lvBills);
-        this.lvEarnings = (ListView) findViewById(R.id.lvEarnings);
+        ArrayList<Bill> bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
+        ArrayList<Earning> earnings = this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
         titleLabel.setText(Session.getMonthlyBudget1().getTitle());
         descriptionLabel.setText(Session.getMonthlyBudget1().getDescription());
         dateLabel.setEnabled(false);
         dateLabel.setText(Session.getMonthlyBudget1().getDateCreated().toString());
+    }
+
+    private void getViewsById() {
+        this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
+        this.descriptionLabel = (TextView) findViewById(R.id.etDescriptionLbl);
+        this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
+        ListView lvBills = (ListView) findViewById(R.id.lvBills);
+        ListView lvEarnings = (ListView) findViewById(R.id.lvEarnings);
     }
 
     private void updateSessiontText() {

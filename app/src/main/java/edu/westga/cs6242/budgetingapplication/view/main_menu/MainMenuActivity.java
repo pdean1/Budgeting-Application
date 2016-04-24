@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.R;
@@ -26,12 +27,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private BudgetDatabaseHandler dbh;
     private EditText etBudgetTitle;
+    private TextView txtSessionInfo;
     private EditText etBudgetDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        this.txtSessionInfo = (TextView) findViewById(R.id.tvUser);
         this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
         this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
@@ -39,9 +42,9 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void updateSessiontText() {
-        TextView txtSessionInfo = (TextView) findViewById(R.id.tvUser);
-        assert txtSessionInfo != null;
+        txtSessionInfo = (TextView) findViewById(R.id.tvUser);
         String sessionString = "Signed in as: " + Session.getUser().getUserName();
+        assert txtSessionInfo != null;
         txtSessionInfo.setText(sessionString);
     }
 
@@ -60,7 +63,7 @@ public class MainMenuActivity extends AppCompatActivity {
         MonthlyBudget monthlyBudget = new MonthlyBudget();
         monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
-        monthlyBudget.setDateCreated(new Date(System.currentTimeMillis()));
+        monthlyBudget.setDateCreated(new Date(Calendar.getInstance().getTimeInMillis()));
         monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());
         monthlyBudget.setUserId(Session.getUser().getId());
         long result = this.dbh.addMonthlyBudget(monthlyBudget);
