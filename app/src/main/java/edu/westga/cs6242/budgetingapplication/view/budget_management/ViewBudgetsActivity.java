@@ -18,6 +18,12 @@ import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
 
+/**
+ * This activity allows users to view all of their budgets and give
+ * them options to manage or delete them.
+ * @author Patrick Dean
+ * @version 1
+ */
 public class ViewBudgetsActivity extends AppCompatActivity {
 
     private Spinner spinnerBudgets;
@@ -29,8 +35,6 @@ public class ViewBudgetsActivity extends AppCompatActivity {
     private BudgetDatabaseHandler dbh;
 
     private User user;
-
-    private ArrayAdapter<MonthlyBudget> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,9 @@ public class ViewBudgetsActivity extends AppCompatActivity {
             this.showTextViews(false);
             this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
             this.monthlyBudgets = this.dbh.getMonthlyBudgetByUserId(this.user.getId());
-            this.arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+            ArrayAdapter<MonthlyBudget> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                     this.monthlyBudgets);
-            this.spinnerBudgets.setAdapter(this.arrayAdapter);
+            this.spinnerBudgets.setAdapter(arrayAdapter);
             this.currentBudget = Session.getMonthlyBudget1();
             this.spinnerBudgets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -126,7 +130,6 @@ public class ViewBudgetsActivity extends AppCompatActivity {
         this.lblDescription.setVisibility(View.INVISIBLE);
         this.lblDateCreated.setVisibility(View.INVISIBLE);
     }
-
 
     private void ToastMessage(String text) {
         int duration = Toast.LENGTH_SHORT;
