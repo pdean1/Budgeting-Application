@@ -56,12 +56,12 @@ public class ManageBudgetActivity extends AppCompatActivity {
 
         TabHost.TabSpec spec = this.tabHost.newTabSpec("Bills Tab");
         spec.setContent(R.id.tabBills);
-        spec.setIndicator("Tab One");
+        spec.setIndicator("Bills Tab");
         tabHost.addTab(spec);
 
         spec = this.tabHost.newTabSpec("Earnings Tab");
         spec.setContent(R.id.tabEarnings);
-        spec.setIndicator("Tab Two");
+        spec.setIndicator("Earnings Tab");
         tabHost.addTab(spec);
     }
 }
