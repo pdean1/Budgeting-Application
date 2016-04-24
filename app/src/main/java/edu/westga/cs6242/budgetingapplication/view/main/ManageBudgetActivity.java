@@ -1,5 +1,6 @@
 package edu.westga.cs6242.budgetingapplication.view.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -49,10 +50,10 @@ public class ManageBudgetActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_bill:
-                //newGame();
+                this.createNewBill();
                 return true;
             case R.id.new_earning:
-                //showHelp();
+                this.createNewEarning();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -91,10 +92,12 @@ public class ManageBudgetActivity extends AppCompatActivity {
     }
 
     private void createNewBill() {
-        
+        Intent intent = new Intent(getApplicationContext(), CreateBillActivity.class);
+        startActivity(intent);
     }
 
     private void createNewEarning() {
-
+        Intent intent = new Intent(getApplicationContext(), CreateBillActivity.class);
+        startActivity(intent);
     }
 }
