@@ -66,6 +66,14 @@ public class ManageBudgetActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        this.updateList();
+    }
+
     private void updateBudgetInformation() {
         updateList();
         titleLabel.setText(Session.getMonthlyBudget1().getTitle());
