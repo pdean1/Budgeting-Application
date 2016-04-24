@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
+import edu.westga.cs6242.budgetingapplication.model.S_Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.ApplicationVariableStrings;
 
@@ -45,6 +46,7 @@ public class WelcomeActivity extends AppCompatActivity {
         bundleUser.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
         Intent intent = new Intent(v.getContext(), MainMenuActivity.class);
         intent.putExtras(bundleUser);
+        S_Session.getInstance().user = this.user;
         startActivity(intent);
     }
 

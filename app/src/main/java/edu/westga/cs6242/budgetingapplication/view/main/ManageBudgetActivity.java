@@ -25,13 +25,17 @@ public class ManageBudgetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_budget);
         this.user = getIntent().getParcelableExtra(ApplicationVariableStrings.SESSION_USER);
         this.budget = getIntent().getParcelableExtra(ApplicationVariableStrings.MANAGE_BUDGET);
-        this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
-        this.descriptionLabel = (EditText) findViewById(R.id.etDescriptionLbl);
-        this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
+        try { Thread.sleep(5000); }
+        catch (InterruptedException e) {
+
+        }
         updateBudgetInformation();
     }
 
     private void updateBudgetInformation() {
+        this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
+        this.descriptionLabel = (EditText) findViewById(R.id.etDescriptionLbl);
+        this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
         titleLabel.setText(this.budget.getTitle());
         descriptionLabel.setText(this.budget.getDescription());
         dateLabel.setEnabled(false);

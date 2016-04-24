@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/txt_description_lbl"
-        android:id="@+id/tvDescriptionLbl"
+        android:id="@+id/tvDescr"
         android:layout_below="@+id/tvBudgetTitleLbl"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -45,7 +45,7 @@
         android:inputType="none|textMultiLine"
         android:ems="10"
         android:id="@+id/etDescriptionLbl"
-        android:layout_below="@+id/tvDescriptionLbl"
+        android:layout_below="@+id/tvDescr"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -66,12 +66,12 @@
         android:layout_alignEnd="@+id/etDescriptionLbl"
         android:focusable="false"
         android:enabled="false" />
-<!--
+
     <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tabHost"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/etDateCreatedLbl"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
@@ -91,34 +91,73 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/bills_tab"
+                    android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <fragment
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:name="edu.westga.cs6242.budgetingapplication.view.fragments.ViewBillsFragment"
-                        android:id="@+id/billsFragment"
-                        tools:layout="@layout/fragment_view_bills" />
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/earnings_tab"
+                    android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"></LinearLayout>
 
-                    <fragment
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:name="edu.westga.cs6242.budgetingapplication.view.fragments.ViewEarningsFragment"
-                        android:id="@+id/earningsFragment"
-                        tools:layout="@layout/fragment_view_earnings" />
-                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
--->
+    <!--
+        <TabHost
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tabHost"
+            android:layout_below="@+id/editText2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/bills_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <fragment
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:name="edu.westga.cs6242.budgetingapplication.view.fragments.ViewBillsFragment"
+                            android:id="@+id/billsFragment"
+                            tools:layout="@layout/fragment_view_bills" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/earnings_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <fragment
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:name="edu.westga.cs6242.budgetingapplication.view.fragments.ViewEarningsFragment"
+                            android:id="@+id/earningsFragment"
+                            tools:layout="@layout/fragment_view_earnings" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+    -->
 </RelativeLayout>
