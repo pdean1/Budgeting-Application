@@ -34,4 +34,5 @@
     <string name="txt_date_due">Date Due</string>
     <string name="txt_is_recurring">Is Recurring</string>
     <string name="txt_is_paid">Is Paid</string>
+    <string name="txt_date_paid">Date Paid</string>
 </resources>

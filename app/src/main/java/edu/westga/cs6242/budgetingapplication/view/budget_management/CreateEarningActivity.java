@@ -1,4 +1,4 @@
-package edu.westga.cs6242.budgetingapplication.view.main;
+package edu.westga.cs6242.budgetingapplication.view.budget_management;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

@@ -15,11 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.main.MainMenuActivity" />
-        <activity android:name=".view.main.ViewBudgetsActivity" />
-        <activity android:name=".view.main.ManageBudgetActivity" />
-        <activity android:name=".view.main.CreateBillActivity" />
-        <activity android:name=".view.main.CreateEarningActivity"></activity>
+        <activity android:name=".view.main_menu.MainMenuActivity" />
+        <activity android:name=".view.budget_management.ViewBudgetsActivity" />
+        <activity android:name=".view.budget_management.ManageBudgetActivity" />
+        <activity android:name=".view.budget_management.CreateBillActivity" />
+        <activity android:name=".view.budget_management.CreateEarningActivity"></activity>
     </application>
 
 </manifest>

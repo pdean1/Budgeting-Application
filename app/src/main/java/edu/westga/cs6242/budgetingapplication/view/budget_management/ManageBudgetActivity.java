@@ -1,4 +1,4 @@
-package edu.westga.cs6242.budgetingapplication.view.main;
+package edu.westga.cs6242.budgetingapplication.view.budget_management;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,31 +10,22 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
-import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.Session;
-import edu.westga.cs6242.budgetingapplication.model.User;
 
 public class ManageBudgetActivity extends AppCompatActivity {
 
-    private User user;
-
     private BudgetDatabaseHandler dbh;
-
-    private MonthlyBudget budget;
-
-    private ArrayList<Bill> bills;
-
+    private ArrayList<MonthlyBudget> budgets;
     private TabHost tabHost;
-
     TextView titleLabel, descriptionLabel;
     EditText dateLabel;
-
     private ListView lvBills, lvEarnings;
 
 
@@ -44,9 +35,8 @@ public class ManageBudgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_budget);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
+        this.budgets = this.dbh.getMonthlyBudgetByUserId(Session.getMonthlyBudget1().getId());
         this.tabHost = (TabHost) findViewById(R.id.tabHost);
-        this.user = Session.getUser();
-        this.budget = Session.getMonthlyBudget1();
         updateBudgetInformation();
         updateSessiontText();
         setUpTabs();
@@ -80,17 +70,16 @@ public class ManageBudgetActivity extends AppCompatActivity {
         this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
         this.lvBills = (ListView) findViewById(R.id.lvBills);
         this.lvEarnings = (ListView) findViewById(R.id.lvEarnings);
-        this.bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
-        titleLabel.setText(this.budget.getTitle());
-        descriptionLabel.setText(this.budget.getDescription());
+        titleLabel.setText(Session.getMonthlyBudget1().getTitle());
+        descriptionLabel.setText(Session.getMonthlyBudget1().getDescription());
         dateLabel.setEnabled(false);
-        dateLabel.setText(this.budget.getDateCreated().toString());
+        dateLabel.setText(Session.getMonthlyBudget1().getDateCreated().toString());
     }
 
     private void updateSessiontText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvUserInformation);
         assert txtSessionInfo != null;
-        String sessionString = "Signed in as: " + this.user.getUserName();
+        String sessionString = "Signed in as: " + Session.getUser().getUserName();
         txtSessionInfo.setText(sessionString);
     }
 
@@ -106,6 +95,7 @@ public class ManageBudgetActivity extends AppCompatActivity {
         spec.setContent(R.id.tabEarnings);
         spec.setIndicator("Earnings Tab");
         tabHost.addTab(spec);
+
     }
 
     private void createNewBill() {
@@ -116,5 +106,11 @@ public class ManageBudgetActivity extends AppCompatActivity {
     private void createNewEarning() {
         Intent intent = new Intent(getApplicationContext(), CreateBillActivity.class);
         startActivity(intent);
+    }
+
+    private void ToastMessage(String text) {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+        toast.show();
     }
 }
