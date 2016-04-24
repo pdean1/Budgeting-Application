@@ -172,7 +172,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(strQuery, null);
         if (cursor.moveToFirst())
         {
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 MonthlyBudget monthlyBudget = new MonthlyBudget();
                 monthlyBudget.setId(cursor.getInt(0));
                 monthlyBudget.setTitle(cursor.getString(1));

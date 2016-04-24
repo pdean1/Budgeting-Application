@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
+import edu.westga.cs6242.budgetingapplication.model.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
-import edu.westga.cs6242.budgetingapplication.util.ApplicationVariableStrings;
 
 public class ManageBudgetsActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_manage_budgets);
-            this.user = getIntent().getParcelableExtra(ApplicationVariableStrings.SESSION_USER);
+            this.user = Session.getUser();
             this.spinnerBudgets = (Spinner) findViewById(R.id.spinBudgets);
             this.lblTitle = (TextView) findViewById(R.id.tvBudgetTitle);
             this.lblDescription = (TextView) findViewById(R.id.tvDescription);
@@ -48,7 +48,7 @@ public class ManageBudgetsActivity extends AppCompatActivity {
             this.arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                     this.monthlyBudgets);
             this.spinnerBudgets.setAdapter(this.arrayAdapter);
-            this.currentBudget = new MonthlyBudget();
+            this.currentBudget = Session.getMonthlyBudget1();
             this.spinnerBudgets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
@@ -72,12 +72,9 @@ public class ManageBudgetsActivity extends AppCompatActivity {
             ToastMessage("Add a budget first.");
             return;
         }
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
         this.currentBudget = this.monthlyBudgets.get(this.spinnerBudgets.getSelectedItemPosition());
-        bundle.putParcelable(ApplicationVariableStrings.MANAGE_BUDGET, this.currentBudget);
+        Session.setMonthlyBudget1(this.currentBudget);
         Intent intent = new Intent(v.getContext(), ManageBudgetActivity.class);
-        intent.putExtras(bundle);
         startActivity(intent);
     }
 

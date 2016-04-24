@@ -42,10 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         ToastMessage(this.user.getUserName() + " signed in");
         Session.setUser(this.user);
-        Bundle bundleUser = new Bundle();
-        //bundleUser.putParcelable(ApplicationVariableStrings.SESSION_USER, this.user);
         Intent intent = new Intent(v.getContext(), MainMenuActivity.class);
-        intent.putExtras(bundleUser);
         startActivity(intent);
     }
 

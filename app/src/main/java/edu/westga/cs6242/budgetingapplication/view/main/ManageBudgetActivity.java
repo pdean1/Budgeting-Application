@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
+import edu.westga.cs6242.budgetingapplication.model.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
-import edu.westga.cs6242.budgetingapplication.util.ApplicationVariableStrings;
 
 public class ManageBudgetActivity extends AppCompatActivity {
 
@@ -16,22 +16,22 @@ public class ManageBudgetActivity extends AppCompatActivity {
 
     private MonthlyBudget budget;
 
-    TextView titleLabel;
-    EditText descriptionLabel, dateLabel;
+    TextView titleLabel, descriptionLabel;
+    EditText dateLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_budget);
-        this.user = getIntent().getParcelableExtra(ApplicationVariableStrings.SESSION_USER);
-        this.budget = getIntent().getParcelableExtra(ApplicationVariableStrings.MANAGE_BUDGET);
+        this.user = Session.getUser();
+        this.budget = Session.getMonthlyBudget1();
         updateBudgetInformation();
         updateSessiontText();
     }
 
     private void updateBudgetInformation() {
         this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
-        this.descriptionLabel = (EditText) findViewById(R.id.etDescriptionLbl);
+        this.descriptionLabel = (TextView) findViewById(R.id.etDescriptionLbl);
         this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
         titleLabel.setText(this.budget.getTitle());
         descriptionLabel.setText(this.budget.getDescription());
