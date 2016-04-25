@@ -87,10 +87,7 @@ public class MainMenuActivity extends PortraitOnlyActivity {
         }
 
         if (this.cbIsRecurring.isChecked()) {
-            if (this.dbh.addRecurringBillsAndEarningsFromPreviousMonth(result, monthlyBudgetForRecurringAdd.getId())) {
-                ToastMessage("Budget Added with Recurring Fields!");
-                return;
-            } else {
+            if (!this.dbh.addRecurringBillsAndEarningsFromPreviousMonth(result, monthlyBudgetForRecurringAdd.getId())) {
                 ToastMessage("Budget Added, but unable to add recurring fields!");
                 return;
             }
