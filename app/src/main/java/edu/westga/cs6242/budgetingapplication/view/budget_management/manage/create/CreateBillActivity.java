@@ -77,7 +77,17 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             ToastMessage("Provide an amount please");
             return;
         }
-        bill.setDateDue(new Date());
+        try {
+            bill.setDateDue(Session.dateFormatMMddddyyyy.parse(this.etDateDue.getText().toString()));
+            if (this.cbIsPaid.isChecked()) {
+                bill.setDatePaid(Session.dateFormatMMddddyyyy.parse(this.etDateDue.getText().toString()));
+            } else {
+                bill.setDatePaid(new Date());
+            }
+        } catch (Exception e) {
+            ToastMessage("Provide a valid date");
+            return;
+        }
         bill.setDatePaid(new Date());
         bill.setIsRecurring(this.cbIsRecurring.isChecked());
         bill.setIsPaid(this.cbIsPaid.isChecked());

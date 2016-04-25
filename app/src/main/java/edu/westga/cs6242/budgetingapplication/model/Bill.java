@@ -32,7 +32,7 @@ public class Bill extends BaseBudgetRecord {
     @Override
     public String getInformation() {
         String paid = this.isPaid() ? "Paid" : "Not paid";
-        String recurring = this.isRecurring() ? "Is Recurring" : "Not Recurring";
+        String recurring = this.isRecurring() ? "Recurring" : "Not Recurring";
         return this.getTitle() + "\n" +
                 Session.numberFormat.format(this.getAmount()) + "\n" +
                 Session.dateFormatMMddddyyyy.format(this.getDateDue())  + "\n" +
