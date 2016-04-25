@@ -9,14 +9,15 @@ import android.widget.Toast;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
-import edu.westga.cs6242.budgetingapplication.model.session.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
+import edu.westga.cs6242.budgetingapplication.model.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.main_menu.MainMenuActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private BudgetDatabaseHandler dbh;
-    // This variable will be passed around the application like a hot potato
+    // This variable will be passed around the application like a
+    // hot potato
     private User user;
 
     private EditText inUserName;
@@ -57,16 +58,14 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         try {
             long a = this.dbh.addUser(this.user);
-            if (a == -1)
-            {
+            if (a == -1) {
                 ToastMessage("Add Failed: User " +
                         this.user.getUserName() + " already exists!");
                 return;
             }
             ToastMessage(this.user.getUserName() +
                     " Added: " + Long.toString(a));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ToastMessage("Add Failed");
         }
     }

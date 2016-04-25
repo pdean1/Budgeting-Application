@@ -2,6 +2,7 @@ package edu.westga.cs6242.budgetingapplication.model;
 
 /**
  * Represents a User Stored in the Database
+ *
  * @author Patrick Dean
  * @version 1
  */
@@ -19,6 +20,7 @@ public class User {
 
     /**
      * Creates a User with custom values
+     *
      * @param id       User's ID or 0
      * @param userName User's User Name
      * @param password User's Password

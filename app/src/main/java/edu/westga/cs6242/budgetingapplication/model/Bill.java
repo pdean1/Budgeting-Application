@@ -4,10 +4,12 @@ import java.util.Date;
 
 /**
  * Represents a Bill
+ *
  * @author Patrick Dean
  * @version 1
  */
 public class Bill {
+
     private int id;
     private String title;
     private double amount;

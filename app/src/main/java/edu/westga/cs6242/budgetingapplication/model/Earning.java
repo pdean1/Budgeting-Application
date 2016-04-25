@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Represents earnings
+ *
  * @author Patrick Dean
  * @version 1
  */

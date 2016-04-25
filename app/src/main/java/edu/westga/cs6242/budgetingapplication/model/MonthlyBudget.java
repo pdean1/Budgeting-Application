@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Represents a MonthlyBudget
+ *
  * @author Patrick Dean
  * @version 1
  */
@@ -19,7 +20,8 @@ public class MonthlyBudget {
         this(0, "", new Date(), new Date(), 0);
     }
 
-    public MonthlyBudget(int id, String title, Date dateCreated, Date dateUpdated, int userId) {
+    public MonthlyBudget(int id, String title, Date dateCreated,
+                         Date dateUpdated, int userId) {
         this.id = id;
         this.title = title;
         this.dateCreated = dateCreated;
@@ -77,7 +79,7 @@ public class MonthlyBudget {
 
     @Override
     public String toString() {
-        return Integer.toString(this.getId()) + " - " +  this.getTitle();
+        return Integer.toString(this.getId()) + " - " + this.getTitle();
     }
 
 }

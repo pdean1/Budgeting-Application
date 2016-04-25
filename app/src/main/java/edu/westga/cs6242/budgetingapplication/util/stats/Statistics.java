@@ -7,6 +7,7 @@ import edu.westga.cs6242.budgetingapplication.model.Earning;
 
 /**
  * Gives us useful statistics about this month's budget
+ *
  * @author Patrick Dean
  * @version 1
  */
@@ -18,7 +19,8 @@ public class Statistics {
     private int billCount;
     private int earningCount;
 
-    public Statistics(ArrayList<Bill> bills, ArrayList<Earning> earnings) {
+    public Statistics(ArrayList<Bill> bills,
+                      ArrayList<Earning> earnings) {
         this.bills = bills;
         this.earnings = earnings;
         this.billCount = bills.size();
