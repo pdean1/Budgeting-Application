@@ -19,7 +19,7 @@ import java.util.Locale;
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
-import edu.westga.cs6242.budgetingapplication.model.Session;
+import edu.westga.cs6242.budgetingapplication.model.session.Session;
 
 public class CreateBillActivity extends AppCompatActivity implements View.OnClickListener {
 

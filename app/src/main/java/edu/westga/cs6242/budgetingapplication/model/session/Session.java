@@ -1,4 +1,7 @@
-package edu.westga.cs6242.budgetingapplication.model;
+package edu.westga.cs6242.budgetingapplication.model.session;
+
+import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
+import edu.westga.cs6242.budgetingapplication.model.User;
 
 /**
  * Created by Patrick on 4/23/2016.

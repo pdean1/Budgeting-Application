@@ -23,7 +23,7 @@ import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
-import edu.westga.cs6242.budgetingapplication.model.Session;
+import edu.westga.cs6242.budgetingapplication.model.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateBillActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateEarningActivity;
 
@@ -92,15 +92,45 @@ public class ManageBudgetActivity extends AppCompatActivity {
     private ArrayList<Earning> earnings;
 
     private void updateList() {
-        this.bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
-        this.earnings = this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
-        this.billArrayAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bills);
-        this.earningArrayAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
-        this.lvBills.setAdapter(billArrayAdapter);
-        this.lvEarnings.setAdapter(earningArrayAdapter);
+        setUpListViews();
+        addOnClickListenerToBillsListView();
+        addOnClickListenerToEarningsListView();
+    }
 
+    private void addOnClickListenerToEarningsListView() {
+        this.lvEarnings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Earning earning = earnings.get(position);
+                ToastMessage(earning.getTitle());
+                final Dialog dialog = new Dialog(view.getContext());
+                dialog.setContentView(R.layout.dialog_earnings);
+                dialog.setTitle("View " + earning.getTitle());
+                TextView tvTitle = (TextView) dialog.findViewById(R.id.tvEarningTitle);
+                TextView tvAmount = (TextView) dialog.findViewById(R.id.tvEarningAmount);
+                TextView tvDateEarned = (TextView) dialog.findViewById(R.id.tvDateEarned);
+                TextView tvIsRecurring = (TextView) dialog.findViewById(R.id.tvIsRecurring);
+                Button btnDelete = (Button) dialog.findViewById(R.id.btnDeleteEarning);
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (dbh.deleteEarningById(earning.getId())) {
+                            ToastMessage("Deleted");
+                            dialog.hide();
+                            earningArrayAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+                tvTitle.setText(earning.getTitle());
+                tvAmount.setText(Double.toString(earning.getAmount()));
+                tvDateEarned.setText(earning.getDateEarned().toString());
+                tvIsRecurring.setText((earning.isRecurring()) ? "Recurring" : "Not Recurring");
+                dialog.show();
+            }
+        });
+    }
+
+    private void addOnClickListenerToBillsListView() {
         this.lvBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,38 +167,17 @@ public class ManageBudgetActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+    }
 
-        this.lvEarnings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Earning earning = earnings.get(position);
-                ToastMessage(earning.getTitle());
-                final Dialog dialog = new Dialog(view.getContext());
-                dialog.setContentView(R.layout.dialog_earnings);
-                dialog.setTitle("View " + earning.getTitle());
-                TextView tvTitle = (TextView) dialog.findViewById(R.id.tvEarningTitle);
-                TextView tvAmount = (TextView) dialog.findViewById(R.id.tvEarningAmount);
-                TextView tvDateEarned = (TextView) dialog.findViewById(R.id.tvDateEarned);
-                TextView tvIsRecurring = (TextView) dialog.findViewById(R.id.tvIsRecurring);
-                Button btnDelete = (Button) dialog.findViewById(R.id.btnDeleteEarning);
-                btnDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (dbh.deleteEarningById(earning.getId())) {
-                            ToastMessage("Deleted");
-                            dialog.hide();
-                            earningArrayAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
-                tvTitle.setText(earning.getTitle());
-                tvAmount.setText(Double.toString(earning.getAmount()));
-                tvDateEarned.setText(earning.getDateEarned().toString());
-                tvIsRecurring.setText((earning.isRecurring()) ? "Recurring" : "Not Recurring");
-                dialog.show();
-            }
-        });
-
+    private void setUpListViews() {
+        this.bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
+        this.earnings = this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
+        this.billArrayAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bills);
+        this.earningArrayAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
+        this.lvBills.setAdapter(billArrayAdapter);
+        this.lvEarnings.setAdapter(earningArrayAdapter);
     }
 
     private void getViewsById() {
@@ -189,16 +198,20 @@ public class ManageBudgetActivity extends AppCompatActivity {
     private void setUpTabs() {
         this.tabHost.setup();
 
-        TabHost.TabSpec spec = this.tabHost.newTabSpec("Bills Tab");
+        TabHost.TabSpec spec = this.tabHost.newTabSpec("Bills");
         spec.setContent(R.id.tabBills);
-        spec.setIndicator("Bills Tab");
+        spec.setIndicator("Bills");
         tabHost.addTab(spec);
 
-        spec = this.tabHost.newTabSpec("Earning Tab");
+        spec = this.tabHost.newTabSpec("Earnings");
         spec.setContent(R.id.tabEarnings);
-        spec.setIndicator("Earning Tab");
+        spec.setIndicator("Earnings");
         tabHost.addTab(spec);
 
+        spec = this.tabHost.newTabSpec("Statistics");
+        spec.setContent(R.id.tabStatistics);
+        spec.setIndicator("Statistics");
+        tabHost.addTab(spec);
     }
 
     private void createNewBill() {

@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
-import edu.westga.cs6242.budgetingapplication.model.Session;
+import edu.westga.cs6242.budgetingapplication.model.session.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.view.main_menu.MainMenuActivity;
 
