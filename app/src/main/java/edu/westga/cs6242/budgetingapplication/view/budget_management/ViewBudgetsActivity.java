@@ -17,6 +17,7 @@ import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
+import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.ManageBudgetActivity;
 
 /**
  * This activity allows users to view all of their budgets and give
