@@ -104,15 +104,44 @@ public class ManageBudgetActivity extends AppCompatActivity {
         this.lvBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bill bill = bills.get(position);
+                final Bill bill = bills.get(position);
                 ToastMessage(bill.getTitle());
+                final Dialog dialog = new Dialog(view.getContext());
+                dialog.setContentView(R.layout.dialog_bills);
+                dialog.setTitle("View " + bill.getTitle());
+                TextView tvBillTitle = (TextView) dialog.findViewById(R.id.tvBillTitle);
+                TextView tvBillAmount = (TextView) dialog.findViewById(R.id.tvBillAmount);
+                TextView tvDateDue = (TextView) dialog.findViewById(R.id.tvDateDue);
+                TextView tvBillDatePaid = (TextView) dialog.findViewById(R.id.tvBillDatePaid);
+                TextView tvBillIsRecurring = (TextView) dialog.findViewById(R.id.tvBillIsRecurring);
+                TextView tvBillIsPaid = (TextView) dialog.findViewById(R.id.tvBillIsPaid);
+                TextView btnDelete = (TextView) dialog.findViewById(R.id.btnDeleteBill);
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (dbh.deleteBillById(bill.getId())) {
+                            bills.remove(bill);
+                            billArrayAdapter.notifyDataSetChanged();
+                            ToastMessage("Deleted");
+                        }
+                        dialog.hide();
+
+                    }
+                });
+                tvBillTitle.setText(bill.getTitle());
+                tvBillAmount.setText(Double.toString(bill.getAmount()));
+                tvDateDue.setText(bill.getDateDue().toString());
+                tvBillDatePaid.setText(bill.getDatePaid().toString());
+                tvBillIsRecurring.setText((bill.isRecurring()) ? "Recurring" : "Not Recurring");
+                tvBillIsPaid.setText((bill.isRecurring()) ? "Paid" : "Not Paid");
+                dialog.show();
             }
         });
 
         this.lvEarnings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Earning earning = earnings.get(position);
+                final Earning earning = earnings.get(position);
                 ToastMessage(earning.getTitle());
                 final Dialog dialog = new Dialog(view.getContext());
                 dialog.setContentView(R.layout.dialog_earnings);
@@ -122,6 +151,16 @@ public class ManageBudgetActivity extends AppCompatActivity {
                 TextView tvDateEarned = (TextView) dialog.findViewById(R.id.tvDateEarned);
                 TextView tvIsRecurring = (TextView) dialog.findViewById(R.id.tvIsRecurring);
                 Button btnDelete = (Button) dialog.findViewById(R.id.btnDeleteEarning);
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (dbh.deleteEarningById(earning.getId())) {
+                            ToastMessage("Deleted");
+                            dialog.hide();
+                            earningArrayAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
                 tvTitle.setText(earning.getTitle());
                 tvAmount.setText(Double.toString(earning.getAmount()));
                 tvDateEarned.setText(earning.getDateEarned().toString());

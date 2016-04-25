@@ -225,6 +225,13 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return result != 0;
     }
 
+    public boolean deleteBillById(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(BudgetDatabase.Bills.TABLE_NAME,
+                BudgetDatabase.Bills.C1_PK_ID + " = " + id, null);
+        return result != 0;
+    }
+
     public Cursor getCursorOfBillsById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String strQuery = "SELECT * FROM " + BudgetDatabase.Bills.TABLE_NAME +
@@ -338,5 +345,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return db.delete(BudgetDatabase.Earnings.TABLE_NAME,
                 BudgetDatabase.Earnings.C6_FK1_BUDGET_ID +
                 " = " + id, null) != 0;
+    }
+
+    public boolean deleteEarningById(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(BudgetDatabase.Earnings.TABLE_NAME,
+                BudgetDatabase.Earnings.C1_PK_ID + " = " + id, null);
+        return result != 0;
     }
 }
