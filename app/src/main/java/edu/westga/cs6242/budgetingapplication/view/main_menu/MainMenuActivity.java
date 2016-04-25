@@ -1,9 +1,11 @@
 package edu.westga.cs6242.budgetingapplication.view.main_menu;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.ViewBudgetsActivity;
+import edu.westga.cs6242.budgetingapplication.view.fragments.dialog.PickMonthAndYearDialog;
 
 /**
  * Main Menu Java Class. This class allows a user to add a budget
@@ -25,13 +28,16 @@ import edu.westga.cs6242.budgetingapplication.view.budget_management.ViewBudgets
  * @author Patrick Dean
  * @version 1
  */
-public class MainMenuActivity extends PortraitOnlyActivity {
+public class MainMenuActivity extends PortraitOnlyActivity implements View.OnClickListener {
 
     private BudgetDatabaseHandler dbh;
+
     private EditText etBudgetTitle;
-    private TextView txtSessionInfo;
+    private TextView txtSessionInfo, tvSelectMonth;
     private EditText etBudgetDescription;
     private CheckBox cbIsRecurring;
+
+    private PickMonthAndYearDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,22 @@ public class MainMenuActivity extends PortraitOnlyActivity {
         this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
         this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
         this.cbIsRecurring = (CheckBox) findViewById(R.id.cbRecurringBillsAndEarnings);
+        this.tvSelectMonth = (TextView) findViewById(R.id.tvSelectMonth);
+        this.tvSelectMonth.setOnClickListener(this);
+        Calendar calendar = Calendar.getInstance();
+        this.dialog = new PickMonthAndYearDialog();
+        this.dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                try {
+                    Date date = Session.dateFormatMMddddyyyy.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
+                    tvSelectMonth.setText(Session.dateFormatMMddddyyyy.format(date));
+                } catch (Exception e) {
+                    tvSelectMonth.setText("Error");
+                }
 
+            }
+        });
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
         updateSessiontText();
     }
@@ -101,5 +122,16 @@ public class MainMenuActivity extends PortraitOnlyActivity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        if (v == this.tvSelectMonth)
+            dialog.show(getFragmentManager(), "Pick month for Budget");
     }
 }

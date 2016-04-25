@@ -91,10 +91,10 @@
         android:id="@+id/button"
         android:onClick="btnAddBudget_Click"
         android:layout_below="@+id/cbRecurringBillsAndEarnings"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/cbRecurringBillsAndEarnings"
+        android:layout_alignEnd="@+id/cbRecurringBillsAndEarnings"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,8 +111,20 @@
         android:layout_height="wrap_content"
         android:text="@string/txt_recurring"
         android:id="@+id/cbRecurringBillsAndEarnings"
-        android:layout_below="@+id/etDescription"
+        android:checked="false"
+        android:layout_below="@+id/tvSelectMonth"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:checked="false" />
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/txt_select_a_month"
+        android:id="@+id/tvSelectMonth"
+        android:layout_below="@+id/etDescription"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 </RelativeLayout>

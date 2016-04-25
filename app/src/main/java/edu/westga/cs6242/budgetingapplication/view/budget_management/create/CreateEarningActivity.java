@@ -10,9 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
@@ -27,8 +25,6 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
     private CheckBox cbIsRecurring;
 
     private DatePickerDialog datePickerDialogDateEarned;
-
-    private SimpleDateFormat dateFormat;
 
     private BudgetDatabaseHandler dbh;
 
@@ -60,7 +56,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             earning.setTitle(this.etTitle.getText().toString());
             earning.setAmount(Double.parseDouble(this.etAmonut.getText().toString()));
             try {
-                earning.setDateEarned(dateFormat.parse(this.tvDateEarned.getText().toString()));
+                earning.setDateEarned(Session.dateFormatMMddddyyyy.parse(this.tvDateEarned.getText().toString()));
             } catch (ParseException parseException) {
                 earning.setDateEarned(Calendar.getInstance().getTime());
             }
@@ -85,7 +81,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             return false;
         }
         try {
-            dateFormat.parse(this.tvDateEarned.getText().toString());
+            Session.dateFormatMMddddyyyy.parse(this.tvDateEarned.getText().toString());
         } catch (Exception e) {
             ToastMessage("Invalid Date");
             return false;
@@ -105,7 +101,6 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
     }
 
     private void setUpDatePicker() {
-        this.dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         this.tvDateEarned.setOnClickListener(this);
         Calendar calendar = Calendar.getInstance();
         this.datePickerDialogDateEarned = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {

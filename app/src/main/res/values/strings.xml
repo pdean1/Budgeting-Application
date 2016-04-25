@@ -25,7 +25,8 @@
     <string name="txt_manage_a_budget">Manage Budget</string>
     <string name="txt_description_lbl">Description</string>
     <string name="txt_title_lbl">Budget Title</string>
-
+    <string name="txt_set_date">Set Date</string>
+    <string name="txt_cancel">Cancel</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_recurring">Use Recurring Fields</string>
@@ -42,4 +43,5 @@
     <string name="txt_add_earning">Add Earning</string>
     <string name="txt_delete_earning">Delete Earning</string>
     <string name="txt_delete_bill">Delete Bill</string>
+    <string name="txt_select_a_month">Select a Month</string>
 </resources>
