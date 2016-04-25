@@ -1,12 +1,16 @@
 package edu.westga.cs6242.budgetingapplication.view.budget_management.manage;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -84,16 +88,48 @@ public class ManageBudgetActivity extends AppCompatActivity {
         dateLabel.setText(Session.getMonthlyBudget1().getDateCreated().toString());
     }
 
+    private ArrayList<Bill> bills;
+    private ArrayList<Earning> earnings;
+
     private void updateList() {
-        ArrayList<Bill> bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
-        ArrayList<Earning> earnings =
-                this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
+        this.bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
+        this.earnings = this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
         this.billArrayAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bills);
         this.earningArrayAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
         this.lvBills.setAdapter(billArrayAdapter);
         this.lvEarnings.setAdapter(earningArrayAdapter);
+
+        this.lvBills.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bill bill = bills.get(position);
+                ToastMessage(bill.getTitle());
+            }
+        });
+
+        this.lvEarnings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Earning earning = earnings.get(position);
+                ToastMessage(earning.getTitle());
+                final Dialog dialog = new Dialog(view.getContext());
+                dialog.setContentView(R.layout.dialog_earnings);
+                dialog.setTitle("View " + earning.getTitle());
+                TextView tvTitle = (TextView) dialog.findViewById(R.id.tvEarningTitle);
+                TextView tvAmount = (TextView) dialog.findViewById(R.id.tvEarningAmount);
+                TextView tvDateEarned = (TextView) dialog.findViewById(R.id.tvDateEarned);
+                TextView tvIsRecurring = (TextView) dialog.findViewById(R.id.tvIsRecurring);
+                Button btnDelete = (Button) dialog.findViewById(R.id.btnDeleteEarning);
+                tvTitle.setText(earning.getTitle());
+                tvAmount.setText(Double.toString(earning.getAmount()));
+                tvDateEarned.setText(earning.getDateEarned().toString());
+                tvIsRecurring.setText((earning.isRecurring()) ? "Recurring" : "Not Recurring");
+                dialog.show();
+            }
+        });
+
     }
 
     private void getViewsById() {
