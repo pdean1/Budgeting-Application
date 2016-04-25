@@ -1,5 +1,8 @@
 package edu.westga.cs6242.budgetingapplication.model.session;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.User;
 
@@ -25,6 +28,15 @@ public class Session {
      */
     private static MonthlyBudget budget_1 = new MonthlyBudget();
     private static MonthlyBudget budget_2 = new MonthlyBudget();
+
+    public static NumberFormat numberFormat = NumberFormat
+            .getCurrencyInstance();
+
+    public static SimpleDateFormat dateFormatMMMyyy = new
+            SimpleDateFormat("MMM yyyy");
+
+    public static SimpleDateFormat dateFormatmmsDDsyyy = new
+            SimpleDateFormat("mm/DD/yyy");
 
     /**
      * Returns the session's instance to the caller
