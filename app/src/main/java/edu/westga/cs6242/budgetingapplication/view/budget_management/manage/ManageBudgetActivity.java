@@ -116,6 +116,7 @@ public class ManageBudgetActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (dbh.deleteEarningById(earning.getId())) {
                             ToastMessage("Deleted");
+                            earnings.remove(earning);
                             dialog.hide();
                             earningArrayAdapter.notifyDataSetChanged();
                         }
