@@ -1,4 +1,4 @@
-package edu.westga.cs6242.budgetingapplication.model.session;
+package edu.westga.cs6242.budgetingapplication.util.session;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;

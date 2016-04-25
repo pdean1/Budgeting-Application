@@ -17,7 +17,7 @@ import java.util.Locale;
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
-import edu.westga.cs6242.budgetingapplication.model.session.Session;
+import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 
 public class CreateEarningActivity extends PortraitOnlyActivity implements View.OnClickListener {

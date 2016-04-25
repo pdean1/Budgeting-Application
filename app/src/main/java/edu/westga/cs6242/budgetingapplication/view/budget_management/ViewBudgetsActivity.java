@@ -15,7 +15,7 @@ import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.User;
-import edu.westga.cs6242.budgetingapplication.model.session.Session;
+import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.ManageBudgetActivity;
 

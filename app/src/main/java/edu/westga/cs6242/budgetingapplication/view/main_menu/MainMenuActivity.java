@@ -14,7 +14,7 @@ import java.util.Date;
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
-import edu.westga.cs6242.budgetingapplication.model.session.Session;
+import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.ViewBudgetsActivity;
 
@@ -65,6 +65,7 @@ public class MainMenuActivity extends PortraitOnlyActivity {
             ToastMessage("Please provide a proper title and description!");
             return;
         }
+
         MonthlyBudget monthlyBudgetForRecurringAdd = new MonthlyBudget();
         if (this.cbIsRecurring.isChecked()) {
             // if the is recurring check box is checked... set the monthly budget 2 session variable
@@ -98,8 +99,7 @@ public class MainMenuActivity extends PortraitOnlyActivity {
 
     private void ToastMessage(String text) {
         int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(getApplicationContext(), text,
-                duration);
+        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
     }
 }

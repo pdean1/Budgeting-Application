@@ -22,7 +22,7 @@ import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
-import edu.westga.cs6242.budgetingapplication.model.session.Session;
+import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateBillActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateEarningActivity;
