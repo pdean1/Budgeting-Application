@@ -22,9 +22,7 @@ public class Earning {
         this(0, "", 0.0, new Date(), false, 0);
     }
 
-    public Earning(int id, String title, double amount,
-                   Date dateEarned, boolean isRecurring,
-                   int budgetId) {
+    public Earning(int id, String title, double amount, Date dateEarned, boolean isRecurring, int budgetId) {
         this.id = id;
         this.title = title;
         this.amount = amount;
@@ -84,9 +82,6 @@ public class Earning {
     @Override
     public String toString() {
         String recurring = this.isRecurring() ? "Recurring" : "Not recurring";
-        return this.getTitle() + "\n" +
-                this.getAmount() + "\n" +
-                this.getDateEarned() + "\n" +
-                recurring;
+        return this.getTitle() + "\n" + this.getAmount() + "\n" + this.getDateEarned() + "\n" + recurring;
     }
 }

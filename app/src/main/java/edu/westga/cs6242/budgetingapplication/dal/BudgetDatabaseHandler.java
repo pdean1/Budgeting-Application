@@ -29,7 +29,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
 
 
     /**
-     *
      * @param context
      * @param cursorFactory
      */
@@ -80,7 +79,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      **********************************************************************************************/
 
     /**
-     *
      * @param userName
      * @return
      */
@@ -109,7 +107,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param user
      * @return
      */
@@ -124,7 +121,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param user
      * @return
      */
@@ -139,7 +135,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param user
      */
     public void updateUser(User user) {
@@ -170,7 +165,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      **********************************************************************************************/
 
     /**
-     *
      * @param id
      * @return
      */
@@ -202,7 +196,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -231,7 +224,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param budget
      * @return
      */
@@ -255,7 +247,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param monthlyBudget
      * @return
      */
@@ -270,7 +261,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -282,7 +272,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -299,8 +288,8 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return null;
     }
 
+
     /**
-     *
      * @param id
      * @return
      */
@@ -331,15 +320,88 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param id
      * @return
      */
     public ArrayList<Earning> getEarningsByBudgetId(int id) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyy", Locale.US);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyyy", Locale.US);
         SQLiteDatabase db = this.getReadableDatabase();
         String strQuery = "SELECT * FROM " + BudgetDatabase.Earnings.TABLE_NAME +
                 " WHERE " + BudgetDatabase.Earnings.C6_FK1_BUDGET_ID + " = " + id;
+        ArrayList<Earning> earnings = new ArrayList<>();
+        Cursor cursor = db.rawQuery(strQuery, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                Earning earning = new Earning();
+                earning.setId(cursor.getInt(0));
+                earning.setTitle(cursor.getString(1));
+                earning.setAmount(cursor.getDouble(2));
+                try {
+                    earning.setDateEarned(dateFormat.parse(new Date(cursor.getLong(3)).toString()));
+                } catch (Exception e) {
+
+                }
+                earning.setIsRecurring(cursor.getInt(4) == 1);
+                earning.setBudgetId(cursor.getInt(5));
+                earnings.add(earning);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+        return earnings;
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    public ArrayList<Bill> getBillsByBudgetIdThatAreRecurring(int id) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyyy", Locale.US);
+        SQLiteDatabase db = this.getReadableDatabase();
+        String strQuery = "SELECT * FROM " + BudgetDatabase.Bills.TABLE_NAME +
+                " WHERE " + BudgetDatabase.Bills.C8_FK1_BUDGET_ID + " = " + id + " AND " + BudgetDatabase.Bills
+                .C7_IS_RECURRING + " = 1";
+        ArrayList<Bill> bills = new ArrayList<>();
+        Cursor cursor = db.rawQuery(strQuery, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                Bill bill = new Bill();
+                bill.setId(cursor.getInt(0));
+                bill.setTitle(cursor.getString(1));
+                bill.setAmount(cursor.getDouble(2));
+                try {
+                    bill.setDateDue(dateFormat.parse(new Date(cursor.getLong(3)).toString()));
+                } catch(Exception e) {
+
+                }
+                try {
+                    bill.setDatePaid(dateFormat.parse(new Date(cursor.getLong(4)).toString()));
+                } catch (Exception e) {
+
+                }
+                bill.setIsPaid(cursor.getInt(5) == 1);
+                bill.setIsRecurring(cursor.getInt(6) == 1);
+                bill.setBudgetId(cursor.getInt(7));
+                bills.add(bill);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+        return bills;
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    public ArrayList<Earning> getEarningsByBudgetIdThatAreRecurring(int id) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyyy", Locale.US);
+        SQLiteDatabase db = this.getReadableDatabase();
+        String strQuery = "SELECT * FROM " + BudgetDatabase.Earnings.TABLE_NAME +
+                " WHERE " + BudgetDatabase.Earnings.C6_FK1_BUDGET_ID + " = " + id + " AND " +
+                BudgetDatabase.Earnings.C5_IS_RECURRING + " = 1";
         ArrayList<Earning> earnings = new ArrayList<>();
         Cursor cursor = db.rawQuery(strQuery, null);
         if (cursor.moveToFirst()) {
@@ -415,7 +477,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @param db
      * @param id
      * @return
@@ -428,6 +489,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     /**
      * Used by delete monthly budget query... deletes all earnings
      * associated with a budget
+     *
      * @param db database to use
      * @param id id of the budget to filter by
      * @return true if deleted false otherwise
@@ -450,5 +512,44 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         int result = db.delete(BudgetDatabase.Earnings.TABLE_NAME,
                 BudgetDatabase.Earnings.C1_PK_ID + " = " + id, null);
         return result != 0;
+    }
+
+    public MonthlyBudget getLastMonthlyBudgetAddedByUser(int id) {
+        MonthlyBudget budget = new MonthlyBudget();
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME + " WHERE " + BudgetDatabase
+                .MonthlyBudget.C6_FK1_USER_ID + " = " + id;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToLast()) {
+            budget.setId(cursor.getInt(0));
+            budget.setTitle(cursor.getString(1));
+            budget.setDescription(cursor.getString(2));
+            budget.setDateCreated(new Date(cursor.getLong(3)));
+            budget.setDateUpdated(new Date(cursor.getLong(4)));
+            budget.setUserId(cursor.getInt(5));
+        } else {
+            return null;
+        }
+        return budget;
+    }
+
+    public boolean addRecurringBillsAndEarningsFromPreviousMonth(long newId, int id) {
+        Boolean ret = true;
+        ArrayList<Bill> bills = this.getBillsByBudgetIdThatAreRecurring(id);
+        ArrayList<Earning> earnings = this.getEarningsByBudgetIdThatAreRecurring(id);
+        for (Bill b : bills) {
+            b.setBudgetId((int)newId);
+            long result = this.addBill(b);
+            if (result == -1 && ret) {
+                ret = false;
+            }
+        }
+        for (Earning e : earnings) {
+            e.setBudgetId((int)newId);
+            long result = this.addEarning(e);
+            if (result == -1 && ret)
+                ret = false;
+        }
+        return true;
     }
 }

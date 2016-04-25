@@ -35,8 +35,8 @@ public class Session {
     public static SimpleDateFormat dateFormatMMMyyy = new
             SimpleDateFormat("MMM yyyy");
 
-    public static SimpleDateFormat dateFormatmmsDDsyyy = new
-            SimpleDateFormat("mm/DD/yyy");
+    public static SimpleDateFormat dateFormatMMddddyyyy = new
+            SimpleDateFormat("MM-dd-yyyy");
 
     /**
      * Returns the session's instance to the caller

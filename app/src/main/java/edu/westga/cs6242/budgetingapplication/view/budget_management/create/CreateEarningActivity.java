@@ -105,7 +105,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
     }
 
     private void setUpDatePicker() {
-        this.dateFormat = new SimpleDateFormat("dd-MM-yyy", Locale.US);
+        this.dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         this.tvDateEarned.setOnClickListener(this);
         Calendar calendar = Calendar.getInstance();
         this.datePickerDialogDateEarned = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -113,7 +113,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvDateEarned.setText(dateFormat.format(newDate.getTime()));
+                tvDateEarned.setText(Session.dateFormatMMddddyyyy.format(newDate.getTime()));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
