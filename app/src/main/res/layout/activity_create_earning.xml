@@ -38,7 +38,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:inputType="textCapWords" />
+        android:inputType="textCapWords"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,7 +62,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/etEarningTitle"
-        android:layout_alignEnd="@+id/etEarningTitle" />
+        android:layout_alignEnd="@+id/etEarningTitle"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,31 +84,33 @@
         android:id="@+id/tvDateEarned"
         android:layout_below="@+id/textView11"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txt_is_recurring"
         android:id="@+id/cbIsRecurring"
+        android:checked="false"
         android:layout_below="@+id/tvDateEarned"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="17dp"
-        android:checked="false" />
+        android:layout_alignRight="@+id/etEarningAmount"
+        android:layout_alignEnd="@+id/etEarningAmount"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txt_add_earnings"
         android:id="@+id/btnAddEarning"
+        android:onClick="btnAddEarning_Click"
         android:layout_below="@+id/cbIsRecurring"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="btnAddEarning_Click" />
+        android:layout_alignRight="@+id/cbIsRecurring"
+        android:layout_alignEnd="@+id/cbIsRecurring" />
 
     <TextView
         android:layout_width="wrap_content"
