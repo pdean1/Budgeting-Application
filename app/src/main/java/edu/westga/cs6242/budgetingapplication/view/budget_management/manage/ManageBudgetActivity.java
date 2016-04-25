@@ -3,7 +3,6 @@ package edu.westga.cs6242.budgetingapplication.view.budget_management.manage;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,10 +23,11 @@ import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
 import edu.westga.cs6242.budgetingapplication.model.session.Session;
+import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateBillActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateEarningActivity;
 
-public class ManageBudgetActivity extends AppCompatActivity {
+public class ManageBudgetActivity extends PortraitOnlyActivity {
 
     private BudgetDatabaseHandler dbh;
     private ArrayAdapter<Bill> billArrayAdapter;

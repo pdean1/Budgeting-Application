@@ -2,7 +2,6 @@ package edu.westga.cs6242.budgetingapplication.view.budget_management;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,8 +14,9 @@ import java.util.ArrayList;
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
-import edu.westga.cs6242.budgetingapplication.model.session.Session;
 import edu.westga.cs6242.budgetingapplication.model.User;
+import edu.westga.cs6242.budgetingapplication.model.session.Session;
+import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.ManageBudgetActivity;
 
 /**
@@ -25,7 +25,7 @@ import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.Mana
  * @author Patrick Dean
  * @version 1
  */
-public class ViewBudgetsActivity extends AppCompatActivity {
+public class ViewBudgetsActivity extends PortraitOnlyActivity {
 
     private Spinner spinnerBudgets;
     private TextView lblTitle, lblDescription, lblDateCreated;

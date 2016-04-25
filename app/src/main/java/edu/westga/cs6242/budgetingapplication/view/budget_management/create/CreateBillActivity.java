@@ -3,7 +3,6 @@ package edu.westga.cs6242.budgetingapplication.view.budget_management.create;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -20,8 +19,9 @@ import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.session.Session;
+import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 
-public class CreateBillActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreateBillActivity extends PortraitOnlyActivity implements View.OnClickListener {
 
     private EditText etTitle, etAmount;
     private TextView etDateDue;
