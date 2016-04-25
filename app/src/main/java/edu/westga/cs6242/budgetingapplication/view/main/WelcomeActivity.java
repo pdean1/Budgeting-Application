@@ -1,6 +1,7 @@
 package edu.westga.cs6242.budgetingapplication.view.main;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,6 +28,12 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        initInstanceVariables();
+
+    }
+
+    private void initInstanceVariables() {
         this.dbh = new BudgetDatabaseHandler(this, null);
         this.inUserName = (EditText) findViewById(R.id.etUserName);
         this.inPassword = (EditText) findViewById(R.id.etPassword);
