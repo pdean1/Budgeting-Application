@@ -40,7 +40,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:inputType="textCapWords" />
+        android:inputType="textCapWords"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,7 +64,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/etBillTitle"
-        android:layout_alignEnd="@+id/etBillTitle" />
+        android:layout_alignEnd="@+id/etBillTitle"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -86,7 +90,9 @@
         android:layout_alignRight="@+id/etBillAmount"
         android:layout_alignEnd="@+id/etBillAmount"
         android:text="@string/txt_select_a_date"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
 
     <CheckBox
         android:layout_width="wrap_content"

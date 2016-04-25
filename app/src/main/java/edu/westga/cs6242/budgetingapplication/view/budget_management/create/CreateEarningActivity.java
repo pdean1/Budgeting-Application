@@ -86,8 +86,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
         }
         try {
             dateFormat.parse(this.tvDateEarned.getText().toString());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ToastMessage("Invalid Date");
             return false;
         }
