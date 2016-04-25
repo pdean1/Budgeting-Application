@@ -1,4 +1,4 @@
-package edu.westga.cs6242.budgetingapplication.view.budget_management;
+package edu.westga.cs6242.budgetingapplication.view.budget_management.create;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;

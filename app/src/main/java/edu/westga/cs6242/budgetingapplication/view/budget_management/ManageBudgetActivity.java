@@ -20,6 +20,8 @@ import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
 import edu.westga.cs6242.budgetingapplication.model.Session;
+import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateBillActivity;
+import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateEarningActivity;
 
 public class ManageBudgetActivity extends AppCompatActivity {
 
