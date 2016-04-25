@@ -2,15 +2,15 @@ package edu.westga.cs6242.budgetingapplication.model;
 
 import java.util.Date;
 
+import edu.westga.cs6242.budgetingapplication.model.base_classes.BaseRecord;
+
 /**
  * Represents a MonthlyBudget
  *
  * @author Patrick Dean
  * @version 1
  */
-public class MonthlyBudget {
-    private int id;
-    private String title;
+public class MonthlyBudget extends BaseRecord {
     private String description;
     private Date dateCreated;
     private Date dateUpdated;
@@ -20,29 +20,16 @@ public class MonthlyBudget {
         this(0, "", new Date(), new Date(), 0);
     }
 
-    public MonthlyBudget(int id, String title, Date dateCreated,
-                         Date dateUpdated, int userId) {
-        this.id = id;
-        this.title = title;
+    public MonthlyBudget(int id, String title, Date dateCreated, Date dateUpdated, int userId) {
+        super(id, title);
         this.dateCreated = dateCreated;
         this.dateUpdated = dateUpdated;
         this.userId = userId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    @Override
+    public String getInformation() {
+        return "Not Implemented";
     }
 
     public String getDescription() {
