@@ -24,8 +24,8 @@ import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
 import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
-import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateBillActivity;
-import edu.westga.cs6242.budgetingapplication.view.budget_management.create.CreateEarningActivity;
+import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.create.CreateBillActivity;
+import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.create.CreateEarningActivity;
 
 public class ManageBudgetActivity extends PortraitOnlyActivity {
 

@@ -18,8 +18,8 @@
         <activity android:name=".view.main_menu.MainMenuActivity" />
         <activity android:name=".view.budget_management.ViewBudgetsActivity" />
         <activity android:name=".view.budget_management.manage.ManageBudgetActivity" />
-        <activity android:name=".view.budget_management.create.CreateBillActivity" />
-        <activity android:name=".view.budget_management.create.CreateEarningActivity"/>
+        <activity android:name=".view.budget_management.manage.create.CreateBillActivity" />
+        <activity android:name=".view.budget_management.manage.create.CreateEarningActivity"/>
     </application>
 
 </manifest>
