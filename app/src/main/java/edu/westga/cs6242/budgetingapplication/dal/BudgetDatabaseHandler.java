@@ -514,6 +514,11 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return result != 0;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public MonthlyBudget getLastMonthlyBudgetAddedByUser(int id) {
         MonthlyBudget budget = new MonthlyBudget();
         SQLiteDatabase db = getReadableDatabase();
@@ -533,6 +538,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return budget;
     }
 
+    /**
+     *
+     * @param newId
+     * @param id
+     * @return
+     */
     public boolean addRecurringBillsAndEarningsFromPreviousMonth(long newId, int id) {
         Boolean ret = true;
         ArrayList<Bill> bills = this.getBillsByBudgetIdThatAreRecurring(id);
