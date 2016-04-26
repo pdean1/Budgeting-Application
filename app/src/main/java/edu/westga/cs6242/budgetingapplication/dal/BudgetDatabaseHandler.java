@@ -7,17 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.database.BudgetDatabase;
-import edu.westga.cs6242.budgetingapplication.util.session.Session;
 
 /**
  * Database handler for the Budget Database.
@@ -28,8 +24,8 @@ import edu.westga.cs6242.budgetingapplication.util.session.Session;
 public class BudgetDatabaseHandler extends SQLiteOpenHelper {
 
     // To call simply pass getApplicationContext, null
-    public BudgetDatabaseHandler(Context context, SQLiteDatabase.CursorFactory cursorFactory) {
-        super(context, BudgetDatabase.DATABASE_NAME, cursorFactory,
+    public BudgetDatabaseHandler(Context context) {
+        super(context, BudgetDatabase.DATABASE_NAME, null,
                 BudgetDatabase.DATABASE_VERSION);
     }
 
@@ -146,16 +142,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
             monthlyBudget.setId(cursor.getInt(0));
             monthlyBudget.setTitle(cursor.getString(1));
             monthlyBudget.setDescription(cursor.getString(2));
-            try {
-                monthlyBudget.setDateCreated(Session.dateFormatDatabase.parse(cursor.getString(3)));
-            } catch (ParseException ex) {
-                Log.d("W", "Unable to parse: " + cursor.getString(3));
-            }
-            try {
-                monthlyBudget.setDateUpdated(Session.dateFormatDatabase.parse(cursor.getString(4)));
-            } catch (ParseException ex) {
-                Log.d("W", "Unable to parse: " + cursor.getString(4));
-            }
+            monthlyBudget.setDateCreated(cursor.getString(3));
+            Log.d("I", "Date Created: " + cursor.getString(3));
+            monthlyBudget.setDateUpdated(cursor.getString(4));
+            Log.d("I", "Date Updated: " + cursor.getString(4));
             monthlyBudget.setUserId(cursor.getInt(5));
         } else {
             monthlyBudget = null; // No budget found
@@ -187,13 +177,8 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 budget.setId(cursor.getInt(0));
                 budget.setTitle(cursor.getString(1));
                 budget.setDescription(cursor.getString(2));
-                // TODO still a problem???
-                try {
-                    budget.setDateCreated(Session.dateFormatDatabase.parse(cursor.getString(3)));
-                    budget.setDateUpdated(Session.dateFormatDatabase.parse(cursor.getString(4)));
-                } catch (Exception e) {
-                    Log.d("E", e.getMessage());
-                }
+                budget.setDateCreated(cursor.getString(3));
+                budget.setDateUpdated(cursor.getString(4));
                 budget.setUserId(cursor.getInt(5));
 
                 budgets.add(budget);
@@ -220,8 +205,8 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
 
         values.put(BudgetDatabase.MonthlyBudget.C2_TITLE, budget.getTitle());
         values.put(BudgetDatabase.MonthlyBudget.C3_DESCRIPTION, budget.getDescription());
-        values.put(BudgetDatabase.MonthlyBudget.C4_DATE_CREATED, budget.getDateCreated().toString());
-        values.put(BudgetDatabase.MonthlyBudget.C5_DATE_UPDATED, budget.getDateUpdated().toString());
+        values.put(BudgetDatabase.MonthlyBudget.C4_DATE_CREATED, budget.getDateCreated());
+        values.put(BudgetDatabase.MonthlyBudget.C5_DATE_UPDATED, budget.getDateUpdated());
         values.put(BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID, budget.getUserId());
 
         long id = db.insert(BudgetDatabase.MonthlyBudget.TABLE_NAME, null, values);
@@ -280,16 +265,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 bill.setId(cursor.getInt(0));
                 bill.setTitle(cursor.getString(1));
                 bill.setAmount(cursor.getDouble(2));
-                try {
-                    bill.setDateDue(Session.dateFormatDatabase.parse(cursor.getString(3)));
-                } catch (Exception e) {
-                    Log.d("W", "Unable to parse date: " + cursor.getString(3));
-                }
-                try {
-                    bill.setDatePaid(Session.dateFormatDatabase.parse(cursor.getString(4)));
-                } catch (Exception e) {
-                    Log.d("W", "Unable to parse date: " + cursor.getString(4));
-                }
+                bill.setDateDue(cursor.getString(3));
+                Log.d("W", "Unable to parse date: " + cursor.getString(3));
+                bill.setDatePaid(cursor.getString(4));
+                Log.d("W", "Unable to parse date: " + cursor.getString(4));
                 bill.setIsPaid(cursor.getInt(5) == 1);
                 bill.setIsRecurring(cursor.getInt(6) == 1);
                 bill.setBudgetId(cursor.getInt(7));
@@ -323,7 +302,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 earning.setTitle(cursor.getString(1));
                 earning.setAmount(cursor.getDouble(2));
                 try {
-                    earning.setDateEarned(Session.dateFormatDatabase.parse(cursor.getString(3)));
+                    earning.setDateEarned(cursor.getString(3));
                 } catch (Exception e) {
                     Log.d("E", "getEarningsByBudgetId: " + e.getMessage());
                 }
@@ -345,7 +324,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      * @return a list of budgets
      */
     public ArrayList<Bill> getBillsByBudgetIdThatAreRecurring(int id) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyyy", Locale.US);
         SQLiteDatabase db = this.getReadableDatabase();
         String strQuery = "SELECT * FROM " + BudgetDatabase.Bills.TABLE_NAME +
                 " WHERE " + BudgetDatabase.Bills.C8_FK1_BUDGET_ID + " = " + id + " AND " + BudgetDatabase.Bills
@@ -359,12 +337,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 bill.setTitle(cursor.getString(1));
                 bill.setAmount(cursor.getDouble(2));
                 try {
-                    bill.setDateDue(dateFormat.parse(cursor.getString(3)));
+                    bill.setDateDue(cursor.getString(3));
                 } catch (Exception e) {
                     Log.d("E", "getBillsByBudgetIdThatAreRecurring: " + e.getMessage());
                 }
                 try {
-                    bill.setDatePaid(dateFormat.parse(cursor.getString(4)));
+                    bill.setDatePaid(cursor.getString(4));
                 } catch (Exception e) {
                     Log.d("E", "getBillsByBudgetIdThatAreRecurring: " + e.getMessage());
                 }
@@ -387,7 +365,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      * @return a list of earnings
      */
     public ArrayList<Earning> getEarningsByBudgetIdThatAreRecurring(int id) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyyy", Locale.US);
         SQLiteDatabase db = this.getReadableDatabase();
         String strQuery = "SELECT * FROM " + BudgetDatabase.Earnings.TABLE_NAME +
                 " WHERE " + BudgetDatabase.Earnings.C6_FK1_BUDGET_ID + " = " + id + " AND " +
@@ -401,7 +378,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 earning.setTitle(cursor.getString(1));
                 earning.setAmount(cursor.getDouble(2));
                 try {
-                    earning.setDateEarned(dateFormat.parse(cursor.getString(3)));
+                    earning.setDateEarned(cursor.getString(3));
                 } catch (Exception e) {
                     Log.d("E", "getEarningsByBudgetIdThatAreRecurring: " + e.getMessage());
                 }
@@ -427,8 +404,8 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(BudgetDatabase.Bills.C2_TITLE, bill.getTitle());
         values.put(BudgetDatabase.Bills.C3_AMOUNT, bill.getAmount());
-        values.put(BudgetDatabase.Bills.C4_DATE_DUE, bill.getDateDue().toString());
-        values.put(BudgetDatabase.Bills.C5_DATE_PAID, bill.getDatePaid().toString());
+        values.put(BudgetDatabase.Bills.C4_DATE_DUE, bill.getDateDue());
+        values.put(BudgetDatabase.Bills.C5_DATE_PAID, bill.getDatePaid());
         values.put(BudgetDatabase.Bills.C6_IS_PAID, Integer.toString((bill.isPaid()) ? 1 : 0));
         values.put(BudgetDatabase.Bills.C7_IS_RECURRING,
                 Integer.toString((bill.isRecurring()) ? 1 : 0));
@@ -450,7 +427,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
 
         values.put(BudgetDatabase.Earnings.C2_TITLE, earnings.getTitle());
         values.put(BudgetDatabase.Earnings.C3_AMOUNT, earnings.getAmount());
-        values.put(BudgetDatabase.Earnings.C4_DATE_EARNED, earnings.getDateEarned().toString());
+        values.put(BudgetDatabase.Earnings.C4_DATE_EARNED, earnings.getDateEarned());
         values.put(BudgetDatabase.Earnings.C5_IS_RECURRING, (earnings.isRecurring()) ? 1 : 0);
         values.put(BudgetDatabase.Earnings.C6_FK1_BUDGET_ID, earnings.getBudgetId());
 
@@ -518,12 +495,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
             budget.setTitle(cursor.getString(1));
             budget.setDescription(cursor.getString(2));
             try {
-                budget.setDateCreated(Session.dateFormatDatabase.parse(cursor.getString(3)));
+                budget.setDateCreated(cursor.getString(3));
             } catch (Exception e) {
                 Log.d("E", "getLastMonthlyBudgetAddedByUser: ");
             }
             try {
-                budget.setDateUpdated(Session.dateFormatDatabase.parse(cursor.getString(4)));
+                budget.setDateUpdated(cursor.getString(4));
             } catch (Exception e) {
                 Log.d("E", "getLastMonthlyBudgetAddedByUser: ");
             }
@@ -542,10 +519,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
             return true;
         }
         ArrayList<Earning> earnings = this.getEarningsByBudgetIdThatAreRecurring(budgetID);
-        if (earnings.size() != 0) {
-            return true;
-        }
-        return false;
+        return earnings.size() != 0;
     }
 
     /**

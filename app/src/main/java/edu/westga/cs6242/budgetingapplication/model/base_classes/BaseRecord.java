@@ -9,11 +9,12 @@ public abstract class BaseRecord {
     private int id;
     private String title;
     public BaseRecord() {
-
+        this(0, "");
     }
 
-    public BaseRecord(int id, String password) {
-
+    public BaseRecord(int id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
     public int getId() {

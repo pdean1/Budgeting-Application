@@ -75,7 +75,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add User Using Information Above?"
+        android:text="@string/txt_add_new_user_main"
         android:id="@+id/btnAddUser"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

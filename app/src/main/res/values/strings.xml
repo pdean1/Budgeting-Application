@@ -19,7 +19,7 @@
     <string name="txt_title">Title</string>
     <string name="txt_date_created">Date Created</string>
     <string name="txt_manage_this_budget">Manage This Budget</string>
-    <string name="txt_user">UserSessionk</string>
+    <string name="txt_user">UserSession</string>
     <string name="tvManageBudgetsLbl">Manage Budgets</string>
     <string name="txt_delete_budget">Delete Budget</string>
     <string name="txt_manage_a_budget">Manage Budget</string>
@@ -48,4 +48,7 @@
     <string name="txt_stats_elb">"Earnings less bills: "</string>
     <string name="txt_sum_of_bills_not_paid">"Sum of bills not paid: "</string>
     <string name="txt_ratio">Earnings to bills ratio: %.2f</string>
+    <string name="txt_new_bill">New Bill</string>
+    <string name="txt_new_earning">New Earning</string>
+    <string name="txt_add_new_user_main">Add User Using Information Above?</string>
 </resources>

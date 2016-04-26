@@ -9,24 +9,11 @@ public abstract class BaseUser {
     private int id;
     private String userName;
     private String password;
-    /**
-     * Default User Constructor
-     */
-    public BaseUser() {
-        this(0, "", "");
-    }
 
-    /**
-     * Creates a User with custom values
-     *
-     * @param id       User's ID or 0
-     * @param userName User's User Name
-     * @param password User's Password
-     */
-    public BaseUser(int id, String userName, String password) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
+    public BaseUser() {
+        this.id = 0;
+        this.userName = "";
+        this.password = "";
     }
 
     public int getId() {

@@ -1,7 +1,7 @@
 package edu.westga.cs6242.budgetingapplication.model.base_classes;
 
 /**
- * Created by Patrick on 4/25/2016.
+ * BaseBudgetRecord class that should be extended if you need too interact with the budgeting database
  */
 public abstract class BaseBudgetRecord extends BaseRecord {
 
@@ -10,14 +10,10 @@ public abstract class BaseBudgetRecord extends BaseRecord {
     private int budgetId;
 
     public BaseBudgetRecord() {
-        this(0, "", 0.0, false, 0);
-    }
-
-    public BaseBudgetRecord(int id, String title, double amount, boolean isRecurring, int budgetId) {
-        super(id, title);
-        this.amount = amount;
-        this.isRecurring = isRecurring;
-        this.budgetId = budgetId;
+        super(0, "");
+        this.amount = 0.0;
+        this.isRecurring = false;
+        this.budgetId = 0;
     }
 
     public double getAmount() {

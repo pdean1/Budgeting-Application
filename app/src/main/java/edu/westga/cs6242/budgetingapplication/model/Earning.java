@@ -1,7 +1,5 @@
 package edu.westga.cs6242.budgetingapplication.model;
 
-import java.util.Date;
-
 import edu.westga.cs6242.budgetingapplication.model.base_classes.BaseBudgetRecord;
 import edu.westga.cs6242.budgetingapplication.util.session.Session;
 
@@ -14,15 +12,11 @@ import edu.westga.cs6242.budgetingapplication.util.session.Session;
 public class Earning extends BaseBudgetRecord {
     // NumberFormat formatter = NumberFormat.getCurrencyInstance();
     // System.out.println(formatter.format(amt));
-    private Date dateEarned;
+    private String dateEarned;
 
     public Earning() {
-        this(0, "", 0.0, new Date(), false, 0);
-    }
-
-    public Earning(int id, String title, double amount, Date dateEarned, boolean isRecurring, int budgetId) {
-        super(id, title, amount, isRecurring, budgetId);
-        this.dateEarned = dateEarned;
+        super();
+        this.dateEarned = "";
     }
 
     @Override
@@ -34,11 +28,11 @@ public class Earning extends BaseBudgetRecord {
                 recurring;
     }
 
-    public Date getDateEarned() {
+    public String getDateEarned() {
         return dateEarned;
     }
 
-    public void setDateEarned(Date dateEarned) {
+    public void setDateEarned(String dateEarned) {
         this.dateEarned = dateEarned;
     }
 

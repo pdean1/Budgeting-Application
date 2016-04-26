@@ -1,7 +1,5 @@
 package edu.westga.cs6242.budgetingapplication.model;
 
-import java.util.Date;
-
 import edu.westga.cs6242.budgetingapplication.model.base_classes.BaseBudgetRecord;
 import edu.westga.cs6242.budgetingapplication.util.session.Session;
 
@@ -13,20 +11,15 @@ import edu.westga.cs6242.budgetingapplication.util.session.Session;
  */
 public class Bill extends BaseBudgetRecord {
 
-    private Date dateDue;
-    private Date datePaid;
+    private String dateDue;
+    private String datePaid;
     private boolean isPaid;
 
     public Bill() {
-        this(0, "", 0.0, new Date(), new Date(), false, false, 0);
-    }
-
-    public Bill(int id, String title, double amount, Date dateDue, Date datePaid, boolean isPaid,
-                boolean isRecurring, int budgetId) {
-        super(id, title, amount, isRecurring, budgetId);
-        this.dateDue = dateDue;
-        this.datePaid = datePaid;
-        this.isPaid = isPaid;
+        super();
+        this.dateDue = "";
+        this.datePaid = "";
+        this.isPaid = false;
     }
 
     @Override
@@ -35,24 +28,24 @@ public class Bill extends BaseBudgetRecord {
         String recurring = this.isRecurring() ? "Recurring" : "Not Recurring";
         return this.getTitle() + "\n" +
                 Session.numberFormat.format(this.getAmount()) + "\n" +
-                Session.dateFormatView.format(this.getDateDue())  + "\n" +
+                this.getDateDue()  + "\n" +
                 paid + "\n" +
                 recurring;
     }
 
-    public Date getDateDue() {
+    public String getDateDue() {
         return dateDue;
     }
 
-    public void setDateDue(Date dateDue) {
+    public void setDateDue(String dateDue) {
         this.dateDue = dateDue;
     }
 
-    public Date getDatePaid() {
+    public String getDatePaid() {
         return datePaid;
     }
 
-    public void setDatePaid(Date datePaid) {
+    public void setDatePaid(String datePaid) {
         this.datePaid = datePaid;
     }
 

@@ -42,25 +42,21 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private ArrayList<Bill> bills;
     private ArrayList<Earning> earnings;
 
-    TextView
-            titleLabel, //
-            descriptionLabel, //
-            statsBillsLabel, //
-            statsEarningsLabel, //
-            tvEarningsLessBills, //
-            tvSumOfBillsNotPaid, //
-            tvStatEarningsToBillsRatio; //
-    EditText
+    private TextView titleLabel; //
+    private TextView descriptionLabel; //
+    private TextView statsBillsLabel; //
+    private TextView statsEarningsLabel; //
+    private EditText
             dateLabel;
-    ListView
-            lvBills,
-            lvEarnings;
+    private ListView
+            lvBills;
+    private ListView lvEarnings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_budget);
-        this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
+        this.dbh = new BudgetDatabaseHandler(getApplicationContext());
         this.tabHost = (TabHost) findViewById(R.id.tabHost);
         getViewsById();
         updateBudgetInformation();
@@ -85,7 +81,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         titleLabel.setText(getMonthlyBudget1().getTitle());
         descriptionLabel.setText(getMonthlyBudget1().getDescription());
         dateLabel.setEnabled(false);
-        dateLabel.setText(getMonthlyBudget1().getDateCreated().toString());
+        dateLabel.setText(getMonthlyBudget1().getDateCreated());
     }
 
     private void updateList() {
@@ -119,10 +115,11 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         double EarningsLessBills = earningsAmount + ((billsAmount > 0) ?
                 billsAmount * -1.0 :
                 billsAmount);
-        this.tvEarningsLessBills = (TextView) findViewById(R.id.tvStatsEarningsLessBills);
-        this.tvEarningsLessBills.setText(String.format("%s%s", getString(R.string.txt_stats_elb),
+        TextView tvEarningsLessBills = (TextView) findViewById(R.id.tvStatsEarningsLessBills);
+        assert tvEarningsLessBills != null;
+        tvEarningsLessBills.setText(String.format("%s%s", getString(R.string.txt_stats_elb),
                 numberFormat.format(EarningsLessBills)));
-        this.tvSumOfBillsNotPaid = (TextView) findViewById(R.id.tvSumOfBillsNotPaid);
+        TextView tvSumOfBillsNotPaid = (TextView) findViewById(R.id.tvSumOfBillsNotPaid);
 
         double billsNotPaidAmount = 0.0;
         for (Bill bill : this.bills) {
@@ -130,7 +127,8 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 continue;
             billsNotPaidAmount += bill.getAmount();
         }
-        this.tvSumOfBillsNotPaid.setText(String.format("%s%s", getString(R.string.txt_sum_of_bills_not_paid),
+        assert tvSumOfBillsNotPaid != null;
+        tvSumOfBillsNotPaid.setText(String.format("%s%s", getString(R.string.txt_sum_of_bills_not_paid),
                 numberFormat.format(billsNotPaidAmount)));
 
         double a;
@@ -140,8 +138,9 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
             a = 0.0;
         }
         double earningsToBillsRatio = a;
-        this.tvStatEarningsToBillsRatio = (TextView) findViewById(R.id.tvStatEarningsToBillsRatio);
-        this.tvStatEarningsToBillsRatio.setText(String.format(getString(R.string.txt_ratio), earningsToBillsRatio));
+        TextView tvStatEarningsToBillsRatio = (TextView) findViewById(R.id.tvStatEarningsToBillsRatio);
+        assert tvStatEarningsToBillsRatio != null;
+        tvStatEarningsToBillsRatio.setText(String.format(getString(R.string.txt_ratio), earningsToBillsRatio));
     }
 
     private void addOnClickListenerToEarningsListView() {
@@ -171,7 +170,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 });
                 tvTitle.setText(earning.getTitle());
                 tvAmount.setText(numberFormat.format(earning.getAmount()));
-                tvDateEarned.setText(earning.getDateEarned().toString());
+                tvDateEarned.setText(earning.getDateEarned());
                 tvIsRecurring.setText((earning.isRecurring()) ? "Recurring" : "Not Recurring");
                 dialog.show();
             }
@@ -208,8 +207,8 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 });
                 tvBillTitle.setText(bill.getTitle());
                 tvBillAmount.setText(numberFormat.format(bill.getAmount()));
-                tvDateDue.setText(bill.getDateDue().toString());
-                tvBillDatePaid.setText(bill.getDatePaid().toString());
+                tvDateDue.setText(bill.getDateDue());
+                tvBillDatePaid.setText(bill.getDatePaid());
                 tvBillIsRecurring.setText((bill.isRecurring()) ? "Recurring" : "Not Recurring");
                 tvBillIsPaid.setText((bill.isRecurring()) ? "Paid" : "Not Paid");
                 dialog.show();

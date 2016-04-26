@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.util.Calendar;
 
 import edu.westga.cs6242.budgetingapplication.R;
@@ -59,11 +58,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             Earning earning = new Earning();
             earning.setTitle(this.etTitle.getText().toString());
             earning.setAmount(Double.parseDouble(this.etAmonut.getText().toString()));
-            try {
-                earning.setDateEarned(Session.dateFormatView.parse(this.tvDateEarned.getText().toString()));
-            } catch (ParseException parseException) {
-                earning.setDateEarned(Calendar.getInstance().getTime());
-            }
+            earning.setDateEarned(this.tvDateEarned.getText().toString());
             earning.setIsRecurring(this.cbIsRecurring.isChecked());
             earning.setBudgetId(Session.getMonthlyBudget1().getId());
             if (this.dbh.addEarning(earning) == -1) {
@@ -101,7 +96,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
     }
 
     private void getDatabase() {
-        this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
+        this.dbh = new BudgetDatabaseHandler(getApplicationContext());
     }
 
     private void setUpDatePicker() {

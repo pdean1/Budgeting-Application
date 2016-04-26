@@ -9,26 +9,9 @@ import edu.westga.cs6242.budgetingapplication.model.base_classes.BaseUser;
  * @version 1
  */
 public class User extends BaseUser {
-    private int id;
-    private String userName;
-    private String password;
 
-    /**
-     * Default User Constructor
-     */
     public User() {
-        this(0, "", "");
-    }
-
-    /**
-     * Creates a User with custom values
-     *
-     * @param id       User's ID or 0
-     * @param userName User's User Name
-     * @param password User's Password
-     */
-    public User(int id, String userName, String password) {
-        super(id, userName, password);
+        super();
     }
 
     @Override

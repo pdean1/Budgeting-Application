@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
@@ -33,7 +32,7 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bill);
-        this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
+        this.dbh = new BudgetDatabaseHandler(getApplicationContext());
         this.findViewsById();
         this.setDateTimeField();
         this.updateSessionText();
@@ -72,18 +71,8 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             ToastMessage("Provide an amount please");
             return;
         }
-        try {
-            bill.setDateDue(Session.dateFormatView.parse(this.etDateDue.getText().toString()));
-            if (this.cbIsPaid.isChecked()) {
-                bill.setDatePaid(Session.dateFormatView.parse(this.etDateDue.getText().toString()));
-            } else {
-                bill.setDatePaid(Calendar.getInstance().getTime());
-            }
-        } catch (Exception e) {
-            ToastMessage("Provide a valid date");
-            return;
-        }
-        bill.setDatePaid(new Date());
+        bill.setDateDue(this.etDateDue.getText().toString());
+        bill.setDatePaid(this.etDateDue.getText().toString());
         bill.setIsRecurring(this.cbIsRecurring.isChecked());
         bill.setIsPaid(this.cbIsPaid.isChecked());
         bill.setBudgetId(Session.getMonthlyBudget1().getId());

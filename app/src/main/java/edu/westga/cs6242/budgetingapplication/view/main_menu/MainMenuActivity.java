@@ -65,7 +65,7 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
                 }
             }
         });
-        this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
+        this.dbh = new BudgetDatabaseHandler(getApplicationContext());
         updateSessionText();
     }
 
@@ -103,9 +103,9 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
         try {
-            monthlyBudget.setDateCreated(Session.dateFormatDatabase.parse(this.tvSelectMonth.getText().toString()));
+            monthlyBudget.setDateCreated(this.tvSelectMonth.getText().toString());
         } catch (Exception e) {
-            Log.d("I", monthlyBudget.getDateCreated().toString());
+            Log.d("I", monthlyBudget.getDateCreated());
             return;
         }
         monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());

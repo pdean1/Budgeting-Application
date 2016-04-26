@@ -47,7 +47,7 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
             this.lblDateCreated = (TextView) findViewById(R.id.tvDateCreatedLbl);
             this.showTextViews(false);
 
-            this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
+            this.dbh = new BudgetDatabaseHandler(getApplicationContext());
 
             this.monthlyBudgets = this.dbh.getMonthlyBudgetsByUserId(Session.getUser().getId());
             ArrayAdapter<MonthlyBudget> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
@@ -108,8 +108,8 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         MonthlyBudget budget = this.monthlyBudgets.get(spinnerIndex);
         this.lblTitle.setText(budget.getTitle());
         this.lblDescription.setText(budget.getDescription());
-        Log.d("Info", budget.getDateCreated().toString());
-        this.lblDateCreated.setText(Session.dateFormatView.format(budget.getDateCreated()));
+        Log.d("Info", budget.getDateCreated());
+        this.lblDateCreated.setText(budget.getDateCreated());
     }
 
     ///

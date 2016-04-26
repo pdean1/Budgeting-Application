@@ -32,7 +32,7 @@ public class WelcomeActivity extends PortraitOnlyActivity {
     }
 
     private void initInstanceVariables() {
-        this.dbh = new BudgetDatabaseHandler(this, null);
+        this.dbh = new BudgetDatabaseHandler(this);
         this.inUserName = (EditText) findViewById(R.id.etUserName);
         this.inPassword = (EditText) findViewById(R.id.etPassword);
         this.user = new User();

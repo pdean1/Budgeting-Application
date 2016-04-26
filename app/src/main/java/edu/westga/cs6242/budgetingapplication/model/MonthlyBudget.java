@@ -1,7 +1,6 @@
 package edu.westga.cs6242.budgetingapplication.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.model.base_classes.BaseRecord;
 
@@ -13,19 +12,15 @@ import edu.westga.cs6242.budgetingapplication.model.base_classes.BaseRecord;
  */
 public class MonthlyBudget extends BaseRecord {
     private String description;
-    private Date dateCreated;
-    private Date dateUpdated;
+    private String dateCreated;
+    private String dateUpdated;
     private int userId;
 
     public MonthlyBudget() {
-        this(0, "", new Date(0), new Date(0), 0);
-    }
-
-    public MonthlyBudget(int id, String title, Date dateCreated, Date dateUpdated, int userId) {
-        super(id, title);
-        this.dateCreated = dateCreated;
-        this.dateUpdated = dateUpdated;
-        this.userId = userId;
+        super(0, "");
+        this.dateCreated = "";
+        this.dateUpdated = "";
+        this.userId = 0;
     }
 
     @Override
@@ -41,19 +36,19 @@ public class MonthlyBudget extends BaseRecord {
         this.description = description;
     }
 
-    public Date getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateUpdated() {
+    public String getDateUpdated() {
         return dateUpdated;
     }
 
-    public void setDateUpdated(Date dateUpdated) {
+    public void setDateUpdated(String dateUpdated) {
         this.dateUpdated = dateUpdated;
     }
 
