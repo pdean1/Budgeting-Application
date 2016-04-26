@@ -115,8 +115,8 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         }
 
         if (this.cbIsRecurring.isChecked()) {
-            if (monthlyBudgetForRecurringAdd.getId() == 0) {
-                ToastMessage("Budget Added, but unable to add recurring fields!");
+            if (monthlyBudgetForRecurringAdd == null) {
+                ToastMessage("Budget Added, but no recurring fields were!");
                 return;
             }
             if (!this.dbh.addRecurringBillsAndEarningsFromPreviousMonth(result, monthlyBudgetForRecurringAdd.getId())) {

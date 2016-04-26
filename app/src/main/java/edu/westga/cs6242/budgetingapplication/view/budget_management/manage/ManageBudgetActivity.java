@@ -33,7 +33,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private ArrayAdapter<Bill> billArrayAdapter;
     private ArrayAdapter<Earning> earningArrayAdapter;
     private TabHost tabHost;
-    TextView titleLabel, descriptionLabel;
+    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel;
     EditText dateLabel;
     ListView lvBills, lvEarnings;
 
@@ -178,6 +178,16 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
         this.lvBills.setAdapter(billArrayAdapter);
         this.lvEarnings.setAdapter(earningArrayAdapter);
+        double d = 0.0;
+        for (Bill b : this.bills) {
+            d+= b.getAmount();
+        }
+        this.statsBillsLabel.setText(Session.numberFormat.format(d));
+        d = 0.0;
+        for (Earning b : this.earnings) {
+            d+= b.getAmount();
+        }
+        this.statsEarningsLabel.setText(Session.numberFormat.format(d));
     }
 
     private void getViewsById() {
@@ -186,6 +196,9 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
         this.lvBills = (ListView) findViewById(R.id.lvBills);
         this.lvEarnings = (ListView) findViewById(R.id.lvEarnings);
+
+        this.statsBillsLabel = (TextView) findViewById(R.id.tvStatBills);
+        this.statsEarningsLabel = (TextView) findViewById(R.id.tvStatEarnings);
     }
 
     private void updateSessiontText() {
