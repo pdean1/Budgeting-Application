@@ -40,11 +40,6 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
 
     private PickMonthAndYearDialog dialog;
 
-    /*
-    *
-    *
-    *
-    * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +60,8 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 try {
-                    Date date = Session.dateFormatMM_dd_yyyy.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
-                    tvSelectMonth.setText(Session.dateFormatMM_dd_yyyy.format(date));
+                    Date date = Session.dateFormat1.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
+                    tvSelectMonth.setText(Session.dateFormat1.format(date));
                 } catch (Exception e) {
                     tvSelectMonth.setText(R.string.txt_error);
                 }
@@ -76,11 +71,6 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         updateSessiontText();
     }
 
-    /*
-    *
-    *
-    *
-    * */
     private void updateSessiontText() {
         txtSessionInfo = (TextView) findViewById(R.id.tvUser);
         String sessionString = "Signed in as: " + Session.getUser().getUserName();
@@ -88,21 +78,11 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         txtSessionInfo.setText(sessionString);
     }
 
-    /*
-    *
-    *
-    *
-    * */
     public void btnManageBudgets_Click(View v) {
         Intent intent = new Intent(v.getContext(), ViewBudgetsActivity.class);
         startActivity(intent);
     }
 
-    /*
-    *
-    *
-    *
-    * */
     public void btnAddBudget_Click(View v) {
         // Validation Routine
         if (!validationRoutine()) {
@@ -113,18 +93,21 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
             monthlyBudgetForRecurringAdd =
                     this.dbh.getLastMonthlyBudgetAddedByUser(Session.getUser().getId());
             if (monthlyBudgetForRecurringAdd == null) {
-                ToastMessage("Uncheck is recurring. There are no recurring items.");
+                ToastMessage("Un-check is recurring. There are no recurring items.");
                 return;
             }
         }
         MonthlyBudget monthlyBudget = new MonthlyBudget();
         monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
+
         try {
-            monthlyBudget.setDateCreated(Session.dateFormatMM_dd_yyyy.parse(this.tvSelectMonth.getText().toString()));
+            monthlyBudget.setDateCreated(Session.dateFormat1.parse(this.tvSelectMonth.getText().toString()));
+            Log.d("I", monthlyBudget.getDateCreated().toString());
         } catch (Exception e) {
             return;
         }
+
         monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());
         monthlyBudget.setUserId(Session.getUser().getId());
         long result = this.dbh.addMonthlyBudget(monthlyBudget);
@@ -141,11 +124,6 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         ToastMessage("Budget Added!");
     }
 
-    /*
-    *
-    *
-    *
-    * */
     private boolean validationRoutine() {
         // Audit Title
         if (this.etBudgetTitle.getText().toString().length() < 5) {
@@ -159,7 +137,7 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         }
         // Audit Date
         try {
-            Session.dateFormatMM_dd_yyyy.parse(this.tvSelectMonth.getText().toString());
+            Session.dateFormat1.parse(this.tvSelectMonth.getText().toString());
         } catch (Exception e) {
             this.tvSelectMonth.setTextColor(Color.RED);
             ToastMessage("Provide a valid date");
@@ -168,11 +146,6 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         return true;
     }
 
-    /*
-    *
-    *
-    *
-    * */
     private void ToastMessage(String text) {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);

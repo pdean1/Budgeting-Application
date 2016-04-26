@@ -18,7 +18,7 @@ public class MonthlyBudget extends BaseRecord {
     private int userId;
 
     public MonthlyBudget() {
-        this(0, "", new Date(), new Date(), 0);
+        this(0, "", new Date(0), new Date(0), 0);
     }
 
     public MonthlyBudget(int id, String title, Date dateCreated, Date dateUpdated, int userId) {

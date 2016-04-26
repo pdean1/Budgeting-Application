@@ -153,8 +153,8 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 monthlyBudget.setId(cursor.getInt(0));
                 monthlyBudget.setTitle(cursor.getString(1));
                 monthlyBudget.setDescription(cursor.getString(2));
-                monthlyBudget.setDateCreated(Session.dateFormatMM_dd_yyyy.parse(new Date(cursor.getLong(3)).toString()));
-                monthlyBudget.setDateUpdated(Session.dateFormatMM_dd_yyyy.parse(new Date(cursor.getLong(4)).toString()));
+                monthlyBudget.setDateCreated(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
+                monthlyBudget.setDateUpdated(Session.dateFormat1.parse(new Date(cursor.getLong(4)).toString()));
                 monthlyBudget.setUserId(cursor.getInt(5));
             } else {
                 monthlyBudget = null;
@@ -185,11 +185,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 budget.setId(cursor.getInt(0));
                 budget.setTitle(cursor.getString(1));
                 budget.setDescription(cursor.getString(2));
+                // TODO still a problem???
                 try {
-                    budget.setDateCreated(Session.dateFormatMM_dd_yyyy.parse(new Date(cursor.getLong(3)).toString()));
-                    budget.setDateUpdated(Session.dateFormatMM_dd_yyyy.parse(new Date(cursor.getLong(4)).toString()));
+                    budget.setDateCreated(Session.dateFormat1.parse(cursor.getString(3)));
+                    budget.setDateUpdated(Session.dateFormat1.parse(cursor.getString(4)));
                 } catch (Exception e) {
-
+                        Log.d("E", e.getMessage());
                 }
                 budget.setUserId(cursor.getInt(5));
                 budgets.add(budget);
@@ -263,11 +264,11 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 bill.setTitle(cursor.getString(1));
                 bill.setAmount(cursor.getDouble(2));
                 try {
-                    bill.setDateDue(Session.dateFormatMM_dd_yyyy.parse(new Date(cursor.getLong(3)).toString()));
+                    bill.setDateDue(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
                 } catch (Exception e) {
                 }
                 try {
-                    bill.setDatePaid(Session.dateFormatMM_dd_yyyy.parse(new Date(cursor.getLong(3)).toString()));
+                    bill.setDatePaid(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
                 } catch (Exception e) {
 
                 }
@@ -300,7 +301,7 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 earning.setTitle(cursor.getString(1));
                 earning.setAmount(cursor.getDouble(2));
                 try {
-                    earning.setDateEarned(Session.dateFormatMM_dd_yyyy.parse(new Date(cursor.getLong(3)).toString()));
+                    earning.setDateEarned(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
                 } catch (Exception e) {
 
                 }

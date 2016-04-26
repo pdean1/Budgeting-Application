@@ -108,8 +108,8 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         MonthlyBudget budget = this.monthlyBudgets.get(spinnerIndex);
         this.lblTitle.setText(budget.getTitle());
         this.lblDescription.setText(budget.getDescription());
-        Log.d("I", budget.toString());
-        this.lblDateCreated.setText(Session.dateFormatMM_dd_yyyy.format(budget.getDateCreated()));
+        Log.d("Info", budget.getDateCreated().toString());
+        this.lblDateCreated.setText(Session.dateFormat1.format(budget.getDateCreated()));
     }
 
     ///

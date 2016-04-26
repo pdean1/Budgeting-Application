@@ -33,14 +33,28 @@ import static edu.westga.cs6242.budgetingapplication.util.session.Session.number
 public class ManageBudgetActivity extends PortraitOnlyActivity {
 
     private BudgetDatabaseHandler dbh;
+
     private ArrayAdapter<Bill> billArrayAdapter;
     private ArrayAdapter<Earning> earningArrayAdapter;
-    private TabHost tabHost;
-    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel, tvEarningsLessBills,
-    tvSumOfBillsNotPaid, tvStatEarningsToBillsRatio;
-    EditText dateLabel;
-    ListView lvBills, lvEarnings;
 
+    private TabHost tabHost;
+
+    private ArrayList<Bill> bills;
+    private ArrayList<Earning> earnings;
+
+    TextView
+            titleLabel, //
+            descriptionLabel, //
+            statsBillsLabel, //
+            statsEarningsLabel, //
+            tvEarningsLessBills, //
+            tvSumOfBillsNotPaid, //
+            tvStatEarningsToBillsRatio; //
+    EditText
+            dateLabel;
+    ListView
+            lvBills,
+            lvEarnings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,33 +68,16 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         setUpTabs();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.manage_budget_menu, menu);
-        return true;
-    }
+    private void getViewsById() {
+        this.titleLabel         = (TextView) findViewById(R.id.tvBudgetTitleLbl);
+        this.descriptionLabel   = (TextView) findViewById(R.id.etDescriptionLbl);
+        this.statsBillsLabel    = (TextView) findViewById(R.id.tvStatBills);
+        this.statsEarningsLabel = (TextView) findViewById(R.id.tvStatEarnings);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.new_bill:
-                this.createNewBill();
-                return true;
-            case R.id.new_earning:
-                this.createNewEarning();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+        this.dateLabel          = (EditText) findViewById(R.id.etDateCreatedLbl);
 
-    @Override
-    public void onResume() {  // After a pause OR at startup
-        super.onResume();
-        //Refresh your stuff here
-        this.updateList();
+        this.lvBills            = (ListView) findViewById(R.id.lvBills);
+        this.lvEarnings         = (ListView) findViewById(R.id.lvEarnings);
     }
 
     private void updateBudgetInformation() {
@@ -91,13 +88,60 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         dateLabel.setText(getMonthlyBudget1().getDateCreated().toString());
     }
 
-    private ArrayList<Bill> bills;
-    private ArrayList<Earning> earnings;
-
     private void updateList() {
         setUpListViews();
         addOnClickListenerToBillsListView();
         addOnClickListenerToEarningsListView();
+    }
+
+    private void setUpListViews() {
+        /**
+        * All Bills in the Database
+        * */
+        this.bills    = this.dbh.getBillsByBudgetId(getMonthlyBudget1().getId());
+        /**
+         * All Earnings in the Database
+         * */
+        this.earnings = this.dbh.getEarningsByBudgetId(getMonthlyBudget1().getId());
+
+        this.billArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bills);
+        this.earningArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
+        this.lvBills.setAdapter(billArrayAdapter);
+        this.lvEarnings.setAdapter(earningArrayAdapter);
+        refreshStatsTab();
+    }
+
+    private void refreshStatsTab() {
+        double
+                billsAmount = displayStatBillAmount(),
+                earningsAmount = displayStatEarningAmount();
+
+        double EarningsLessBills = earningsAmount + ((billsAmount > 0) ?
+                billsAmount * -1.0 :
+                billsAmount);
+        this.tvEarningsLessBills = (TextView) findViewById(R.id.tvStatsEarningsLessBills);
+        this.tvEarningsLessBills.setText(String.format("%s%s", getString(R.string.txt_stats_elb),
+                numberFormat.format(EarningsLessBills)));
+        this.tvSumOfBillsNotPaid = (TextView) findViewById(R.id.tvSumOfBillsNotPaid);
+
+        double billsNotPaidAmount = 0.0;
+        for (Bill bill : this.bills) {
+            if (bill.isPaid())
+                continue;
+            billsNotPaidAmount += bill.getAmount();
+        }
+        this.tvSumOfBillsNotPaid.setText(String.format("%s%s", getString(R.string.txt_sum_of_bills_not_paid),
+                numberFormat.format(billsNotPaidAmount)));
+
+        double a;
+        try {
+            a = earningsAmount / billsAmount;
+        } catch (Exception e) {
+            a = 0.0;
+        }
+        double earningsToBillsRatio = a;
+        this.tvStatEarningsToBillsRatio = (TextView) findViewById(R.id.tvStatEarningsToBillsRatio);
+        this.tvStatEarningsToBillsRatio.setText(String.format(getString(R.string.txt_ratio), earningsToBillsRatio));
     }
 
     private void addOnClickListenerToEarningsListView() {
@@ -173,63 +217,23 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         });
     }
 
-    private void setUpListViews() {
-        this.bills = this.dbh.getBillsByBudgetId(getMonthlyBudget1().getId());
-        this.earnings = this.dbh.getEarningsByBudgetId(getMonthlyBudget1().getId());
-        this.billArrayAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bills);
-        this.earningArrayAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
-        this.lvBills.setAdapter(billArrayAdapter);
-        this.lvEarnings.setAdapter(earningArrayAdapter);
-        double billsAmount = 0.0, earningsAmount;
-        for (Bill b : this.bills) {
-            billsAmount += b.getAmount();
-        }
-        this.statsBillsLabel.setText(String.format("Total bill amount: %s", numberFormat.format(billsAmount)));
-        earningsAmount = 0.0;
+    private double displayStatEarningAmount() {
+        double earningsAmount = 0.0;
         for (Earning b : this.earnings) {
             earningsAmount += b.getAmount();
         }
         this.statsEarningsLabel.setText(String.format("Total earnings amount: %s", numberFormat.format
                 (earningsAmount)));
-        double EarningsLessBills = earningsAmount + ((billsAmount > 0) ?
-                billsAmount * -1.0 :
-                billsAmount);
-        this.tvEarningsLessBills = (TextView) findViewById(R.id.tvStatsEarningsLessBills);
-        this.tvEarningsLessBills.setText(String.format("%s%s", getString(R.string.txt_stats_elb),
-                numberFormat.format(EarningsLessBills)));
-        this.tvSumOfBillsNotPaid = (TextView) findViewById(R.id.tvSumOfBillsNotPaid);
-        double billsNotPaidAmount = 0.0;
-        for (Bill bill : this.bills) {
-            if (bill.isPaid())
-                continue;
-            billsNotPaidAmount += bill.getAmount();
-        }
-        this.tvSumOfBillsNotPaid.setText(String.format("%s%s", getString(R.string.txt_sum_of_bills_not_paid),
-                numberFormat.format(billsNotPaidAmount)));
-        double a;
-        try {
-            a = earningsAmount / billsAmount;
-        } catch (Exception e) {
-            a = 0.0;
-        }
-
-        double earningsToBillsRatio = a;
-        this.tvStatEarningsToBillsRatio = (TextView) findViewById(R.id.tvStatEarningsToBillsRatio);
-        this.tvStatEarningsToBillsRatio.setText(String.format(getString(R.string.txt_ratio), earningsToBillsRatio));
-
+        return earningsAmount;
     }
 
-    private void getViewsById() {
-        this.titleLabel = (TextView) findViewById(R.id.tvBudgetTitleLbl);
-        this.descriptionLabel = (TextView) findViewById(R.id.etDescriptionLbl);
-        this.dateLabel = (EditText) findViewById(R.id.etDateCreatedLbl);
-        this.lvBills = (ListView) findViewById(R.id.lvBills);
-        this.lvEarnings = (ListView) findViewById(R.id.lvEarnings);
-
-        this.statsBillsLabel = (TextView) findViewById(R.id.tvStatBills);
-        this.statsEarningsLabel = (TextView) findViewById(R.id.tvStatEarnings);
+    private double displayStatBillAmount() {
+        double billsAmount = 0.0;
+        for (Bill b : this.bills) {
+            billsAmount += b.getAmount();
+        }
+        this.statsBillsLabel.setText(String.format("Total bill amount: %s", numberFormat.format(billsAmount)));
+        return billsAmount;
     }
 
     private void updateSessiontText() {
@@ -268,6 +272,35 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         Intent intent = new Intent(getApplicationContext(), CreateEarningActivity.class);
         startActivity(intent);
         updateList();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.manage_budget_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.new_bill:
+                this.createNewBill();
+                return true;
+            case R.id.new_earning:
+                this.createNewEarning();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onResume() {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        this.updateList();
     }
 
     private void ToastMessage(String text) {
