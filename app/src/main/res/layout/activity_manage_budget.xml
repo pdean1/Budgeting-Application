@@ -95,7 +95,7 @@
                     android:id="@+id/tabBills"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#94da2800"
+                    android:background="#F44336"
                     android:orientation="vertical">
 
                     <ListView
@@ -108,7 +108,7 @@
                     android:id="@+id/tabEarnings"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#6e8ada00"
+                    android:background="#8BC34A"
                     android:orientation="vertical">
 
                     <ListView
@@ -121,7 +121,7 @@
                     android:id="@+id/tabStatistics"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FFFFFF"
+                    android:background="#E65100"
                     android:orientation="vertical">
 
                     <LinearLayout
