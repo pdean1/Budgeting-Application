@@ -55,7 +55,7 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                etDateDue.setText(Session.dateFormat1.format(newDate.getTime()));
+                etDateDue.setText(Session.dateFormatView.format(newDate.getTime()));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
@@ -73,9 +73,9 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             return;
         }
         try {
-            bill.setDateDue(Session.dateFormat1.parse(this.etDateDue.getText().toString()));
+            bill.setDateDue(Session.dateFormatView.parse(this.etDateDue.getText().toString()));
             if (this.cbIsPaid.isChecked()) {
-                bill.setDatePaid(Session.dateFormat1.parse(this.etDateDue.getText().toString()));
+                bill.setDatePaid(Session.dateFormatView.parse(this.etDateDue.getText().toString()));
             } else {
                 bill.setDatePaid(Calendar.getInstance().getTime());
             }
@@ -106,7 +106,7 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             return false;
         }
         try {
-            Session.dateFormat1.parse(this.etDateDue.getText().toString());
+            Session.dateFormatView.parse(this.etDateDue.getText().toString());
         } catch (Exception e) {
             ToastMessage("Invalid Date");
             return false;

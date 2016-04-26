@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 import edu.westga.cs6242.budgetingapplication.model.Bill;
@@ -27,11 +27,7 @@ import edu.westga.cs6242.budgetingapplication.util.session.Session;
  */
 public class BudgetDatabaseHandler extends SQLiteOpenHelper {
 
-
-    /**
-     * @param context
-     * @param cursorFactory
-     */
+    // To call simply pass getApplicationContext, null
     public BudgetDatabaseHandler(Context context, SQLiteDatabase.CursorFactory cursorFactory) {
         super(context, BudgetDatabase.DATABASE_NAME, cursorFactory,
                 BudgetDatabase.DATABASE_VERSION);
@@ -74,41 +70,35 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    /***********************************************************************************************
-     * USERS TABLE QUERY FUNCTIONS
-     **********************************************************************************************/
-
     /**
-     * @param userName
-     * @return
+     * Attempts to find a user in the database based on a user name
+     *
+     * @param userName the username of the user to find
+     * @return a valid user if one was found, null otherwise
      */
     public User findUser(String userName) {
-        try {
-            String strQuery = "SELECT * FROM " + BudgetDatabase.Users.TABLE_NAME +
-                    " WHERE " + BudgetDatabase.Users.C2_USER_NAME + " = \"" + userName + "\"";
-            SQLiteDatabase db = this.getWritableDatabase();
-            Cursor cursor = db.rawQuery(strQuery, null);
-            User user = new User();
-            if (cursor.moveToFirst()) {
-                user.setId(Integer.parseInt(cursor.getString(0)));
-                user.setUserName(cursor.getString(1));
-                user.setPassword(cursor.getString(2));
-            } else {
-                user = null;
-            }
-            cursor.close();
-            db.close();
-            return user;
-        } catch (Exception e) {
-            Log.d("ERROR", e.getMessage());
-            return null;
+        String strQuery = "SELECT * FROM " + BudgetDatabase.Users.TABLE_NAME + " WHERE " + BudgetDatabase.Users
+                .C2_USER_NAME + " = \"" + userName + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(strQuery, null);
+        User user = new User();
+        if (cursor.moveToFirst()) {
+            user.setId(Integer.parseInt(cursor.getString(0)));
+            user.setUserName(cursor.getString(1));
+            user.setPassword(cursor.getString(2));
+        } else {
+            user = null;
         }
-
+        cursor.close();
+        db.close();
+        return user;
     }
 
     /**
-     * @param user
-     * @return
+     * Attempts to log a user in
+     *
+     * @param user user to log in
+     * @return signed in user or null
      */
     public User attemptLogIn(User user) {
         User foundUser = findUser(user.getUserName());
@@ -121,8 +111,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @param user
-     * @return
+     * Attempts to add a user to the database
+     *
+     * @param user user to add
+     * @return id of user or -1
      */
     public long addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -134,77 +126,93 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    /***********************************************************************************************
-     * USERS TABLE QUERY FUNCTIONS
-     **********************************************************************************************/
-
     /**
-     * @param id
-     * @return
+     * Gets a single monthly budget from the database based on the id of the monthly budget to retrieve
+     *
+     * @param id Id of the budget to retrieve
+     * @return The found monthly budget or null
      */
     public MonthlyBudget getMonthlyBudget(int id) {
-        try {
-            String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME +
-                    " WHERE " + BudgetDatabase.MonthlyBudget.C1_PK_ID + " = " + id;
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cursor = db.rawQuery(strQuery, null);
-            MonthlyBudget monthlyBudget = new MonthlyBudget();
-            if (cursor.moveToFirst()) {
-                monthlyBudget.setId(cursor.getInt(0));
-                monthlyBudget.setTitle(cursor.getString(1));
-                monthlyBudget.setDescription(cursor.getString(2));
-                monthlyBudget.setDateCreated(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
-                monthlyBudget.setDateUpdated(Session.dateFormat1.parse(new Date(cursor.getLong(4)).toString()));
-                monthlyBudget.setUserId(cursor.getInt(5));
-            } else {
-                monthlyBudget = null;
+        String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME +
+                " WHERE " + BudgetDatabase.MonthlyBudget.C1_PK_ID + " = " + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(strQuery, null);
+
+        MonthlyBudget monthlyBudget = new MonthlyBudget();
+
+        if (cursor.moveToFirst()) {
+            monthlyBudget.setId(cursor.getInt(0));
+            monthlyBudget.setTitle(cursor.getString(1));
+            monthlyBudget.setDescription(cursor.getString(2));
+            try {
+                monthlyBudget.setDateCreated(Session.dateFormatDatabase.parse(cursor.getString(3)));
+            } catch (ParseException ex) {
+                Log.d("W", "Unable to parse: " + cursor.getString(3));
             }
-            cursor.close();
-            db.close();
-            return monthlyBudget;
-        } catch (Exception e) {
-            Log.d("ERROR", e.getMessage());
-            return null;
+            try {
+                monthlyBudget.setDateUpdated(Session.dateFormatDatabase.parse(cursor.getString(4)));
+            } catch (ParseException ex) {
+                Log.d("W", "Unable to parse: " + cursor.getString(4));
+            }
+            monthlyBudget.setUserId(cursor.getInt(5));
+        } else {
+            monthlyBudget = null; // No budget found
         }
 
+        cursor.close();
+        db.close();
+        return monthlyBudget;
     }
 
     /**
-     * @param id
-     * @return
+     * Gets a list of budgets associated to a user's id
+     *
+     * @param id the id of the user to search for
+     * @return A list of budgets or an empty list
      */
-    public ArrayList<MonthlyBudget> getMonthlyBudgetByUserId(int id) {
+    public ArrayList<MonthlyBudget> getMonthlyBudgetsByUserId(int id) {
         ArrayList<MonthlyBudget> budgets = new ArrayList<>();
-        String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME +
-                " WHERE " + BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID + " = " + id;
+        String strQuery = "SELECT * FROM " + BudgetDatabase.MonthlyBudget.TABLE_NAME + " WHERE " +
+                BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID + " = " + id;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(strQuery, null);
+
         if (cursor.moveToFirst()) {
+
             while (!cursor.isAfterLast()) {
                 MonthlyBudget budget = new MonthlyBudget();
+
                 budget.setId(cursor.getInt(0));
                 budget.setTitle(cursor.getString(1));
                 budget.setDescription(cursor.getString(2));
                 // TODO still a problem???
                 try {
-                    budget.setDateCreated(Session.dateFormat1.parse(cursor.getString(3)));
-                    budget.setDateUpdated(Session.dateFormat1.parse(cursor.getString(4)));
+                    budget.setDateCreated(Session.dateFormatDatabase.parse(cursor.getString(3)));
+                    budget.setDateUpdated(Session.dateFormatDatabase.parse(cursor.getString(4)));
                 } catch (Exception e) {
-                        Log.d("E", e.getMessage());
+                    Log.d("E", e.getMessage());
                 }
                 budget.setUserId(cursor.getInt(5));
+
                 budgets.add(budget);
+
                 cursor.moveToNext();
             }
+
         }
+
         cursor.close();
         db.close();
         return budgets;
     }
 
     /**
-     * @param budget
-     * @return
+     * Adds a budget to the database
+     *
+     * @param budget The budget to add
+     * @return Id of the inserted budget or -1 on failure
      */
     public long addMonthlyBudget(MonthlyBudget budget) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -216,29 +224,34 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         values.put(BudgetDatabase.MonthlyBudget.C5_DATE_UPDATED, budget.getDateUpdated().toString());
         values.put(BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID, budget.getUserId());
 
-        long id = db.insert(BudgetDatabase.MonthlyBudget.TABLE_NAME,
-                null, values);
+        long id = db.insert(BudgetDatabase.MonthlyBudget.TABLE_NAME, null, values);
+
         db.close();
         return id;
     }
 
     /**
-     * @param monthlyBudget
-     * @return
+     * Deletes a monthly budget first by deleting the bills and earnigs associated with it then deleting the budget
+     * itself
+     *
+     * @param monthlyBudget budget to delete
+     * @return true if deleted false otherwise
      */
     public boolean deleteMonthlyBudget(MonthlyBudget monthlyBudget) {
         SQLiteDatabase db = this.getWritableDatabase();
         this.deleteBillsByMonthlyBudgetID(db, monthlyBudget.getId());
         this.deleteEarningsByMonthlyBudgetID(db, monthlyBudget.getId());
-        int result = db.delete(BudgetDatabase.MonthlyBudget.TABLE_NAME,
-                BudgetDatabase.MonthlyBudget.C1_PK_ID + " = " + monthlyBudget.getId(), null);
+        int result = db.delete(BudgetDatabase.MonthlyBudget.TABLE_NAME, BudgetDatabase.MonthlyBudget.C1_PK_ID + " = "
+                + monthlyBudget.getId(), null);
         db.close();
         return result != 0;
     }
 
     /**
-     * @param id
-     * @return
+     * Deletes a bill according to the bills id
+     *
+     * @param id id of bill to delete
+     * @return true if deleted false otherwise
      */
     public boolean deleteBillById(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -248,14 +261,18 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id
-     * @return
+     * Gets a list of bills that have the same budget id
+     *
+     * @param id id of the budget to match against
+     * @return a list of bills associated with the passed budget id
      */
     public ArrayList<Bill> getBillsByBudgetId(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String strQuery = "SELECT * FROM " + BudgetDatabase.Bills.TABLE_NAME +
-                " WHERE " + BudgetDatabase.Bills.C8_FK1_BUDGET_ID + " = " + id;
+        String strQuery = "SELECT * FROM " + BudgetDatabase.Bills.TABLE_NAME + " WHERE " + BudgetDatabase.Bills
+                .C8_FK1_BUDGET_ID + " = " + id;
+
         ArrayList<Bill> bills = new ArrayList<>();
+
         Cursor cursor = db.rawQuery(strQuery, null);
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
@@ -264,18 +281,21 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 bill.setTitle(cursor.getString(1));
                 bill.setAmount(cursor.getDouble(2));
                 try {
-                    bill.setDateDue(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
+                    bill.setDateDue(Session.dateFormatDatabase.parse(cursor.getString(3)));
                 } catch (Exception e) {
+                    Log.d("W", "Unable to parse date: " + cursor.getString(3));
                 }
                 try {
-                    bill.setDatePaid(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
+                    bill.setDatePaid(Session.dateFormatDatabase.parse(cursor.getString(4)));
                 } catch (Exception e) {
-
+                    Log.d("W", "Unable to parse date: " + cursor.getString(4));
                 }
                 bill.setIsPaid(cursor.getInt(5) == 1);
                 bill.setIsRecurring(cursor.getInt(6) == 1);
                 bill.setBudgetId(cursor.getInt(7));
+
                 bills.add(bill);
+
                 cursor.moveToNext();
             }
         }
@@ -285,8 +305,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id
-     * @return
+     * Gets a list of earnings by budget id
+     *
+     * @param id id of budget
+     * @return a list of earnings
      */
     public ArrayList<Earning> getEarningsByBudgetId(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -301,9 +323,9 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 earning.setTitle(cursor.getString(1));
                 earning.setAmount(cursor.getDouble(2));
                 try {
-                    earning.setDateEarned(Session.dateFormat1.parse(new Date(cursor.getLong(3)).toString()));
+                    earning.setDateEarned(Session.dateFormatDatabase.parse(cursor.getString(3)));
                 } catch (Exception e) {
-
+                    Log.d("E", "getEarningsByBudgetId: " + e.getMessage());
                 }
                 earning.setIsRecurring(cursor.getInt(4) == 1);
                 earning.setBudgetId(cursor.getInt(5));
@@ -317,8 +339,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id
-     * @return
+     * Gets a list of bills that are recurring by budget id
+     *
+     * @param id id of budget to use as a filter
+     * @return a list of budgets
      */
     public ArrayList<Bill> getBillsByBudgetIdThatAreRecurring(int id) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyyy", Locale.US);
@@ -335,14 +359,14 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 bill.setTitle(cursor.getString(1));
                 bill.setAmount(cursor.getDouble(2));
                 try {
-                    bill.setDateDue(dateFormat.parse(new Date(cursor.getLong(3)).toString()));
-                } catch(Exception e) {
-
+                    bill.setDateDue(dateFormat.parse(cursor.getString(3)));
+                } catch (Exception e) {
+                    Log.d("E", "getBillsByBudgetIdThatAreRecurring: " + e.getMessage());
                 }
                 try {
-                    bill.setDatePaid(dateFormat.parse(new Date(cursor.getLong(4)).toString()));
+                    bill.setDatePaid(dateFormat.parse(cursor.getString(4)));
                 } catch (Exception e) {
-
+                    Log.d("E", "getBillsByBudgetIdThatAreRecurring: " + e.getMessage());
                 }
                 bill.setIsPaid(cursor.getInt(5) == 1);
                 bill.setIsRecurring(cursor.getInt(6) == 1);
@@ -357,8 +381,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @param id
-     * @return
+     * Gets a list of earnings that a recurring from the previous months budget based on id
+     *
+     * @param id id of budget to use as a filter
+     * @return a list of earnings
      */
     public ArrayList<Earning> getEarningsByBudgetIdThatAreRecurring(int id) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMddyyyy", Locale.US);
@@ -375,9 +401,9 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 earning.setTitle(cursor.getString(1));
                 earning.setAmount(cursor.getDouble(2));
                 try {
-                    earning.setDateEarned(dateFormat.parse(new Date(cursor.getLong(3)).toString()));
+                    earning.setDateEarned(dateFormat.parse(cursor.getString(3)));
                 } catch (Exception e) {
-
+                    Log.d("E", "getEarningsByBudgetIdThatAreRecurring: " + e.getMessage());
                 }
                 earning.setIsRecurring(cursor.getInt(4) == 1);
                 earning.setBudgetId(cursor.getInt(5));
@@ -436,9 +462,11 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @param db
-     * @param id
-     * @return
+     * Deletes bills based on a budget id = id
+     *
+     * @param db database to use
+     * @param id id of budget to use as a filter
+     * @return true if deleted false otherwise
      */
     public boolean deleteBillsByMonthlyBudgetID(SQLiteDatabase db, int id) {
         return db.delete(BudgetDatabase.Bills.TABLE_NAME, BudgetDatabase.Bills.C8_FK1_BUDGET_ID +
@@ -463,8 +491,8 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
      * Deletes an earning associated with an id and returns true if
      * deleted false otherwise
      *
-     * @param id
-     * @return
+     * @param id id of earning to delete
+     * @return true if deleted false otherwise
      */
     public boolean deleteEarningById(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -474,9 +502,10 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
+     * Gets the last budget added by a user based on id == userid
      *
-     * @param id
-     * @return
+     * @param id id of user
+     * @return the last monthly budget added by the user
      */
     public MonthlyBudget getLastMonthlyBudgetAddedByUser(int id) {
         MonthlyBudget budget = new MonthlyBudget();
@@ -488,34 +517,45 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
             budget.setId(cursor.getInt(0));
             budget.setTitle(cursor.getString(1));
             budget.setDescription(cursor.getString(2));
-            budget.setDateCreated(new Date(cursor.getLong(3)));
-            budget.setDateUpdated(new Date(cursor.getLong(4)));
+            try {
+                budget.setDateCreated(Session.dateFormatDatabase.parse(cursor.getString(3)));
+            } catch (Exception e) {
+                Log.d("E", "getLastMonthlyBudgetAddedByUser: ");
+            }
+            try {
+                budget.setDateUpdated(Session.dateFormatDatabase.parse(cursor.getString(4)));
+            } catch (Exception e) {
+                Log.d("E", "getLastMonthlyBudgetAddedByUser: ");
+            }
             budget.setUserId(cursor.getInt(5));
         } else {
             return null;
         }
+        cursor.close();
+        db.close();
         return budget;
     }
 
     /**
+     * Adds any recurring bills and earnings from the previous month to the new one
      *
-     * @param newId
-     * @param id
-     * @return
+     * @param newId id of the new budget
+     * @param id    id of the old one
+     * @return true if success false error
      */
     public boolean addRecurringBillsAndEarningsFromPreviousMonth(long newId, int id) {
         Boolean ret = true;
         ArrayList<Bill> bills = this.getBillsByBudgetIdThatAreRecurring(id);
         ArrayList<Earning> earnings = this.getEarningsByBudgetIdThatAreRecurring(id);
         for (Bill b : bills) {
-            b.setBudgetId((int)newId);
+            b.setBudgetId((int) newId);
             long result = this.addBill(b);
             if (result == -1 && ret) {
                 ret = false;
             }
         }
         for (Earning e : earnings) {
-            e.setBudgetId((int)newId);
+            e.setBudgetId((int) newId);
             long result = this.addEarning(e);
             if (result == -1 && ret)
                 ret = false;

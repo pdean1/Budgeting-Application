@@ -30,7 +30,7 @@ public class Earning extends BaseBudgetRecord {
         String recurring = this.isRecurring() ? "Recurring" : "Not recurring";
         return this.getTitle() + "\n" +
                 Session.numberFormat.format(this.getAmount()) + "\n" +
-                Session.dateFormat1.format(this.getDateEarned()) + "\n" +
+                Session.dateFormatView.format(this.getDateEarned()) + "\n" +
                 recurring;
     }
 

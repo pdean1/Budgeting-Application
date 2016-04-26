@@ -19,7 +19,8 @@ public class Session {
     // Does the applications double to currency representations
     public static NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
     // Does the apps date displays
-    public static SimpleDateFormat dateFormat1 = new SimpleDateFormat("MM-dd-yyyy");
+    public static SimpleDateFormat dateFormatView = new SimpleDateFormat("MM-dd-yyyy");
+    public static SimpleDateFormat dateFormatDatabase = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
 
     /**
      * Returns the session's instance to the caller

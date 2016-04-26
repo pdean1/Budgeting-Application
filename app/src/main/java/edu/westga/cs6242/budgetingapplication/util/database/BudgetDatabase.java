@@ -66,8 +66,8 @@ public class BudgetDatabase {
                         + C1_PK_ID + " INTEGER PRIMARY KEY,"
                         + C2_TITLE + " TEXT NOT NULL UNIQUE, "
                         + C3_DESCRIPTION + " TEXT, "
-                        + C4_DATE_CREATED + " NUMERIC NOT NULL, "
-                        + C5_DATE_UPDATED + " NUMERIC,"
+                        + C4_DATE_CREATED + " TEXT NOT NULL, "
+                        + C5_DATE_UPDATED + " TEXT,"
                         + C6_FK1_USER_ID + " INTEGER NOT NULL, "
                         + "FOREIGN KEY (" + C6_FK1_USER_ID +
                         ") REFERENCES " + Users.TABLE_NAME + " ( " +
@@ -94,8 +94,8 @@ public class BudgetDatabase {
                         + C1_PK_ID + " INTEGER PRIMARY KEY,"
                         + C2_TITLE + " TEXT NOT NULL, "
                         + C3_AMOUNT + " NUMERIC NOT NULL, "
-                        + C4_DATE_DUE + " NUMERIC NOT NULL, "
-                        + C5_DATE_PAID + " NUMERIC, "
+                        + C4_DATE_DUE + " TEXT NOT NULL, "
+                        + C5_DATE_PAID + " TEXT, "
                         + C6_IS_PAID + " INTEGER NOT NULL, "
                         + C7_IS_RECURRING + " INTEGER NOT NULL,"
                         + C8_FK1_BUDGET_ID + " INTEGER NOT NULL, "
@@ -122,7 +122,7 @@ public class BudgetDatabase {
                         + C1_PK_ID + " INTEGER PRIMARY KEY,"
                         + C2_TITLE + " TEXT NOT NULL, "
                         + C3_AMOUNT + " NUMERIC NOT NULL, "
-                        + C4_DATE_EARNED + " NUMERIC NOT NULL, "
+                        + C4_DATE_EARNED + " TEXT NOT NULL, "
                         + C5_IS_RECURRING + " INTEGER NOT NULL, "
                         + C6_FK1_BUDGET_ID + " INTEGER NOT NULL, "
                         + "FOREIGN KEY (" + C6_FK1_BUDGET_ID

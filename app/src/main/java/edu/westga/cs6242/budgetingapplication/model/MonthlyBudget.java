@@ -70,6 +70,7 @@ public class MonthlyBudget extends BaseRecord {
         return Integer.toString(this.getId()) + " - " + this.getTitle();
     }
 
+    // todo USE THIS IN THE MANAGE BUGET VIEW
     public static double getSumOfBills(ArrayList<Bill> bills) {
         double d = 0;
         for (Bill bill : bills) {

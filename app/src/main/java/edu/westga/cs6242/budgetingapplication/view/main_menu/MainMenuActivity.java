@@ -60,8 +60,8 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 try {
-                    Date date = Session.dateFormat1.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
-                    tvSelectMonth.setText(Session.dateFormat1.format(date));
+                    Date date = Session.dateFormatView.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
+                    tvSelectMonth.setText(Session.dateFormatView.format(date));
                 } catch (Exception e) {
                     tvSelectMonth.setText(R.string.txt_error);
                 }
@@ -102,7 +102,7 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
 
         try {
-            monthlyBudget.setDateCreated(Session.dateFormat1.parse(this.tvSelectMonth.getText().toString()));
+            monthlyBudget.setDateCreated(Session.dateFormatView.parse(this.tvSelectMonth.getText().toString()));
             Log.d("I", monthlyBudget.getDateCreated().toString());
         } catch (Exception e) {
             return;
@@ -137,7 +137,7 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         }
         // Audit Date
         try {
-            Session.dateFormat1.parse(this.tvSelectMonth.getText().toString());
+            Session.dateFormatView.parse(this.tvSelectMonth.getText().toString());
         } catch (Exception e) {
             this.tvSelectMonth.setTextColor(Color.RED);
             ToastMessage("Provide a valid date");
