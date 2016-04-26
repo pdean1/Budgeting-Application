@@ -127,10 +127,6 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
         toast.show();
     }
 
-    private boolean validateInput() {
-        return false;
-    }
-
     /**
      * Called when a view has been clicked.
      *

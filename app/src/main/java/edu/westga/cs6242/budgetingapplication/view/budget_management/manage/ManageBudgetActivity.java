@@ -73,8 +73,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     }
 
     @Override
-    public void onResume()
-    {  // After a pause OR at startup
+    public void onResume() {  // After a pause OR at startup
         super.onResume();
         //Refresh your stuff here
         this.updateList();
@@ -123,7 +122,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                     }
                 });
                 tvTitle.setText(earning.getTitle());
-                tvAmount.setText(Double.toString(earning.getAmount()));
+                tvAmount.setText(Session.numberFormat.format(earning.getAmount()));
                 tvDateEarned.setText(earning.getDateEarned().toString());
                 tvIsRecurring.setText((earning.isRecurring()) ? "Recurring" : "Not Recurring");
                 dialog.show();
@@ -160,7 +159,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                     }
                 });
                 tvBillTitle.setText(bill.getTitle());
-                tvBillAmount.setText(Double.toString(bill.getAmount()));
+                tvBillAmount.setText(Session.numberFormat.format(bill.getAmount()));
                 tvDateDue.setText(bill.getDateDue().toString());
                 tvBillDatePaid.setText(bill.getDatePaid().toString());
                 tvBillIsRecurring.setText((bill.isRecurring()) ? "Recurring" : "Not Recurring");
