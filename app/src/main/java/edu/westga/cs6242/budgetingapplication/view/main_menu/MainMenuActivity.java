@@ -89,24 +89,25 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         }
         MonthlyBudget monthlyBudgetForRecurringAdd = new MonthlyBudget();
         if (this.cbIsRecurring.isChecked()) {
-            monthlyBudgetForRecurringAdd =
-                    this.dbh.getLastMonthlyBudgetAddedByUser(Session.getUser().getId());
+            monthlyBudgetForRecurringAdd = this.dbh.getLastMonthlyBudgetAddedByUser(Session.getUser().getId());
             if (monthlyBudgetForRecurringAdd == null) {
-                ToastMessage("Un-check is recurring. There are no recurring items.");
+                ToastMessage("Un-check is recurring. No previous budget.");
+                return;
+            }
+            if (!this.dbh.checkForRecurringBudgetRecords(monthlyBudgetForRecurringAdd.getId())) {
+                ToastMessage("Un-check is recurring. No previous recurring bills or earnings.");
                 return;
             }
         }
         MonthlyBudget monthlyBudget = new MonthlyBudget();
         monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
-
         try {
             monthlyBudget.setDateCreated(Session.dateFormatDatabase.parse(this.tvSelectMonth.getText().toString()));
         } catch (Exception e) {
             Log.d("I", monthlyBudget.getDateCreated().toString());
             return;
         }
-
         monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());
         monthlyBudget.setUserId(Session.getUser().getId());
         long result = this.dbh.addMonthlyBudget(monthlyBudget);

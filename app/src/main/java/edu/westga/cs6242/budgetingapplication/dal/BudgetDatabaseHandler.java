@@ -536,6 +536,18 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         return budget;
     }
 
+    public boolean checkForRecurringBudgetRecords(int budgetID) {
+        ArrayList<Bill> bills = this.getBillsByBudgetIdThatAreRecurring(budgetID);
+        if (bills.size() != 0) {
+            return true;
+        }
+        ArrayList<Earning> earnings = this.getEarningsByBudgetIdThatAreRecurring(budgetID);
+        if (earnings.size() != 0) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Adds any recurring bills and earnings from the previous month to the new one
      *
@@ -560,6 +572,6 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
             if (result == -1 && ret)
                 ret = false;
         }
-        return true;
+        return ret;
     }
 }
