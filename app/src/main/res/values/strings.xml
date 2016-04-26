@@ -47,4 +47,5 @@
     <string name="txt_error">Error</string>
     <string name="txt_stats_elb">"Earnings less bills: "</string>
     <string name="txt_sum_of_bills_not_paid">"Sum of bills not paid: "</string>
+    <string name="txt_ratio">Earnings to bills ratio: %.2f</string>
 </resources>

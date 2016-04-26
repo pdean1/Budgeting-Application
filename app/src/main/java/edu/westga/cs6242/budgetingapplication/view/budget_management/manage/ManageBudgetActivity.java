@@ -36,7 +36,8 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private ArrayAdapter<Bill> billArrayAdapter;
     private ArrayAdapter<Earning> earningArrayAdapter;
     private TabHost tabHost;
-    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel, tvEarningsLessBills, tvSumOfBillsNotPaid;
+    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel, tvEarningsLessBills,
+    tvSumOfBillsNotPaid, tvStatEarningsToBillsRatio;
     EditText dateLabel;
     ListView lvBills, lvEarnings;
 
@@ -207,6 +208,17 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         }
         this.tvSumOfBillsNotPaid.setText(String.format("%s%s", getString(R.string.txt_sum_of_bills_not_paid),
                 numberFormat.format(billsNotPaidAmount)));
+        double a;
+        try {
+            a = earningsAmount / billsAmount;
+        } catch (Exception e) {
+            a = 0.0;
+        }
+
+        double earningsToBillsRatio = a;
+        this.tvStatEarningsToBillsRatio = (TextView) findViewById(R.id.tvStatEarningsToBillsRatio);
+        this.tvStatEarningsToBillsRatio.setText(String.format(getString(R.string.txt_ratio), earningsToBillsRatio));
+
     }
 
     private void getViewsById() {
