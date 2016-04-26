@@ -2,6 +2,7 @@ package edu.westga.cs6242.budgetingapplication.view.main_menu;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -81,23 +82,28 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
     }
 
     public void btnAddBudget_Click(View v) {
-        if (this.etBudgetTitle.getText().toString().length() < 5 ||
-                this.etBudgetDescription.getText().toString().length() < 10) {
-            ToastMessage("Please provide a proper title and description!");
+
+        // Validation Routine
+
+        if (validationRoutine() == false) {
             return;
         }
-
         MonthlyBudget monthlyBudgetForRecurringAdd = new MonthlyBudget();
+
         if (this.cbIsRecurring.isChecked()) {
             // if the is recurring check box is checked... set the monthly budget 2 session variable
-            monthlyBudgetForRecurringAdd = this.dbh.getLastMonthlyBudgetAddedByUser(Session.getUser().getId());
+            monthlyBudgetForRecurringAdd =
+                    this.dbh.getLastMonthlyBudgetAddedByUser(Session.getUser().getId());
         }
-
         MonthlyBudget monthlyBudget = new MonthlyBudget();
 
         monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
-        monthlyBudget.setDateCreated(new Date(Calendar.getInstance().getTimeInMillis()));
+        try {
+            monthlyBudget.setDateCreated(Session.dateFormatMMddddyyyy.parse(this.tvSelectMonth.getText().toString()));
+        } catch (Exception e) {
+            return;
+        }
         monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());
         monthlyBudget.setUserId(Session.getUser().getId());
 
@@ -109,13 +115,35 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         }
 
         if (this.cbIsRecurring.isChecked()) {
-            if (!this.dbh.addRecurringBillsAndEarningsFromPreviousMonth(result, monthlyBudgetForRecurringAdd.getId())) {
+            if (!this.dbh.addRecurringBillsAndEarningsFromPreviousMonth(result, Session.getMonthlyBudget2().getId())) {
                 ToastMessage("Budget Added, but unable to add recurring fields!");
                 return;
             }
         }
 
         ToastMessage("Budget Added!");
+    }
+
+    private boolean validationRoutine() {
+        // Audit Title
+        if (this.etBudgetTitle.getText().toString().length() < 5) {
+            ToastMessage("Please provide a proper title and description!");
+            return false;
+        }
+        // Audit Description
+        if (this.etBudgetDescription.getText().toString().length() < 10) {
+            ToastMessage("Please provide a proper title and description!");
+            return false;
+        }
+        // Audit Date
+        try {
+            Session.dateFormatMMddddyyyy.parse(this.tvSelectMonth.getText().toString());
+        } catch (Exception e) {
+            this.tvSelectMonth.setTextColor(Color.RED);
+            ToastMessage("Provide a valid date");
+            return false;
+        }
+        return true;
     }
 
     private void ToastMessage(String text) {

@@ -9,7 +9,6 @@ import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -230,16 +229,13 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
     public long addMonthlyBudget(MonthlyBudget budget) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(BudgetDatabase.MonthlyBudget.C2_TITLE,
-                budget.getTitle());
-        values.put(BudgetDatabase.MonthlyBudget.C3_DESCRIPTION,
-                budget.getDescription());
-        values.put(BudgetDatabase.MonthlyBudget.C4_DATE_CREATED,
-                new Date(Calendar.getInstance().getTimeInMillis()).toString());
-        values.put(BudgetDatabase.MonthlyBudget.C5_DATE_UPDATED,
-                new Date(Calendar.getInstance().getTimeInMillis()).toString());
-        values.put(BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID,
-                budget.getUserId());
+
+        values.put(BudgetDatabase.MonthlyBudget.C2_TITLE, budget.getTitle());
+        values.put(BudgetDatabase.MonthlyBudget.C3_DESCRIPTION, budget.getDescription());
+        values.put(BudgetDatabase.MonthlyBudget.C4_DATE_CREATED, budget.getDateCreated().toString());
+        values.put(BudgetDatabase.MonthlyBudget.C5_DATE_UPDATED, budget.getDateUpdated().toString());
+        values.put(BudgetDatabase.MonthlyBudget.C6_FK1_USER_ID, budget.getUserId());
+
         long id = db.insert(BudgetDatabase.MonthlyBudget.TABLE_NAME,
                 null, values);
         db.close();
