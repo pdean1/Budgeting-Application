@@ -13,30 +13,13 @@ import edu.westga.cs6242.budgetingapplication.model.User;
  * @version 1
  */
 public class Session {
-    /**
-     *
-     */
     private static Session ourInstance = new Session();
-
-    /**
-     *
-     */
     private static User user = new User();
-
-    /**
-     *
-     */
     private static MonthlyBudget budget_1 = new MonthlyBudget();
-    private static MonthlyBudget budget_2 = new MonthlyBudget();
-
-    public static NumberFormat numberFormat = NumberFormat
-            .getCurrencyInstance();
-
-    public static SimpleDateFormat dateFormatMMMyyy = new
-            SimpleDateFormat("MMM yyyy");
-
-    public static SimpleDateFormat dateFormatMMddddyyyy = new
-            SimpleDateFormat("MM-dd-yyyy");
+    // Does the applications double to currency representations
+    public static NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+    // Does the apps date displays
+    public static SimpleDateFormat dateFormatMMddddyyyy = new SimpleDateFormat("MM-dd-yyyy");
 
     /**
      * Returns the session's instance to the caller
@@ -73,15 +56,6 @@ public class Session {
     }
 
     /**
-     * Sets the monthly budget variable number two
-     *
-     * @param budget Budget to set too
-     */
-    public static void setMonthlyBudget2(MonthlyBudget budget) {
-        Session.budget_2 = budget;
-    }
-
-    /**
      * Gets the session user
      *
      * @return this session user
@@ -97,14 +71,5 @@ public class Session {
      */
     public static MonthlyBudget getMonthlyBudget1() {
         return Session.budget_1;
-    }
-
-    /**
-     * Get the monthly budget variable number two
-     *
-     * @return the second monthly variable budget
-     */
-    public static MonthlyBudget getMonthlyBudget2() {
-        return Session.budget_2;
     }
 }

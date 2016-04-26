@@ -27,7 +27,6 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
 
     private DatePickerDialog datePickerDialogDateDue;
 
-
     private BudgetDatabaseHandler dbh;
 
     @Override
@@ -108,8 +107,7 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
         }
         try {
             Session.dateFormatMMddddyyyy.parse(this.etDateDue.getText().toString());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ToastMessage("Invalid Date");
             return false;
         }
