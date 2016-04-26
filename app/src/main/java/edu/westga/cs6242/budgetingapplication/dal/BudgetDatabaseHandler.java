@@ -179,8 +179,8 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 monthlyBudget.setId(cursor.getInt(0));
                 monthlyBudget.setTitle(cursor.getString(1));
                 monthlyBudget.setDescription(cursor.getString(2));
-                monthlyBudget.setDateCreated(new Date(cursor.getLong(3)));
-                monthlyBudget.setDateUpdated(new Date(cursor.getLong(4)));
+                monthlyBudget.setDateCreated(Session.dateFormatMMddddyyyy.parse(new Date(cursor.getLong(3)).toString()));
+                monthlyBudget.setDateUpdated(Session.dateFormatMMddddyyyy.parse(new Date(cursor.getLong(4)).toString()));
                 monthlyBudget.setUserId(cursor.getInt(5));
             } else {
                 monthlyBudget = null;
@@ -211,8 +211,12 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
                 monthlyBudget.setId(cursor.getInt(0));
                 monthlyBudget.setTitle(cursor.getString(1));
                 monthlyBudget.setDescription(cursor.getString(2));
-                monthlyBudget.setDateCreated(new Date(cursor.getLong(3)));
-                monthlyBudget.setDateUpdated(new Date(cursor.getLong(4)));
+                try {
+                    monthlyBudget.setDateCreated(Session.dateFormatMMddddyyyy.parse(new Date(cursor.getLong(3)).toString()));
+                    monthlyBudget.setDateUpdated(Session.dateFormatMMddddyyyy.parse(new Date(cursor.getLong(4)).toString()));
+                } catch (Exception e) {
+
+                }
                 monthlyBudget.setUserId(cursor.getInt(5));
                 budgets.add(monthlyBudget);
                 cursor.moveToNext();

@@ -1,5 +1,6 @@
 package edu.westga.cs6242.budgetingapplication.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.model.base_classes.BaseRecord;
@@ -67,6 +68,22 @@ public class MonthlyBudget extends BaseRecord {
     @Override
     public String toString() {
         return Integer.toString(this.getId()) + " - " + this.getTitle();
+    }
+
+    public static double getSumOfBills(ArrayList<Bill> bills) {
+        double d = 0;
+        for (Bill bill : bills) {
+            d+=bill.getAmount();
+        }
+        return d;
+    }
+
+    public static double getSumOfEarnings(ArrayList<Earning> earnings) {
+        double d = 0.0;
+        for (Earning earning : earnings) {
+            d+=earning.getAmount();
+        }
+        return d;
     }
 
 }
