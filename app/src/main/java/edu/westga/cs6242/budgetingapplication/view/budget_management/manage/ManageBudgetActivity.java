@@ -273,6 +273,12 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         updateList();
     }
 
+    private void deleteBudget() {
+        this.dbh.deleteMonthlyBudget(getMonthlyBudget1());
+        ToastMessage("Budget Deleted");
+        this.finish();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -289,6 +295,9 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 return true;
             case R.id.new_earning:
                 this.createNewEarning();
+                return true;
+            case R.id.deleteThisBudget:
+                this.deleteBudget();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

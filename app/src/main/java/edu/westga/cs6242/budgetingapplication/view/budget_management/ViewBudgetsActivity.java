@@ -49,26 +49,30 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
 
             this.dbh = new BudgetDatabaseHandler(getApplicationContext());
 
-            this.monthlyBudgets = this.dbh.getMonthlyBudgetsByUserId(Session.getUser().getId());
-            ArrayAdapter<MonthlyBudget> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                    this.monthlyBudgets);
-            this.spinnerBudgets.setAdapter(arrayAdapter);
-            this.spinnerBudgets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    RefreshView(position);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    RefreshView(-1);
-                }
-            });
+            updateBudgetSpinner();
         } catch (Exception e) {
             ToastMessage("Fail");
         }
         updateSessionText();
+    }
+
+    private void updateBudgetSpinner() {
+        this.monthlyBudgets = this.dbh.getMonthlyBudgetsByUserId(Session.getUser().getId());
+        ArrayAdapter<MonthlyBudget> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+                this.monthlyBudgets);
+        this.spinnerBudgets.setAdapter(arrayAdapter);
+        this.spinnerBudgets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                RefreshView(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                RefreshView(-1);
+            }
+        });
     }
 
     public void btnManageBudget_Click(View v) {
@@ -139,5 +143,11 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         assert txtSessionInfo != null;
         String sessionString = "Signed in as: " + Session.getUser().getUserName();
         txtSessionInfo.setText(sessionString);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.updateBudgetSpinner();
     }
 }

@@ -26,11 +26,8 @@ public class Bill extends BaseBudgetRecord {
     public String getInformation() {
         String paid = this.isPaid() ? "Paid" : "Not paid";
         String recurring = this.isRecurring() ? "Recurring" : "Not Recurring";
-        return this.getTitle() + "\n" +
-                Session.numberFormat.format(this.getAmount()) + "\n" +
-                this.getDateDue()  + "\n" +
-                paid + "\n" +
-                recurring;
+        return this.getTitle() + "\n" + Session.numberFormat.format(this.getAmount()) + "\n" + this.getDateDue() +
+                "\n" + paid + "\n" + recurring;
     }
 
     public String getDateDue() {
