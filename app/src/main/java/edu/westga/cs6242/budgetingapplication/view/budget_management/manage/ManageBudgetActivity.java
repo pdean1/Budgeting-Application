@@ -22,10 +22,13 @@ import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
-import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.create.CreateBillActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.create.CreateEarningActivity;
+
+import static edu.westga.cs6242.budgetingapplication.util.session.Session.getMonthlyBudget1;
+import static edu.westga.cs6242.budgetingapplication.util.session.Session.getUser;
+import static edu.westga.cs6242.budgetingapplication.util.session.Session.numberFormat;
 
 public class ManageBudgetActivity extends PortraitOnlyActivity {
 
@@ -33,7 +36,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private ArrayAdapter<Bill> billArrayAdapter;
     private ArrayAdapter<Earning> earningArrayAdapter;
     private TabHost tabHost;
-    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel, tvEarningsLessBills;
+    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel, tvEarningsLessBills, tvSumOfBillsNotPaid;
     EditText dateLabel;
     ListView lvBills, lvEarnings;
 
@@ -81,10 +84,10 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
 
     private void updateBudgetInformation() {
         updateList();
-        titleLabel.setText(Session.getMonthlyBudget1().getTitle());
-        descriptionLabel.setText(Session.getMonthlyBudget1().getDescription());
+        titleLabel.setText(getMonthlyBudget1().getTitle());
+        descriptionLabel.setText(getMonthlyBudget1().getDescription());
         dateLabel.setEnabled(false);
-        dateLabel.setText(Session.getMonthlyBudget1().getDateCreated().toString());
+        dateLabel.setText(getMonthlyBudget1().getDateCreated().toString());
     }
 
     private ArrayList<Bill> bills;
@@ -122,7 +125,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                     }
                 });
                 tvTitle.setText(earning.getTitle());
-                tvAmount.setText(Session.numberFormat.format(earning.getAmount()));
+                tvAmount.setText(numberFormat.format(earning.getAmount()));
                 tvDateEarned.setText(earning.getDateEarned().toString());
                 tvIsRecurring.setText((earning.isRecurring()) ? "Recurring" : "Not Recurring");
                 dialog.show();
@@ -159,7 +162,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                     }
                 });
                 tvBillTitle.setText(bill.getTitle());
-                tvBillAmount.setText(Session.numberFormat.format(bill.getAmount()));
+                tvBillAmount.setText(numberFormat.format(bill.getAmount()));
                 tvDateDue.setText(bill.getDateDue().toString());
                 tvBillDatePaid.setText(bill.getDatePaid().toString());
                 tvBillIsRecurring.setText((bill.isRecurring()) ? "Recurring" : "Not Recurring");
@@ -170,28 +173,40 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     }
 
     private void setUpListViews() {
-        this.bills = this.dbh.getBillsByBudgetId(Session.getMonthlyBudget1().getId());
-        this.earnings = this.dbh.getEarningsByBudgetId(Session.getMonthlyBudget1().getId());
+        this.bills = this.dbh.getBillsByBudgetId(getMonthlyBudget1().getId());
+        this.earnings = this.dbh.getEarningsByBudgetId(getMonthlyBudget1().getId());
         this.billArrayAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bills);
         this.earningArrayAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
         this.lvBills.setAdapter(billArrayAdapter);
         this.lvEarnings.setAdapter(earningArrayAdapter);
-        double billsAmount = 0.0, earningsAmount = 0.0;
+        double billsAmount = 0.0, earningsAmount;
         for (Bill b : this.bills) {
-            billsAmount+= b.getAmount();
+            billsAmount += b.getAmount();
         }
-        this.statsBillsLabel.setText(Session.numberFormat.format(billsAmount));
+        this.statsBillsLabel.setText(String.format("Total bill amount: %s", numberFormat.format(billsAmount)));
         earningsAmount = 0.0;
         for (Earning b : this.earnings) {
             earningsAmount += b.getAmount();
         }
-        double EarningsLessBills = earningsAmount - ((billsAmount > 0) ?
+        this.statsEarningsLabel.setText(String.format("Total earnings amount: %s", numberFormat.format
+                (earningsAmount)));
+        double EarningsLessBills = earningsAmount + ((billsAmount > 0) ?
                 billsAmount * -1.0 :
                 billsAmount);
         this.tvEarningsLessBills = (TextView) findViewById(R.id.tvStatsEarningsLessBills);
-        this.tvEarningsLessBills.setText("Earnings less bills: " + Session.numberFormat.format(EarningsLessBills));
+        this.tvEarningsLessBills.setText(String.format("%s%s", getString(R.string.txt_stats_elb),
+                numberFormat.format(EarningsLessBills)));
+        this.tvSumOfBillsNotPaid = (TextView) findViewById(R.id.tvSumOfBillsNotPaid);
+        double billsNotPaidAmount = 0.0;
+        for (Bill bill : this.bills) {
+            if (bill.isPaid())
+                continue;
+            billsNotPaidAmount += bill.getAmount();
+        }
+        this.tvSumOfBillsNotPaid.setText(String.format("%s%s", getString(R.string.txt_sum_of_bills_not_paid),
+                numberFormat.format(billsNotPaidAmount)));
     }
 
     private void getViewsById() {
@@ -208,7 +223,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private void updateSessiontText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvUserInformation);
         assert txtSessionInfo != null;
-        String sessionString = "Signed in as: " + Session.getUser().getUserName();
+        String sessionString = "Signed in as: " + getUser().getUserName();
         txtSessionInfo.setText(sessionString);
     }
 

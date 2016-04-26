@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.budget_management.manage.ManageBudgetActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".view.budget_management.manage.ManageBudgetActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/txt_title_lbl"
         android:id="@+id/tvBudgetTitleLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_toLeftOf="@+id/tvUserInformation"
-        android:layout_toStartOf="@+id/tvUserInformation" />
+        android:layout_toStartOf="@+id/tvUserInformation"
+        android:text="@string/txt_title_lbl"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/txt_description_lbl"
         android:id="@+id/tvDescr"
-        android:layout_below="@+id/tvBudgetTitleLbl"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/txt_date_created"
-        android:id="@+id/tvDateCreated"
-        android:layout_below="@+id/etDescriptionLbl"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/etDescriptionLbl"
-        android:layout_below="@+id/tvDescr"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvBudgetTitleLbl"
+        android:text="@string/txt_description_lbl"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/tvDateCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etDescriptionLbl"
+        android:text="@string/txt_date_created"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/etDescriptionLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvDescr"
+        android:ems="10"/>
 
     <EditText
+        android:id="@+id/etDateCreatedLbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/etDateCreatedLbl"
-        android:layout_below="@+id/tvDateCreated"
+        android:layout_alignEnd="@+id/etDescriptionLbl"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/etDescriptionLbl"
-        android:layout_alignEnd="@+id/etDescriptionLbl"
+        android:layout_below="@+id/tvDateCreated"
+        android:ems="10"
+        android:enabled="false"
         android:focusable="false"
-        android:enabled="false" />
+        android:inputType="date"/>
 
     <TabHost
+        android:id="@+id/tabHost"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tabHost"
-        android:layout_below="@+id/etDateCreatedLbl"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/etDateCreatedLbl">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,9 +99,9 @@
                     android:orientation="vertical">
 
                     <ListView
+                        android:id="@+id/lvBills"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/lvBills" />
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -112,9 +112,9 @@
                     android:orientation="vertical">
 
                     <ListView
+                        android:id="@+id/lvEarnings"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/lvEarnings" />
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -125,41 +125,41 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Medium Text"
                             android:id="@+id/tvStatBills"
-                            android:layout_margin="10dp"/>
-
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_margin="10dp"
                             android:text="Medium Text"
+                            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                        <TextView
                             android:id="@+id/tvStatEarnings"
-                            android:layout_margin="10dp"/>
-
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_margin="10dp"
                             android:text="Medium Text"
+                            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                        <TextView
                             android:id="@+id/tvStatsEarningsLessBills"
-                            android:layout_margin="10dp"/>
-
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_margin="10dp"
                             android:text="Medium Text"
-                            android:id="@+id/textView15"
-                            android:layout_margin="10dp"/>
+                            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                        <TextView
+                            android:id="@+id/tvSumOfBillsNotPaid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Medium Text"
+                            android:textAppearance="?android:attr/textAppearanceMedium"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -168,14 +168,14 @@
     </TabHost>
 
     <TextView
+        android:id="@+id/tvUserInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/txt_username"
-        android:id="@+id/tvUserInformation"
+        android:layout_alignEnd="@+id/etDescriptionLbl"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/etDescriptionLbl"
-        android:layout_alignEnd="@+id/etDescriptionLbl" />
+        android:text="@string/txt_username"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
     <!--
         <TabHost
             android:layout_width="match_parent"

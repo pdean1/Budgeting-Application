@@ -73,7 +73,7 @@ public class MonthlyBudget extends BaseRecord {
     public static double getSumOfBills(ArrayList<Bill> bills) {
         double d = 0;
         for (Bill bill : bills) {
-            d+=bill.getAmount();
+            d += bill.getAmount();
         }
         return d;
     }
@@ -81,7 +81,7 @@ public class MonthlyBudget extends BaseRecord {
     public static double getSumOfEarnings(ArrayList<Earning> earnings) {
         double d = 0.0;
         for (Earning earning : earnings) {
-            d+=earning.getAmount();
+            d += earning.getAmount();
         }
         return d;
     }
