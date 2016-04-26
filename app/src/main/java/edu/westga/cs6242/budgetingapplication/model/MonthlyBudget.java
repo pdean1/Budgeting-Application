@@ -86,4 +86,12 @@ public class MonthlyBudget extends BaseRecord {
         return d;
     }
 
+    public static int getCountOfBills(ArrayList<Bill> bills) {
+        return bills.size();
+    }
+
+
+    public static int getCountOfEarnings(ArrayList<Earning> earnings) {
+        return earnings.size();
+    }
 }

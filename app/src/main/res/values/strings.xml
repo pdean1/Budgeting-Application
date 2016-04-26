@@ -44,4 +44,5 @@
     <string name="txt_delete_earning">Delete Earning</string>
     <string name="txt_delete_bill">Delete Bill</string>
     <string name="txt_select_a_month">Select a Month</string>
+    <string name="txt_error">Error</string>
 </resources>

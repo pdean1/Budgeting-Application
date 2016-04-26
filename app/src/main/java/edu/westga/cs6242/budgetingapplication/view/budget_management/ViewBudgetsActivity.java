@@ -109,7 +109,7 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         this.lblTitle.setText(budget.getTitle());
         this.lblDescription.setText(budget.getDescription());
         Log.d("I", budget.toString());
-        this.lblDateCreated.setText(Session.dateFormatMMddddyyyy.format(budget.getDateCreated()));
+        this.lblDateCreated.setText(Session.dateFormatMM_dd_yyyy.format(budget.getDateCreated()));
     }
 
     ///

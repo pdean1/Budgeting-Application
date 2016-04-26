@@ -150,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Medium Text"
-                            android:id="@+id/textView14"
+                            android:id="@+id/tvStatsEarningsLessBills"
                             android:layout_margin="10dp"/>
 
                         <TextView

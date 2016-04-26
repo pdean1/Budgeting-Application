@@ -33,7 +33,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private ArrayAdapter<Bill> billArrayAdapter;
     private ArrayAdapter<Earning> earningArrayAdapter;
     private TabHost tabHost;
-    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel;
+    TextView titleLabel, descriptionLabel, statsBillsLabel, statsEarningsLabel, tvEarningsLessBills;
     EditText dateLabel;
     ListView lvBills, lvEarnings;
 
@@ -178,16 +178,20 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, earnings);
         this.lvBills.setAdapter(billArrayAdapter);
         this.lvEarnings.setAdapter(earningArrayAdapter);
-        double d = 0.0;
+        double billsAmount = 0.0, earningsAmount = 0.0;
         for (Bill b : this.bills) {
-            d+= b.getAmount();
+            billsAmount+= b.getAmount();
         }
-        this.statsBillsLabel.setText(Session.numberFormat.format(d));
-        d = 0.0;
+        this.statsBillsLabel.setText(Session.numberFormat.format(billsAmount));
+        earningsAmount = 0.0;
         for (Earning b : this.earnings) {
-            d+= b.getAmount();
+            earningsAmount += b.getAmount();
         }
-        this.statsEarningsLabel.setText(Session.numberFormat.format(d));
+        double EarningsLessBills = earningsAmount - ((billsAmount > 0) ?
+                billsAmount * -1.0 :
+                billsAmount);
+        this.tvEarningsLessBills = (TextView) findViewById(R.id.tvStatsEarningsLessBills);
+        this.tvEarningsLessBills.setText("Earnings less bills: " + Session.numberFormat.format(EarningsLessBills));
     }
 
     private void getViewsById() {

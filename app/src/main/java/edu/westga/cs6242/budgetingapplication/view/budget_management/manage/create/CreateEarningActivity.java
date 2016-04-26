@@ -60,7 +60,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             earning.setTitle(this.etTitle.getText().toString());
             earning.setAmount(Double.parseDouble(this.etAmonut.getText().toString()));
             try {
-                earning.setDateEarned(Session.dateFormatMMddddyyyy.parse(this.tvDateEarned.getText().toString()));
+                earning.setDateEarned(Session.dateFormatMM_dd_yyyy.parse(this.tvDateEarned.getText().toString()));
             } catch (ParseException parseException) {
                 earning.setDateEarned(Calendar.getInstance().getTime());
             }
@@ -85,7 +85,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             return false;
         }
         try {
-            Session.dateFormatMMddddyyyy.parse(this.tvDateEarned.getText().toString());
+            Session.dateFormatMM_dd_yyyy.parse(this.tvDateEarned.getText().toString());
         } catch (Exception e) {
             ToastMessage("Invalid Date");
             return false;
@@ -112,7 +112,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvDateEarned.setText(Session.dateFormatMMddddyyyy.format(newDate.getTime()));
+                tvDateEarned.setText(Session.dateFormatMM_dd_yyyy.format(newDate.getTime()));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }

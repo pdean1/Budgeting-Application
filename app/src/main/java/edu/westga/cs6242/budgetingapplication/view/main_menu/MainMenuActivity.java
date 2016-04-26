@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -11,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import edu.westga.cs6242.budgetingapplication.R;
@@ -40,6 +40,11 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
 
     private PickMonthAndYearDialog dialog;
 
+    /*
+    *
+    *
+    *
+    * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,25 +55,32 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
         this.cbIsRecurring = (CheckBox) findViewById(R.id.cbRecurringBillsAndEarnings);
         this.tvSelectMonth = (TextView) findViewById(R.id.tvSelectMonth);
-        this.tvSelectMonth.setOnClickListener(this);
-        Calendar calendar = Calendar.getInstance();
+        if (this.tvSelectMonth != null) {
+            this.tvSelectMonth.setOnClickListener(this);
+        } else {
+            Log.d("E", "Error in setting on click listner: " + (R.id.tvSelectMonth));
+        }
         this.dialog = new PickMonthAndYearDialog();
         this.dialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 try {
-                    Date date = Session.dateFormatMMddddyyyy.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
-                    tvSelectMonth.setText(Session.dateFormatMMddddyyyy.format(date));
+                    Date date = Session.dateFormatMM_dd_yyyy.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
+                    tvSelectMonth.setText(Session.dateFormatMM_dd_yyyy.format(date));
                 } catch (Exception e) {
-                    tvSelectMonth.setText("Error");
+                    tvSelectMonth.setText(R.string.txt_error);
                 }
-
             }
         });
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
         updateSessiontText();
     }
 
+    /*
+    *
+    *
+    *
+    * */
     private void updateSessiontText() {
         txtSessionInfo = (TextView) findViewById(R.id.tvUser);
         String sessionString = "Signed in as: " + Session.getUser().getUserName();
@@ -76,58 +88,64 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         txtSessionInfo.setText(sessionString);
     }
 
+    /*
+    *
+    *
+    *
+    * */
     public void btnManageBudgets_Click(View v) {
         Intent intent = new Intent(v.getContext(), ViewBudgetsActivity.class);
         startActivity(intent);
     }
 
+    /*
+    *
+    *
+    *
+    * */
     public void btnAddBudget_Click(View v) {
-
         // Validation Routine
-
-        if (validationRoutine() == false) {
+        if (!validationRoutine()) {
             return;
         }
         MonthlyBudget monthlyBudgetForRecurringAdd = new MonthlyBudget();
-
         if (this.cbIsRecurring.isChecked()) {
-            // if the is recurring check box is checked... set the monthly budget 2 session variable
             monthlyBudgetForRecurringAdd =
                     this.dbh.getLastMonthlyBudgetAddedByUser(Session.getUser().getId());
+            if (monthlyBudgetForRecurringAdd == null) {
+                ToastMessage("Uncheck is recurring. There are no recurring items.");
+                return;
+            }
         }
         MonthlyBudget monthlyBudget = new MonthlyBudget();
-
         monthlyBudget.setTitle(this.etBudgetTitle.getText().toString());
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
         try {
-            monthlyBudget.setDateCreated(Session.dateFormatMMddddyyyy.parse(this.tvSelectMonth.getText().toString()));
+            monthlyBudget.setDateCreated(Session.dateFormatMM_dd_yyyy.parse(this.tvSelectMonth.getText().toString()));
         } catch (Exception e) {
             return;
         }
         monthlyBudget.setDateUpdated(monthlyBudget.getDateCreated());
         monthlyBudget.setUserId(Session.getUser().getId());
-
         long result = this.dbh.addMonthlyBudget(monthlyBudget);
-
         if (result == -1) {
             ToastMessage("Unable to add Budget to Database, duplicates present.");
             return;
         }
-
         if (this.cbIsRecurring.isChecked()) {
-            if (monthlyBudgetForRecurringAdd == null) {
-                ToastMessage("Budget Added, but no recurring fields were!");
-                return;
-            }
             if (!this.dbh.addRecurringBillsAndEarningsFromPreviousMonth(result, monthlyBudgetForRecurringAdd.getId())) {
                 ToastMessage("Budget Added, but unable to add recurring fields!");
                 return;
             }
         }
-
         ToastMessage("Budget Added!");
     }
 
+    /*
+    *
+    *
+    *
+    * */
     private boolean validationRoutine() {
         // Audit Title
         if (this.etBudgetTitle.getText().toString().length() < 5) {
@@ -141,7 +159,7 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         }
         // Audit Date
         try {
-            Session.dateFormatMMddddyyyy.parse(this.tvSelectMonth.getText().toString());
+            Session.dateFormatMM_dd_yyyy.parse(this.tvSelectMonth.getText().toString());
         } catch (Exception e) {
             this.tvSelectMonth.setTextColor(Color.RED);
             ToastMessage("Provide a valid date");
@@ -150,6 +168,11 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         return true;
     }
 
+    /*
+    *
+    *
+    *
+    * */
     private void ToastMessage(String text) {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
@@ -164,6 +187,6 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v == this.tvSelectMonth)
-            dialog.show(getFragmentManager(), "Pick month for Budget");
+            dialog.show(getFragmentManager(), "1");
     }
 }
