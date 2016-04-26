@@ -2,6 +2,7 @@ package edu.westga.cs6242.budgetingapplication.view.budget_management;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
-import edu.westga.cs6242.budgetingapplication.model.User;
 import edu.westga.cs6242.budgetingapplication.util.session.Session;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.ManageBudgetActivity;
@@ -28,32 +28,31 @@ import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.Mana
 public class ViewBudgetsActivity extends PortraitOnlyActivity {
 
     private Spinner spinnerBudgets;
-    private TextView lblTitle, lblDescription, lblDateCreated;
-
+    private TextView
+            lblTitle,
+            lblDescription,
+            lblDateCreated;
     private ArrayList<MonthlyBudget> monthlyBudgets;
-    private MonthlyBudget currentBudget;
-
     private BudgetDatabaseHandler dbh;
-
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_view_budgets);
-            this.user = Session.getUser();
+
             this.spinnerBudgets = (Spinner) findViewById(R.id.spinBudgets);
             this.lblTitle = (TextView) findViewById(R.id.tvBudgetTitle);
             this.lblDescription = (TextView) findViewById(R.id.tvDescription);
             this.lblDateCreated = (TextView) findViewById(R.id.tvDateCreatedLbl);
             this.showTextViews(false);
+
             this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
-            this.monthlyBudgets = this.dbh.getMonthlyBudgetByUserId(this.user.getId());
+
+            this.monthlyBudgets = this.dbh.getMonthlyBudgetByUserId(Session.getUser().getId());
             ArrayAdapter<MonthlyBudget> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
                     this.monthlyBudgets);
             this.spinnerBudgets.setAdapter(arrayAdapter);
-            this.currentBudget = Session.getMonthlyBudget1();
             this.spinnerBudgets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
@@ -77,8 +76,7 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
             ToastMessage("Add a budget first.");
             return;
         }
-        this.currentBudget = this.monthlyBudgets.get(this.spinnerBudgets.getSelectedItemPosition());
-        Session.setMonthlyBudget1(this.currentBudget);
+        Session.setMonthlyBudget1(this.monthlyBudgets.get(this.spinnerBudgets.getSelectedItemPosition()));
         Intent intent = new Intent(v.getContext(), ManageBudgetActivity.class);
         startActivity(intent);
     }
@@ -99,13 +97,6 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         ToastMessage("Record not found");
     }
 
-    private void updateSessionText() {
-        TextView txtSessionInfo = (TextView) findViewById(R.id.tvSessionLbl);
-        assert txtSessionInfo != null;
-        String sessionString = "Signed in as: " + this.user.getUserName();
-        txtSessionInfo.setText(sessionString);
-    }
-
     private void RefreshView(int spinnerIndex) {
         if (spinnerIndex == -1 || this.monthlyBudgets.size() == 0) {
             this.lblTitle.setText("");
@@ -114,11 +105,16 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
             return;
         }
         showTextViews(true);
-        this.currentBudget = this.monthlyBudgets.get(spinnerIndex);
-        this.lblTitle.setText(this.currentBudget.getTitle());
-        this.lblDescription.setText(this.currentBudget.getDescription());
-        this.lblDateCreated.setText(this.currentBudget.getDateCreated().toString());
+        MonthlyBudget budget = this.monthlyBudgets.get(spinnerIndex);
+        this.lblTitle.setText(budget.getTitle());
+        this.lblDescription.setText(budget.getDescription());
+        Log.d("I", budget.toString());
+        this.lblDateCreated.setText(Session.dateFormatMMddddyyyy.format(budget.getDateCreated()));
     }
+
+    ///
+    /// PRIVATE HELPER METHODS BELOW
+    ///
 
     private void showTextViews(Boolean show) {
         if (show) {
@@ -136,5 +132,12 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
+    }
+
+    private void updateSessionText() {
+        TextView txtSessionInfo = (TextView) findViewById(R.id.tvSessionLbl);
+        assert txtSessionInfo != null;
+        String sessionString = "Signed in as: " + Session.getUser().getUserName();
+        txtSessionInfo.setText(sessionString);
     }
 }

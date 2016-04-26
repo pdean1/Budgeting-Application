@@ -20,9 +20,13 @@ import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyAc
 
 public class CreateEarningActivity extends PortraitOnlyActivity implements View.OnClickListener {
 
-    private TextView tvDateEarned;
-    private EditText etTitle, etAmonut;
-    private CheckBox cbIsRecurring;
+    private TextView
+            tvDateEarned;
+    private EditText
+            etTitle,
+            etAmonut;
+    private CheckBox
+            cbIsRecurring;
 
     private DatePickerDialog datePickerDialogDateEarned;
 

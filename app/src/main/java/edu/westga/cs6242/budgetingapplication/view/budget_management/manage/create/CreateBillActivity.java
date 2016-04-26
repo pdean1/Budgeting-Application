@@ -10,10 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
@@ -29,7 +27,6 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
 
     private DatePickerDialog datePickerDialogDateDue;
 
-    private SimpleDateFormat dateFormat;
 
     private BudgetDatabaseHandler dbh;
 
@@ -37,7 +34,6 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bill);
-        dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
         this.findViewsById();
         this.setDateTimeField();
@@ -60,7 +56,7 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                etDateDue.setText(dateFormat.format(newDate.getTime()));
+                etDateDue.setText(Session.dateFormatMMddddyyyy.format(newDate.getTime()));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
@@ -82,7 +78,7 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             if (this.cbIsPaid.isChecked()) {
                 bill.setDatePaid(Session.dateFormatMMddddyyyy.parse(this.etDateDue.getText().toString()));
             } else {
-                bill.setDatePaid(new Date());
+                bill.setDatePaid(Calendar.getInstance().getTime());
             }
         } catch (Exception e) {
             ToastMessage("Provide a valid date");
@@ -111,7 +107,7 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
             return false;
         }
         try {
-            dateFormat.parse(this.etDateDue.getText().toString());
+            Session.dateFormatMMddddyyyy.parse(this.etDateDue.getText().toString());
         }
         catch (Exception e) {
             ToastMessage("Invalid Date");
