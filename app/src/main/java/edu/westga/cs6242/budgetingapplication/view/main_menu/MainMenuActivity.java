@@ -45,11 +45,8 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        this.txtSessionInfo = (TextView) findViewById(R.id.tvUser);
-        this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
-        this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
-        this.cbIsRecurring = (CheckBox) findViewById(R.id.cbRecurringBillsAndEarnings);
-        this.tvSelectMonth = (TextView) findViewById(R.id.tvSelectMonth);
+        findViewsByIds();
+
         if (this.tvSelectMonth != null) {
             this.tvSelectMonth.setOnClickListener(this);
         } else {
@@ -60,22 +57,24 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 try {
-                    Date date = Session.dateFormatView.parse(monthOfYear + "-" + dayOfMonth + "-" + year);
-                    tvSelectMonth.setText(Session.dateFormatView.format(date));
+                    Date date = Session.dateFormatDatabase.parse(String.format("%d-%d-%d",
+                            year, monthOfYear, dayOfMonth));
+                    tvSelectMonth.setText(Session.dateFormatDatabase.format(date));
                 } catch (Exception e) {
-                    tvSelectMonth.setText(R.string.txt_error);
+                    Log.d("E", "onDateSet: " + e.getMessage());
                 }
             }
         });
         this.dbh = new BudgetDatabaseHandler(getApplicationContext(), null);
-        updateSessiontText();
+        updateSessionText();
     }
 
-    private void updateSessiontText() {
-        txtSessionInfo = (TextView) findViewById(R.id.tvUser);
-        String sessionString = "Signed in as: " + Session.getUser().getUserName();
-        assert txtSessionInfo != null;
-        txtSessionInfo.setText(sessionString);
+    private void findViewsByIds() {
+        this.txtSessionInfo = (TextView) findViewById(R.id.tvUser);
+        this.etBudgetTitle = (EditText) findViewById(R.id.etTitle);
+        this.etBudgetDescription = (EditText) findViewById(R.id.etDescription);
+        this.cbIsRecurring = (CheckBox) findViewById(R.id.cbRecurringBillsAndEarnings);
+        this.tvSelectMonth = (TextView) findViewById(R.id.tvSelectMonth);
     }
 
     public void btnManageBudgets_Click(View v) {
@@ -102,9 +101,9 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         monthlyBudget.setDescription(this.etBudgetDescription.getText().toString());
 
         try {
-            monthlyBudget.setDateCreated(Session.dateFormatView.parse(this.tvSelectMonth.getText().toString()));
-            Log.d("I", monthlyBudget.getDateCreated().toString());
+            monthlyBudget.setDateCreated(Session.dateFormatDatabase.parse(this.tvSelectMonth.getText().toString()));
         } catch (Exception e) {
+            Log.d("I", monthlyBudget.getDateCreated().toString());
             return;
         }
 
@@ -122,6 +121,17 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
             }
         }
         ToastMessage("Budget Added!");
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        if (v == this.tvSelectMonth)
+            dialog.show(getFragmentManager(), "1");
     }
 
     private boolean validationRoutine() {
@@ -145,21 +155,15 @@ public class MainMenuActivity extends PortraitOnlyActivity implements View.OnCli
         }
         return true;
     }
-
+    private void updateSessionText() {
+        txtSessionInfo = (TextView) findViewById(R.id.tvUser);
+        String sessionString = "Signed in as: " + Session.getUser().getUserName();
+        assert txtSessionInfo != null;
+        txtSessionInfo.setText(sessionString);
+    }
     private void ToastMessage(String text) {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
-    }
-
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
-        if (v == this.tvSelectMonth)
-            dialog.show(getFragmentManager(), "1");
     }
 }

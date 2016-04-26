@@ -2,6 +2,7 @@ package edu.westga.cs6242.budgetingapplication.util.session;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.model.User;
@@ -19,8 +20,17 @@ public class Session {
     // Does the applications double to currency representations
     public static NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
     // Does the apps date displays
-    public static SimpleDateFormat dateFormatView = new SimpleDateFormat("MM-dd-yyyy");
-    public static SimpleDateFormat dateFormatDatabase = new SimpleDateFormat("yyyy-MM-dd HH:mm:s");
+    public static SimpleDateFormat dateFormatView;
+
+    static {
+        dateFormatView = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+    }
+
+    public static SimpleDateFormat dateFormatDatabase;
+
+    static {
+        dateFormatDatabase = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    }
 
     /**
      * Returns the session's instance to the caller
