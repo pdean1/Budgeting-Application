@@ -17,7 +17,10 @@
         android:layout_alignRight="@+id/tvSessionLbl"
         android:layout_below="@+id/tvManageBudgetsLbl"
         android:layout_marginBottom="25dp"
-        android:spinnerMode="dropdown"/>
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:spinnerMode="dialog"/>
 
     <TextView
         android:id="@+id/tvSessionLbl"
