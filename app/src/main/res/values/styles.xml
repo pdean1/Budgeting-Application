@@ -6,6 +6,8 @@
         <!-- <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>  -->
+        <item name="android:textColorPrimaryInverse">@color/primary_text_material_light_2</item>
+        <item name="android:textColorSecondaryInverse">@color/secondary_text_material_light2</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
