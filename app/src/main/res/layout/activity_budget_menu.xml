@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/btnManageBudgets"
-        android:labelFor="@id/etTitle"
+        android:labelFor="@+id/etTitle"
         android:text="@string/txt_add_a_budget"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
@@ -48,7 +48,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView3"
-        android:inputType="textCapWords"/>
+        android:inputType="textCapWords"
+        android:layout_marginBottom="10dp"/>
 
     <EditText
         android:id="@+id/etDescription"
@@ -61,7 +62,9 @@
         android:layout_below="@+id/textView2"
         android:ems="10"
         android:inputType="textCapSentences|textAutoComplete|textAutoCorrect|textMultiLine"
-        android:maxLines="3"/>
+        android:maxLines="3"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -74,7 +77,8 @@
         android:layout_below="@+id/etTitle"
         android:text="@string/txt_description"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:labelFor="@id/etDescription"/>
+        android:labelFor="@id/etDescription"
+        android:layout_marginTop="10dp"/>
 
 
     <TextView
@@ -85,7 +89,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView"
         android:text="@string/txt_budget_title"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="10dp"/>
 
     <Button
         android:id="@+id/button"
@@ -117,17 +122,32 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvSelectMonth"
         android:checked="false"
-        android:text="@string/txt_recurring"/>
+        android:text="@string/txt_recurring"
+        android:layout_marginBottom="20dp"/>
 
-    <TextView
+    <Button
         android:id="@+id/tvSelectMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+
         android:layout_below="@+id/etDescription"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+
         android:text="@string/txt_select_a_month"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+        android:textAppearance="?android:attr/textAppearanceLarge"
+
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+
+        android:layout_alignRight="@+id/etDescription"
+        android:layout_alignEnd="@+id/etDescription"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"/>
+
 </RelativeLayout>
