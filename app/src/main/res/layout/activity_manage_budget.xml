@@ -28,10 +28,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvBudgetTitleLbl"
-        android:text="@string/txt_description_lbl"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"/>
+        android:text="@string/txt_description_lbl"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
         android:id="@+id/tvDateCreated"
@@ -39,11 +39,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="@string/txt_date_created"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/tvDescr"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"/>
+        android:text="@string/txt_date_created"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TabHost
         android:id="@+id/tabHost"
@@ -150,14 +150,14 @@
                             android:layout_margin="10dp"
                             android:text="Medium Text"
                             android:textAppearance="?android:attr/textAppearanceMedium"/>
-<!--
-                        <TextView
-                            android:id="@+id/tvYYY"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:text="Medium Text"
-                            android:textAppearance="?android:attr/textAppearanceMedium"/> -->
+                        <!--
+                                                <TextView
+                                                    android:id="@+id/tvYYY"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_margin="10dp"
+                                                    android:text="Medium Text"
+                                                    android:textAppearance="?android:attr/textAppearanceMedium"/> -->
 
                     </LinearLayout>
                 </LinearLayout>
@@ -170,11 +170,11 @@
         android:id="@+id/tvUserInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="@string/txt_username"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_alignEnd="@+id/tabHost"
-        android:layout_alignRight="@+id/tabHost"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/tabHost"
+        android:text="@string/txt_username"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
     <!--
         <TabHost
             android:layout_width="match_parent"

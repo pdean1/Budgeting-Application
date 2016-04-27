@@ -1,91 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.budget_management.ViewBudgetsActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".view.budget_management.ViewBudgetsActivity">
 
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/spinBudgets"
-        android:spinnerMode="dropdown"
-        android:layout_below="@+id/tvManageBudgetsLbl"
-        android:layout_alignRight="@+id/tvSessionLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/tvSessionLbl"
-        android:layout_marginBottom="25dp" />
+        android:layout_alignRight="@+id/tvSessionLbl"
+        android:layout_below="@+id/tvManageBudgetsLbl"
+        android:layout_marginBottom="25dp"
+        android:spinnerMode="dropdown"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/txt_user_name"
         android:id="@+id/tvSessionLbl"
-        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:text="@string/txt_user_name"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/tvManageBudgetsLbl"
         android:id="@+id/tvManageBudgetsLbl"
-        android:layout_alignTop="@+id/tvSessionLbl"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/tvBudgetTitle"
-        android:layout_below="@+id/spinBudgets"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/tvDescription"
-        android:layout_below="@+id/tvBudgetTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/tvDateCreatedLbl"
-        android:layout_below="@+id/tvDescription"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_manage_a_budget"
-        android:id="@+id/btnManageBudget"
-        android:layout_below="@+id/tvDateCreatedLbl"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="btnManageBudget_Click" />
+        android:layout_alignTop="@+id/tvSessionLbl"
+        android:text="@string/tvManageBudgetsLbl"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-    <Button
+    <TextView
+        android:id="@+id/tvBudgetTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/txt_delete_budget"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/spinBudgets"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvBudgetTitle"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/tvDateCreatedLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvDescription"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <Button
+        android:id="@+id/btnManageBudget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvDateCreatedLbl"
+        android:onClick="btnManageBudget_Click"
+        android:text="@string/txt_manage_a_budget"/>
+
+    <Button
         android:id="@+id/btnDeleteBudget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btnManageBudget"
-        android:layout_alignRight="@+id/spinBudgets"
         android:layout_alignEnd="@+id/spinBudgets"
-        android:onClick="btnDeleteBudget_Clicked" />
+        android:layout_alignRight="@+id/spinBudgets"
+        android:onClick="btnDeleteBudget_Clicked"
+        android:text="@string/txt_delete_budget"/>
 </RelativeLayout>
