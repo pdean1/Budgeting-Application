@@ -60,7 +60,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         this.tabHost = (TabHost) findViewById(R.id.tabHost);
         getViewsById();
         updateBudgetInformation();
-        updateSessiontText();
+        updateSessionText();
         setUpTabs();
     }
 
@@ -180,8 +180,8 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Bill bill = bills.get(position);
-                ToastMessage(bill.getTitle());
                 final Dialog dialog = new Dialog(view.getContext());
+
                 dialog.setContentView(R.layout.dialog_bills);
                 dialog.setTitle("View " + bill.getTitle());
 
@@ -189,6 +189,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 TextView tvBillAmount = (TextView) dialog.findViewById(R.id.tvBillAmount);
                 TextView tvDateDue = (TextView) dialog.findViewById(R.id.tvDateDue);
                 TextView tvBillDatePaid = (TextView) dialog.findViewById(R.id.tvBillDatePaid);
+
                 final TextView tvBillIsRecurring = (TextView) dialog.findViewById(R.id.tvBillIsRecurring);
                 final TextView tvBillIsPaid = (TextView) dialog.findViewById(R.id.tvBillIsPaid);
                 tvBillIsPaid.setOnClickListener(new View.OnClickListener() {
@@ -202,17 +203,19 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                             tvBillIsPaid.setText(R.string.txt_paid);
                         }
                         dbh.updateBill(bill);
-                        ToastMessage("Bill updated");
+                        // Much explain what happens
+                        ToastMessage(bill.getTitle() + " updated to " + ((bill.isPaid())?"paid":"not paid"));
                         billArrayAdapter.notifyDataSetChanged();
                     }
                 });
+
                 TextView btnDelete = (TextView) dialog.findViewById(R.id.btnDeleteBill);
                 btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (dbh.deleteBillById(bill.getId())) {
                             bills.remove(bill);
-                            ToastMessage("Deleted");
+                            ToastMessage(bill.getTitle() + " deleted");
                             finish();
                             startActivity(getIntent());
                         }
@@ -225,7 +228,9 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 tvDateDue.setText(bill.getDateDue());
                 tvBillDatePaid.setText(bill.getDatePaid());
                 tvBillIsRecurring.setText((bill.isRecurring()) ? "Recurring" : "Not Recurring");
-                tvBillIsPaid.setText((bill.isRecurring()) ? "Paid" : "Not Paid");
+                // BUG FIX #1
+                tvBillIsPaid.setText((bill.isPaid()) ? "Paid" : "Not Paid");
+
                 dialog.show();
             }
         });
@@ -250,7 +255,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         return billsAmount;
     }
 
-    private void updateSessiontText() {
+    private void updateSessionText() {
         TextView txtSessionInfo = (TextView) findViewById(R.id.tvUserInformation);
         assert txtSessionInfo != null;
         String sessionString = "Signed in as: " + getUser().getUserName();
@@ -294,6 +299,8 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         setMonthlyBudget1(new MonthlyBudget());
         this.finish();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
