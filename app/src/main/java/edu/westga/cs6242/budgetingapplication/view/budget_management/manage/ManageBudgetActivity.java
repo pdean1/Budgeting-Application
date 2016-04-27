@@ -75,10 +75,10 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     }
 
     private void updateBudgetInformation() {
-        updateList();
         titleLabel.setText(getMonthlyBudget1().getTitle());
         this.tvDescription.setText(getMonthlyBudget1().getDescription());
         this.tvDateCreated.setText(getMonthlyBudget1().getDateCreated());
+        updateList();
     }
 
     private void updateList() {
@@ -161,7 +161,8 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                             ToastMessage("Deleted");
                             earnings.remove(earning);
                             dialog.hide();
-                            earningArrayAdapter.notifyDataSetChanged();
+                            finish();
+                            startActivity(getIntent());
                         }
                     }
                 });
@@ -183,6 +184,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 final Dialog dialog = new Dialog(view.getContext());
                 dialog.setContentView(R.layout.dialog_bills);
                 dialog.setTitle("View " + bill.getTitle());
+
                 TextView tvBillTitle = (TextView) dialog.findViewById(R.id.tvBillTitle);
                 TextView tvBillAmount = (TextView) dialog.findViewById(R.id.tvBillAmount);
                 TextView tvDateDue = (TextView) dialog.findViewById(R.id.tvDateDue);
@@ -190,18 +192,21 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 TextView tvBillIsRecurring = (TextView) dialog.findViewById(R.id.tvBillIsRecurring);
                 TextView tvBillIsPaid = (TextView) dialog.findViewById(R.id.tvBillIsPaid);
                 TextView btnDelete = (TextView) dialog.findViewById(R.id.btnDeleteBill);
+
                 btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (dbh.deleteBillById(bill.getId())) {
                             bills.remove(bill);
-                            billArrayAdapter.notifyDataSetChanged();
                             ToastMessage("Deleted");
+                            finish();
+                            startActivity(getIntent());
                         }
                         dialog.hide();
 
                     }
                 });
+
                 tvBillTitle.setText(bill.getTitle());
                 tvBillAmount.setText(numberFormat.format(bill.getAmount()));
                 tvDateDue.setText(bill.getDateDue());

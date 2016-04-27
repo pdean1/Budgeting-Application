@@ -548,4 +548,13 @@ public class BudgetDatabaseHandler extends SQLiteOpenHelper {
         }
         return ret;
     }
+
+    public void updateBill(Bill bill) {
+        String query = "UPDATE " + BudgetDatabase.Bills.TABLE_NAME + " SET (" + BudgetDatabase.Bills.C7_IS_RECURRING
+                + " = " + ((bill.isRecurring()) ? 1 : 0) + ") WHERE " + BudgetDatabase.Bills.C1_PK_ID + " = " + bill
+                .getId();
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(query);
+        db.close();
+    }
 }
