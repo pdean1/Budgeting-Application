@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -22,6 +21,7 @@ import edu.westga.cs6242.budgetingapplication.R;
 import edu.westga.cs6242.budgetingapplication.dal.BudgetDatabaseHandler;
 import edu.westga.cs6242.budgetingapplication.model.Bill;
 import edu.westga.cs6242.budgetingapplication.model.Earning;
+import edu.westga.cs6242.budgetingapplication.model.MonthlyBudget;
 import edu.westga.cs6242.budgetingapplication.view.abstract_views.PortraitOnlyActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.create.CreateBillActivity;
 import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.create.CreateEarningActivity;
@@ -29,6 +29,7 @@ import edu.westga.cs6242.budgetingapplication.view.budget_management.manage.crea
 import static edu.westga.cs6242.budgetingapplication.util.session.Session.getMonthlyBudget1;
 import static edu.westga.cs6242.budgetingapplication.util.session.Session.getUser;
 import static edu.westga.cs6242.budgetingapplication.util.session.Session.numberFormat;
+import static edu.westga.cs6242.budgetingapplication.util.session.Session.setMonthlyBudget1;
 
 public class ManageBudgetActivity extends PortraitOnlyActivity {
 
@@ -43,11 +44,10 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private ArrayList<Earning> earnings;
 
     private TextView titleLabel; //
-    private TextView descriptionLabel; //
+    private TextView tvDescription;
+    private TextView tvDateCreated;
     private TextView statsBillsLabel; //
     private TextView statsEarningsLabel; //
-    private EditText
-            dateLabel;
     private ListView
             lvBills;
     private ListView lvEarnings;
@@ -66,12 +66,10 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
 
     private void getViewsById() {
         this.titleLabel         = (TextView) findViewById(R.id.tvBudgetTitleLbl);
-        this.descriptionLabel   = (TextView) findViewById(R.id.etDescriptionLbl);
         this.statsBillsLabel    = (TextView) findViewById(R.id.tvStatBills);
         this.statsEarningsLabel = (TextView) findViewById(R.id.tvStatEarnings);
-
-        this.dateLabel          = (EditText) findViewById(R.id.etDateCreatedLbl);
-
+        this.tvDateCreated = (TextView) findViewById(R.id.tvDateCreated);
+        this.tvDescription = (TextView) findViewById(R.id.tvDescr);
         this.lvBills            = (ListView) findViewById(R.id.lvBills);
         this.lvEarnings         = (ListView) findViewById(R.id.lvEarnings);
     }
@@ -79,9 +77,8 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private void updateBudgetInformation() {
         updateList();
         titleLabel.setText(getMonthlyBudget1().getTitle());
-        descriptionLabel.setText(getMonthlyBudget1().getDescription());
-        dateLabel.setEnabled(false);
-        dateLabel.setText(getMonthlyBudget1().getDateCreated());
+        this.tvDescription.setText(getMonthlyBudget1().getDescription());
+        this.tvDateCreated.setText(getMonthlyBudget1().getDateCreated());
     }
 
     private void updateList() {
@@ -276,6 +273,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     private void deleteBudget() {
         this.dbh.deleteMonthlyBudget(getMonthlyBudget1());
         ToastMessage("Budget Deleted");
+        setMonthlyBudget1(new MonthlyBudget());
         this.finish();
     }
 
@@ -308,7 +306,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
     public void onResume() {  // After a pause OR at startup
         super.onResume();
         //Refresh your stuff here
-        this.updateList();
+        this.updateBudgetInformation();
     }
 
     private void ToastMessage(String text) {

@@ -29,7 +29,9 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvBudgetTitleLbl"
         android:text="@string/txt_description_lbl"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:id="@+id/tvDateCreated"
@@ -37,34 +39,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etDescriptionLbl"
         android:text="@string/txt_date_created"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-    <TextView
-        android:id="@+id/etDescriptionLbl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/tvDescr"
-        android:ems="10"/>
-
-    <EditText
-        android:id="@+id/etDateCreatedLbl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/etDescriptionLbl"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etDescriptionLbl"
-        android:layout_below="@+id/tvDateCreated"
-        android:ems="10"
-        android:enabled="false"
-        android:focusable="false"
-        android:inputType="date"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
 
     <TabHost
         android:id="@+id/tabHost"
@@ -72,7 +51,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etDateCreatedLbl">
+        android:layout_below="@+id/tvDateCreated">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,7 +61,10 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="#424242"
+                android:tabStripEnabled="false"
+                >
 
             </TabWidget>
 
@@ -168,14 +150,14 @@
                             android:layout_margin="10dp"
                             android:text="Medium Text"
                             android:textAppearance="?android:attr/textAppearanceMedium"/>
-
+<!--
                         <TextView
                             android:id="@+id/tvYYY"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="Medium Text"
-                            android:textAppearance="?android:attr/textAppearanceMedium"/>
+                            android:textAppearance="?android:attr/textAppearanceMedium"/> -->
 
                     </LinearLayout>
                 </LinearLayout>
@@ -188,11 +170,11 @@
         android:id="@+id/tvUserInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/etDescriptionLbl"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/etDescriptionLbl"
         android:text="@string/txt_username"
-        android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignEnd="@+id/tabHost"
+        android:layout_alignRight="@+id/tabHost"/>
     <!--
         <TabHost
             android:layout_width="match_parent"
