@@ -189,10 +189,24 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 TextView tvBillAmount = (TextView) dialog.findViewById(R.id.tvBillAmount);
                 TextView tvDateDue = (TextView) dialog.findViewById(R.id.tvDateDue);
                 TextView tvBillDatePaid = (TextView) dialog.findViewById(R.id.tvBillDatePaid);
-                TextView tvBillIsRecurring = (TextView) dialog.findViewById(R.id.tvBillIsRecurring);
-                TextView tvBillIsPaid = (TextView) dialog.findViewById(R.id.tvBillIsPaid);
+                final TextView tvBillIsRecurring = (TextView) dialog.findViewById(R.id.tvBillIsRecurring);
+                final TextView tvBillIsPaid = (TextView) dialog.findViewById(R.id.tvBillIsPaid);
+                tvBillIsPaid.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (bill.isPaid()) {
+                            bill.setIsPaid(false);
+                            tvBillIsPaid.setText(R.string.txt_not_paid);
+                        } else {
+                            bill.setIsPaid(true);
+                            tvBillIsPaid.setText(R.string.txt_paid);
+                        }
+                        dbh.updateBill(bill);
+                        ToastMessage("Bill updated");
+                        billArrayAdapter.notifyDataSetChanged();
+                    }
+                });
                 TextView btnDelete = (TextView) dialog.findViewById(R.id.btnDeleteBill);
-
                 btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -203,7 +217,6 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                             startActivity(getIntent());
                         }
                         dialog.hide();
-
                     }
                 });
 

@@ -56,4 +56,8 @@
     <string name="txt_earning_recurring">Recurring</string>
     <string name="not_recurring">Not Recurring</string>
     <string name="txt_update_bill">Update Bill</string>
+    <string name="txt_not_recurring">Not recurring</string>
+    <string name="txt_recurring_1">Recurring</string>
+    <string name="txt_not_paid">Not Paid</string>
+    <string name="txt_paid">Paid</string>
 </resources>
