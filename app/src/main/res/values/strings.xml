@@ -51,4 +51,8 @@
     <string name="txt_new_bill">New Bill</string>
     <string name="txt_new_earning">New Earning</string>
     <string name="txt_add_new_user_main">Add User Using Information Above?</string>
+    <string name="txt_year">Year</string>
+    <string name="txt_month">Month</string>
+    <string name="txt_earning_recurring">Recurring</string>
+    <string name="not_recurring">Not Recurring</string>
 </resources>
