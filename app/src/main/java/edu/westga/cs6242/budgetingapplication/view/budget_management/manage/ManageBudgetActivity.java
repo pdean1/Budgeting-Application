@@ -128,16 +128,17 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         tvSumOfBillsNotPaid.setText(String.format("%s%s", getString(R.string.txt_sum_of_bills_not_paid),
                 numberFormat.format(billsNotPaidAmount)));
 
-        double a;
+        double earningsToBillsRatio;
         try {
-            a = earningsAmount / billsAmount;
+            earningsToBillsRatio = earningsAmount / billsAmount;
         } catch (Exception e) {
-            a = 0.0;
+            earningsToBillsRatio = 0.0;
         }
-        double earningsToBillsRatio = a;
         TextView tvStatEarningsToBillsRatio = (TextView) findViewById(R.id.tvStatEarningsToBillsRatio);
         assert tvStatEarningsToBillsRatio != null;
-        tvStatEarningsToBillsRatio.setText(String.format(getString(R.string.txt_ratio), earningsToBillsRatio));
+        tvStatEarningsToBillsRatio.setText((!Double.isNaN(earningsToBillsRatio)) ?
+                String.format(getString(R.string.txt_ratio),earningsToBillsRatio) :
+                getString(R.string.txt_ratio) + getString(R.string.txt_0));
     }
 
     private void addOnClickListenerToEarningsListView() {
@@ -204,7 +205,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                         }
                         dbh.updateBill(bill);
                         // Much explain what happens
-                        ToastMessage(bill.getTitle() + " updated to " + ((bill.isPaid())?"paid":"not paid"));
+                        ToastMessage(bill.getTitle() + " updated to " + ((bill.isPaid()) ? "paid":"not paid"));
                         billArrayAdapter.notifyDataSetChanged();
                     }
                 });
