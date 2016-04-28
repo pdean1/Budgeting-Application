@@ -2,6 +2,8 @@ package edu.westga.cs6242.budgetingapplication.view.budget_management.manage.cre
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -23,7 +25,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             tvDateEarned;
     private EditText
             etTitle,
-            etAmonut;
+            etAmount;
     private CheckBox
             cbIsRecurring;
 
@@ -57,7 +59,8 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
         if (validateFields()) {
             Earning earning = new Earning();
             earning.setTitle(this.etTitle.getText().toString());
-            earning.setAmount(Double.parseDouble(this.etAmonut.getText().toString()));
+            String amount = this.etAmount.getText().toString().replaceAll("[^\\d.]+", "");
+            earning.setAmount(Double.parseDouble(amount));
             earning.setDateEarned(this.tvDateEarned.getText().toString());
             earning.setIsRecurring(this.cbIsRecurring.isChecked());
             earning.setBudgetId(Session.getMonthlyBudget1().getId());
@@ -75,7 +78,7 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
             ToastMessage("Add more to the title");
             return false;
         }
-        if (this.etAmonut.getText().toString().equals("")) {
+        if (this.etAmount.getText().toString().equals("")) {
             ToastMessage("Add an amount");
             return false;
         }
@@ -90,7 +93,38 @@ public class CreateEarningActivity extends PortraitOnlyActivity implements View.
 
     private void findViewsById() {
         this.etTitle = (EditText) findViewById(R.id.etEarningTitle);
-        this.etAmonut = (EditText) findViewById(R.id.etEarningAmount);
+        this.etAmount = (EditText) findViewById(R.id.etEarningAmount);
+        this.etAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            private String current = "";
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().equals(current)) {
+                    etAmount.removeTextChangedListener(this);
+
+                    String cleanString = s.toString().replaceAll("[$,.]", "");
+
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = Session.numberFormat.format((parsed / 100));
+
+                    current = formatted;
+                    etAmount.setText(formatted);
+                    etAmount.setSelection(formatted.length());
+
+                    etAmount.addTextChangedListener(this);
+                }
+            }
+        });
         this.tvDateEarned = (TextView) findViewById(R.id.tvDateEarned);
         this.cbIsRecurring = (CheckBox) findViewById(R.id.cbIsRecurring);
     }

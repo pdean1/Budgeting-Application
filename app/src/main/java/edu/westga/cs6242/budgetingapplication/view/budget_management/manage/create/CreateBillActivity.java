@@ -3,6 +3,8 @@ package edu.westga.cs6242.budgetingapplication.view.budget_management.manage.cre
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -41,6 +43,35 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
     private void findViewsById() {
         this.etTitle = (EditText) findViewById(R.id.etBillTitle);
         this.etAmount = (EditText) findViewById(R.id.etBillAmount);
+        this.etAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            private String current = "";
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!s.toString().equals(current)){
+                    etAmount.removeTextChangedListener(this);
+
+                    String cleanString = s.toString().replaceAll("[$,.]", "");
+
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = Session.numberFormat.format((parsed / 100));
+
+                    current = formatted;
+                    etAmount.setText(formatted);
+                    etAmount.setSelection(formatted.length());
+
+                    etAmount.addTextChangedListener(this);
+                }
+            }
+        });
         this.etDateDue = (TextView) findViewById(R.id.etDateDue);
         this.cbIsPaid = (CheckBox) findViewById(R.id.cbIsPaid);
         this.cbIsRecurring = (CheckBox) findViewById(R.id.cbIsRecurring);
@@ -65,12 +96,8 @@ public class CreateBillActivity extends PortraitOnlyActivity implements View.OnC
         }
         Bill bill = new Bill();
         bill.setTitle(this.etTitle.getText().toString());
-        try {
-            bill.setAmount(Double.parseDouble(this.etAmount.getText().toString()));
-        } catch (Exception e) {
-            ToastMessage("Provide an amount please");
-            return;
-        }
+        String amount = this.etAmount.getText().toString().replaceAll("[^\\d.]+", "");
+        bill.setAmount(Double.parseDouble(amount));
         bill.setDateDue(this.etDateDue.getText().toString());
         bill.setDatePaid(this.etDateDue.getText().toString());
         bill.setIsRecurring(this.cbIsRecurring.isChecked());
