@@ -63,7 +63,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="textCapSentences|textAutoComplete|textAutoCorrect|textMultiLine"
+        android:inputType="textCapSentences|textAutoComplete|textAutoCorrect"
         android:maxLines="3"/>
 
     <TextView
