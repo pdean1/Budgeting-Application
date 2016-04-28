@@ -63,8 +63,7 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         this.spinnerBudgets.setAdapter(arrayAdapter);
         this.spinnerBudgets.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 RefreshView(position);
             }
 
@@ -82,7 +81,14 @@ public class ViewBudgetsActivity extends PortraitOnlyActivity {
         }
         Session.setMonthlyBudget1(this.monthlyBudgets.get(this.spinnerBudgets.getSelectedItemPosition()));
         Intent intent = new Intent(v.getContext(), ManageBudgetActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        this.lblTitle.setText(" ");
+        this.lblDescription.setText(" ");
+        this.lblDateCreated.setText(" ");
     }
 
     public void btnDeleteBudget_Clicked(View v) {

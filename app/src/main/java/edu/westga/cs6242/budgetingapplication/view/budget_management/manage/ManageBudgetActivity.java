@@ -138,7 +138,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         assert tvStatEarningsToBillsRatio != null;
         tvStatEarningsToBillsRatio.setText((!Double.isNaN(earningsToBillsRatio)) ?
                 String.format(getString(R.string.txt_ratio),earningsToBillsRatio) :
-                getString(R.string.txt_ratio) + getString(R.string.txt_0));
+                "Earnings to bills ratio is: 0");
     }
 
     private void addOnClickListenerToEarningsListView() {
@@ -229,9 +229,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
                 tvDateDue.setText(bill.getDateDue());
                 tvBillDatePaid.setText(bill.getDatePaid());
                 tvBillIsRecurring.setText((bill.isRecurring()) ? "Recurring" : "Not Recurring");
-                // BUG FIX #1
                 tvBillIsPaid.setText((bill.isPaid()) ? "Paid" : "Not Paid");
-
                 dialog.show();
             }
         });
@@ -298,6 +296,7 @@ public class ManageBudgetActivity extends PortraitOnlyActivity {
         this.dbh.deleteMonthlyBudget(getMonthlyBudget1());
         ToastMessage("Budget Deleted");
         setMonthlyBudget1(new MonthlyBudget());
+        setResult(RESULT_OK);
         this.finish();
     }
 
